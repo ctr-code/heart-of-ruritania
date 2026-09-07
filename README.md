@@ -1,6 +1,6 @@
 # The Heart of Ruritania
 
-A warm welcome awaits at the UK's first Ruritanian restaurant.
+A warm welcome awaits at The Heart of Ruritania, the UK's first Ruritanian restaurant.
 
 [Learn more and book online at our website](https://ruritania-a4a079b504db.herokuapp.com/).
 
