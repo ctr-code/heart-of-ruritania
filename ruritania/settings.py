@@ -127,6 +127,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+# Where project-wide static files live at design time
+STATICFILES_DIRS = [BASE_DIR / 'static', ]
+# Where static files are collected to - required by whitenoise
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 # Email
