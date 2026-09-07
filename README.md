@@ -2,6 +2,8 @@
 
 A warm welcome awaits at the UK's first Ruritanian restaurant.
 
+[Learn more and book online at our website](https://ruritania-a4a079b504db.herokuapp.com/).
+
 # Entity-Relationship Diagram
 
 
