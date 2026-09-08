@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+{# index.html content starts here #}
+<h1>Opening Hours</h1>
+
+<table>
+{% for day in days %}
+    <tr>
+        <td>{{ day.date }}</td>
+        <td{{ day.span }}>{{ day.td1 }}</td>
+        <td>{{ day.td2 }}</td>
+    </tr>
+{% endfor %}
+</table>
+{# index.html content ends here #}
+{% endblock %}

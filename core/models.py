@@ -64,10 +64,12 @@ class ServiceTime(models.Model):
     # A naive Python time representing local time
     end_time = models.TimeField()
 
+    def format_range(self):
+        return f"{format_time(self.start_time)} to " \
+                f"{format_time(self.end_time)}"
+
     def __str__(self):
-        return f"{WEEKDAY[self.weekday][1]} " \
-               f"{format_time(self.start_time)} to " \
-               f"{format_time(self.end_time)}"
+        return f"{WEEKDAY[self.weekday][1]} {self.format_range()}"
 
 
 class ServiceException(models.Model):
@@ -82,10 +84,12 @@ class ServiceException(models.Model):
     # If self.open, a naive Python time representing local time
     end_time = models.TimeField(default='00:00')
 
-    def __str__(self):
+    def format_range(self):
         if self.open:
-            return f"{self.date} " \
-                   f"{format_time(self.start_time)} to " \
+            return f"{format_time(self.start_time)} to " \
                    f"{format_time(self.end_time)}"
         else:
-            return f"{self.date} CLOSED"
+            return "CLOSED"
+
+    def __str__(self):
+        return f"{self.date} {self.format_range()}"
