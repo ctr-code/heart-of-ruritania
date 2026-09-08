@@ -53,7 +53,7 @@ erDiagram
         string date
         string time
         int guest_count
-        string status
+        int status
         int user_id FK
     }
     Table {
@@ -61,13 +61,13 @@ erDiagram
         int table_number
         int seat_count
     }
-    OpeningHours {
+    ServiceTime {
         int hours_id PK
-        int day_of_week "1-mon to 7-sun"
+        int day_of_week "0-mon to 6-sun"
         string start_time "24-hour clock"
         string end_time "24-hour clock"
     }
-    OpeningExceptions {
+    ServiceException {
         int exception_id PK
         string date
         string start_time "24-hour clock"
