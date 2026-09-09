@@ -57,12 +57,10 @@ def get_opening_hours(start_date, day_count):
 
 def opening_hours(request):
     def format_day(day):
-        print(day)
         return {
             "date": f"{day["date"]:%a %d %b}",
-            "span": '' if day["open"] and len(day["times"]) == 2 else ' colspan="2"',
-            "td1": day["times"][0].format_range() if day["open"] else "CLOSED",
-            "td2": day["times"][1].format_range() if day["open"] and len(day["times"]) == 2 else "",
+            "ranges": [t.format_range()
+                       for t in day["times"]] if day["open"] else ["CLOSED"],
         }
 
     days = get_opening_hours(date.today(), 14)

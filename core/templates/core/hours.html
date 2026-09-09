@@ -4,16 +4,20 @@
 {% block content %}
 
 {# index.html content starts here #}
-<h1>Opening Hours</h1>
+<section id="overview" class="container">
+    <div class="row">
+        <div class="col-12">
 
-<table>
-{% for day in days %}
-    <tr>
-        <td>{{ day.date }}</td>
-        <td{{ day.span }}>{{ day.td1 }}</td>
-        <td>{{ day.td2 }}</td>
-    </tr>
-{% endfor %}
-</table>
+            <h1>Opening Hours</h1>
+
+            <table>{% for day in days %}
+                <tr>
+                    <td>{{ day.date }}</td>{% for range in day.ranges %}
+                    <td>{{ range }}</td>{% endfor %}
+                </tr>{% endfor %}
+            </table>
+        </div>
+    </div>
+</section>
 {# index.html content ends here #}
 {% endblock %}
