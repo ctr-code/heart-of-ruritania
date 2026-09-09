@@ -5,3 +5,12 @@ body {
 #messages {
     margin-top: 66px;
 }
+
+/* Reservations */
+.day_hide {
+    visibility: hidden;
+}
+
+.day_shut {
+    color: grey;
+}

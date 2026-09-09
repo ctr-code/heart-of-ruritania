@@ -8,6 +8,25 @@
     <div class="row">
         <div class="col-12">
             <h1>Reservations</h1>
+            <p>Your existing reservations here</p>
+            <p>Choose a date to make a new reservation:</p>
+            <table>{% for month in months %}
+                <tr>
+                    <td colspan="7">{{ month.month }}</td>
+                </tr>
+                <tr>
+                    <td>Mon</td>
+                    <td>Tue</td>
+                    <td>Wed</td>
+                    <td>Thu</td>
+                    <td>Fri</td>
+                    <td>Sat</td>
+                    <td>Sun</td>
+                </tr>{% for week in month.weeks %}
+                <tr>{% for day in week %}
+                    <td{% if day.hide %} class="day_hide"{% elif not day.open %} class="day_shut"{% endif %}>{% if day.open %}<a href="{% url 'reservations' %}/{{ day.date.isoformat }}">{{ day.date.day }}</a>{% else %}{{ day.date.day }}{% endif %}</td>{% endfor %}
+                </tr>{% endfor %}{% endfor %}
+            </table>
         </div>
     </div>
 </section>
