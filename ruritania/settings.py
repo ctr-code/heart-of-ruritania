@@ -161,6 +161,8 @@ STATICFILES_DIRS = [BASE_DIR / 'static', ]
 # Where static files are collected to - required by whitenoise
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+# Where the user is directed after a login
+LOGIN_REDIRECT_URL = '/'
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration

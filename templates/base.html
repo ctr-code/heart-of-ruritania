@@ -15,7 +15,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="The Heart of Ruritania - the UK's first Ruritanian restaurant.">
     <meta name="keywords" content="restaurant, ruritania, birmingham, uk">
-    <title>The Heart of Ruritania</title>
+    <title>
+        {% block head_title %}
+        {% endblock head_title %}
+    </title>
     {# favicon #}
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
@@ -55,8 +58,8 @@
                             href="{{ hours_url }}">Hours</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == reservations_url %}active" aria-current="page{% endif %}"
-                            href="{{ reservations_url }}">Reservations</a>
+                        <a class="nav-link {% if request.path == reservations_url %}active"
+                            aria-current="page{% endif %}" href="{{ reservations_url }}">Reservations</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == about_url %}active" aria-current="page{% endif %}"
@@ -98,9 +101,10 @@
     </div>
 
     <main>
-        {% block content %}
+        {# Named main to avoid clashing with allauth #}
+        {% block main %}
         {# Content Goes here #}
-        {% endblock content %}
+        {% endblock main %}
     </main>
 
     {# Footer #}
@@ -146,6 +150,8 @@
                 });
             });
     </script>
+    {% block extra_body %}
+    {% endblock extra_body %}
 </body>
 
 </html>
