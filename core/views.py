@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 from itertools import groupby
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from .models import ServiceTime, ServiceException
 
 
@@ -72,4 +73,12 @@ def opening_hours(request):
         {
             "days": days
         }
+    )
+
+
+@login_required
+def reservations(request):
+    return render(
+        request,
+        'core/reservations.html',
     )
