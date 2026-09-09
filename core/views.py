@@ -59,7 +59,8 @@ def get_opening_hours(start_date, day_count):
 def opening_hours(request):
     def format_day(day):
         return {
-            "date": f"{day["date"]:%a %d %b}",
+            # Note that '%-d' is glibc only, i.e. not windows
+            "date": f"{day["date"]:%a %-d %b}",
             "ranges": [t.format_range()
                        for t in day["times"]] if day["open"] else ["CLOSED"],
         }
