@@ -8,7 +8,9 @@
     <div class="row">
         <div class="col-12">
             <h1>Reservations</h1>
-            <p>Your existing reservations here</p>
+            <h2>Existing Reservations</h2>
+            {% for res in reservations %}<p>{{ res }}</p>{% endfor %}
+            <h2>New Reservations</h2>
             <p>Choose a date to make a new reservation:</p>
             <table>{% for month in months %}
                 <tr>

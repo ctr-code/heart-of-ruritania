@@ -1,10 +1,10 @@
-from datetime import date, timedelta
+from datetime import date, time, timedelta
 from itertools import groupby
 from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import ServiceTime, ServiceException
+from .models import Reservation, ServiceTime, ServiceException
 from .timerange import format_time, TimeRange
 
 OPENING_HOURS_DAY_COUNT = 14
@@ -33,6 +33,30 @@ def valid_booking_period():
     start_date = date.today() + timedelta(days=1)
     end_date = start_date + timedelta(days=BOOK_AHEAD_DAY_COUNT)
     return (start_date, end_date)
+
+
+def validate_reservation_date(year, month, day):
+    """
+    Check that the given date is valid for a reservation.
+    Return the date and the service details for that date.
+    """
+
+    # This may throw a ValueError, which will be caught by the caller
+    reservation_date = date(year, month, day)
+
+    # Get the date range of the booking period
+    (start_date, end_date) = valid_booking_period()
+
+    # If the date is outside the booking period throw an error
+    if reservation_date < start_date or reservation_date >= end_date:
+        raise ValueError()
+
+    details = get_opening_hours(reservation_date, 1)[0]
+    if not details["open"]:
+        # If restaurant not open on this date throw an error
+        raise ValueError()
+
+    return (reservation_date, details)
 
 
 def get_opening_hours(start_date, day_count):
@@ -165,6 +189,7 @@ def reservations(request):
         request,
         'core/reservations.html',
         {
+            "reservations": request.user.reservations.all(),
             "months": months
         }
     )
@@ -173,21 +198,10 @@ def reservations(request):
 @login_required
 def reservation_times(request, year, month, day):
     try:
-        reservation_date = date(year, month, day)
+        (reservation_date, details) = \
+            validate_reservation_date(year, month, day)
     except ValueError:
         # If the date is bogus return to the reservations page
-        return HttpResponseRedirect(reverse('reservations'))
-
-    # Get the date range of the booking period
-    (start_date, end_date) = valid_booking_period()
-
-    # If the date is outside the booking period return to the reservations page
-    if reservation_date < start_date or reservation_date >= end_date:
-        return HttpResponseRedirect(reverse('reservations'))
-
-    details = get_opening_hours(reservation_date, 1)[0]
-    if not details["open"]:
-        # If restaurant not open on this date return to the reservations page
         return HttpResponseRedirect(reverse('reservations'))
 
     services = details["times"]
@@ -221,8 +235,31 @@ def reservation_times(request, year, month, day):
 @login_required
 def reserve(request, year, month, day, hour, minute):
     if request.method == "POST":
+        try:
+            (reservation_date, details) = \
+                validate_reservation_date(year, month, day)
+            reservation_time = time(hour, minute)
+        except ValueError:
+            # If the date or time is bogus return to the reservations page
+            return HttpResponseRedirect(reverse('reservations'))
+
+        # The services containing the time (should be exactly one)
+        services = [s
+                    for s in details["times"] if s.contains(reservation_time)]
+        if len(services) == 0:
+            # If the time lies outwith the service hours return to reservations
+            return HttpResponseRedirect(reverse('reservations'))
+
+        reservation = Reservation()
+        reservation.customer = request.user
+        reservation.date = reservation_date
+        reservation.time = reservation_time
+        # TODO: How does this get entered?!!!
+        reservation.guest_count = 4
+        reservation.save()
+
         messages.add_message(
             request, messages.ERROR,
-            f'Appointments are never booked! {hour}:{minute}'
+            f'Reservation complete! {reservation}'
         )
     return HttpResponseRedirect(reverse('reservations'))
