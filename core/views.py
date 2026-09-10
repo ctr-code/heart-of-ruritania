@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 from itertools import groupby
-from django.shortcuts import render
+from django.shortcuts import render, reverse
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import ServiceTime, ServiceException
 
@@ -24,6 +25,13 @@ def map_by_key(items, key):
     :param key: A function for computing the group category of an item
     """
     return {k: list(group) for k, group in groupby(items, key)}
+
+
+def valid_booking_period():
+    """Return the range of time in which bookings are valid"""
+    start_date = date.today() + timedelta(days=1)
+    end_date = start_date + timedelta(days=BOOK_AHEAD_DAY_COUNT)
+    return (start_date, end_date)
 
 
 def get_opening_hours(start_date, day_count):
@@ -121,16 +129,15 @@ def reservations(request):
         return [start_date + timedelta(days=index)
                 for index in range((end_date-start_date).days)]
 
-    # Get all the date range of the booking period
-    today = date.today()
-    end_date = today + timedelta(days=BOOK_AHEAD_DAY_COUNT)
+    # Get the date range of the booking period
+    (start_date, end_date) = valid_booking_period()
 
     # Get the days on which the restaurant is open
-    days = get_opening_hours(today, BOOK_AHEAD_DAY_COUNT)
+    days = get_opening_hours(start_date, BOOK_AHEAD_DAY_COUNT)
     open_days = set(d["date"] for d in days if d["open"])
 
     # Construct the months
-    month = date_month(today)
+    month = date_month(start_date)
     end_month = next_month(end_date + timedelta(days=-1))
     months = []
     while month < end_month:
@@ -138,9 +145,10 @@ def reservations(request):
             {
                 "date": d,
                 "open": d in open_days,
-                "off": d < today or d >= end_date or d.month != month.month,
+                "off":
+                    d < start_date or d >= end_date or d.month != month.month,
             }
-            for d in calendar(month, today, end_date)
+            for d in calendar(month, start_date, end_date)
         ]
         months.append(
             {
@@ -157,5 +165,33 @@ def reservations(request):
         'core/reservations.html',
         {
             "months": months
+        }
+    )
+
+
+def reservation_times(request, year, month, day):
+    try:
+        reservation_date = date(year, month, day)
+    except ValueError:
+        # If the date is bogus return to the reservations page
+        return HttpResponseRedirect(reverse('reservations'))
+
+    # Get the date range of the booking period
+    (start_date, end_date) = valid_booking_period()
+
+    # If the date is outside the booking period return to the reservations page
+    if reservation_date < start_date or reservation_date >= end_date:
+        return HttpResponseRedirect(reverse('reservations'))
+
+    details = get_opening_hours(reservation_date, 1)[0]
+    if not details["open"]:
+        # If not open on this date return to the reservations page
+        return HttpResponseRedirect(reverse('reservations'))
+
+    return render(
+        request,
+        'core/reservation_times.html',
+        {
+            "date": reservation_date
         }
     )
