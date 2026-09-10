@@ -4,7 +4,7 @@ from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import ServiceTime, ServiceException
-
+from .timerange import TimeRange
 
 OPENING_HOURS_DAY_COUNT = 14
 BOOK_AHEAD_DAY_COUNT = 60
@@ -69,6 +69,7 @@ def get_opening_hours(start_date, day_count):
         if times is None:
             result.append({"date": date, "open": False})
         else:
+            times = [TimeRange(t.start_time, t.end_time) for t in times]
             result.append({"date": date, "open": True, "times": times})
 
     return result
@@ -82,8 +83,7 @@ def opening_hours(request):
         return {
             # Note that '%-d' is glibc only, i.e. not windows
             "date": f"{day["date"]:%a %-d %b}",
-            "ranges": [t.format_range()
-                       for t in day["times"]] if day["open"] else ["CLOSED"],
+            "ranges": day["times"] if day["open"] else ["CLOSED"],
         }
 
     days = get_opening_hours(date.today(), OPENING_HOURS_DAY_COUNT)
@@ -169,6 +169,7 @@ def reservations(request):
     )
 
 
+@login_required
 def reservation_times(request, year, month, day):
     try:
         reservation_date = date(year, month, day)
@@ -188,10 +189,28 @@ def reservation_times(request, year, month, day):
         # If not open on this date return to the reservations page
         return HttpResponseRedirect(reverse('reservations'))
 
+    services = details["times"]
+
+    services_plus = [
+        {
+            "name": service,
+            "slots":
+                [
+                    {
+                        "time": t,
+                        "name": f"{t:%H:%M}"
+                    }
+                    for t in service.slots()
+                ],
+        }
+        for service in services
+    ]
+
     return render(
         request,
         'core/reservation_times.html',
         {
-            "date": reservation_date
+            "date": reservation_date,
+            "services": services_plus,
         }
     )

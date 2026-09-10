@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from .timerange import TimeRange
 
 
 # This is consistent with date.weekday()
@@ -17,10 +18,6 @@ RESERVATION_STATUS = (
     (0, 'Booked'),
     (1, 'Arrived'),
 )
-
-
-def format_time(t):
-    return f"{t:%H:%M}"
 
 
 class Reservation(models.Model):
@@ -67,15 +64,14 @@ class ServiceTime(models.Model):
     # A naive Python time representing local time
     end_time = models.TimeField()
 
-    def format_range(self):
-        return f"{format_time(self.start_time)} to " \
-                f"{format_time(self.end_time)}"
+    def as_range(self):
+        return TimeRange(self.start_time, self.end_time)
 
     class Meta:
         ordering = ['weekday', 'start_time']
 
     def __str__(self):
-        return f"{WEEKDAY[self.weekday][1]} {self.format_range()}"
+        return f"{WEEKDAY[self.weekday][1]} {self.as_range()}"
 
 
 class ServiceException(models.Model):
@@ -90,12 +86,8 @@ class ServiceException(models.Model):
     # If self.open, a naive Python time representing local time
     end_time = models.TimeField(default='00:00')
 
-    def format_range(self):
-        if self.open:
-            return f"{format_time(self.start_time)} to " \
-                   f"{format_time(self.end_time)}"
-        else:
-            return "CLOSED"
+    def as_range(self):
+        return TimeRange(self.start_time, self.end_time)
 
     class Meta:
         ordering = ['date', 'start_time']

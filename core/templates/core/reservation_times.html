@@ -9,6 +9,16 @@
         <div class="col-12">
             <h1>Make a Reservation</h1>
             <h2>{{ date }}</h2>
+            {% for service in services %}
+            <h3>{{ service.name }}</h3>
+            <table>
+            {% for slot in service.slots %}
+                {% if forloop.counter0|divisibleby:4 %}<tr>{% endif %}
+                <td>{{ slot.name }}</td>
+                {% if forloop.counter|divisibleby:4 %}</tr>{% endif %}
+            {% endfor %}
+            </table>
+            {% endfor %}
         </div>
     </div>
 </section>
