@@ -14,3 +14,12 @@ body {
 .day_shut {
     color: grey;
 }
+
+/* Slots */
+/*.slot_open {
+    color: green;
+}*/
+
+.slot_closed {
+    visibility: hidden;
+}

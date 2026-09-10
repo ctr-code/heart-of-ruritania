@@ -9,15 +9,26 @@
         <div class="col-12">
             <h1>Make a Reservation</h1>
             <h2>{{ date }}</h2>
+            <p>Click on a time to make a reservation.</p>
             {% for service in services %}
             <h3>{{ service.name }}</h3>
-            <table>
-            {% for slot in service.slots %}
-                {% if forloop.counter0|divisibleby:4 %}<tr>{% endif %}
-                <td>{{ slot.name }}</td>
-                {% if forloop.counter|divisibleby:4 %}</tr>{% endif %}
-            {% endfor %}
-            </table>
+            <form method="post">
+                {% csrf_token %}
+                <table>
+                    {% for slot in service.slots %}
+                    {% if forloop.counter0|divisibleby:4 %}<tr>{% endif %}
+                        {% spaceless %}
+                        <td class="{% if slot.open %}slot_open{% else %}slot_closed{% endif %}">
+                            {% if slot.open %}<button formaction="{% url 'reserve' date.year date.month date.day slot.time.hour slot.time.minute %}">{% endif %}
+                                <div>{{ slot.name }}</div>
+                            {% if slot.open %}</button>{% endif %}
+                        </td>
+                        {% endspaceless %}
+                        {% if forloop.counter|divisibleby:4 %}
+                    </tr>{% endif %}
+                    {% endfor %}
+                </table>
+            </form>
             {% endfor %}
         </div>
     </div>

@@ -2,9 +2,10 @@ from datetime import date, timedelta
 from itertools import groupby
 from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import ServiceTime, ServiceException
-from .timerange import TimeRange
+from .timerange import format_time, TimeRange
 
 OPENING_HOURS_DAY_COUNT = 14
 BOOK_AHEAD_DAY_COUNT = 60
@@ -186,7 +187,7 @@ def reservation_times(request, year, month, day):
 
     details = get_opening_hours(reservation_date, 1)[0]
     if not details["open"]:
-        # If not open on this date return to the reservations page
+        # If restaurant not open on this date return to the reservations page
         return HttpResponseRedirect(reverse('reservations'))
 
     services = details["times"]
@@ -198,7 +199,8 @@ def reservation_times(request, year, month, day):
                 [
                     {
                         "time": t,
-                        "name": f"{t:%H:%M}"
+                        "name": format_time(t),
+                        "open": service.contains(t),
                     }
                     for t in service.slots()
                 ],
@@ -214,3 +216,13 @@ def reservation_times(request, year, month, day):
             "services": services_plus,
         }
     )
+
+
+@login_required
+def reserve(request, year, month, day, hour, minute):
+    if request.method == "POST":
+        messages.add_message(
+            request, messages.ERROR,
+            f'Appointments are never booked! {hour}:{minute}'
+        )
+    return HttpResponseRedirect(reverse('reservations'))
