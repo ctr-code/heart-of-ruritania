@@ -50,6 +50,9 @@ class Table(models.Model):
     table_number = models.IntegerField()
     cover_count = models.IntegerField()
 
+    class Meta:
+        ordering = ['table_number']
+
     def __str__(self):
         return f"Table {self.table_number} ({self.cover_count} covers)"
 
@@ -67,6 +70,9 @@ class ServiceTime(models.Model):
     def format_range(self):
         return f"{format_time(self.start_time)} to " \
                 f"{format_time(self.end_time)}"
+
+    class Meta:
+        ordering = ['weekday', 'start_time']
 
     def __str__(self):
         return f"{WEEKDAY[self.weekday][1]} {self.format_range()}"
@@ -90,6 +96,9 @@ class ServiceException(models.Model):
                    f"{format_time(self.end_time)}"
         else:
             return "CLOSED"
+
+    class Meta:
+        ordering = ['date', 'start_time']
 
     def __str__(self):
         return f"{self.date} {self.format_range()}"
