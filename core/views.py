@@ -96,39 +96,62 @@ def reservations(request):
     View for the reservations page
     """
 
-    def pad_week(days):
+    def date_month(day):
+        """Return the month associated with a day"""
+        return date(day.year, day.month, 1)
+
+    def next_month(day):
+        """Return the next month after the given date"""
+        return date_month(date_month(day) + timedelta(days=31))
+
+    def calendar(month, start_date, end_date):
         """
-        Given a list of consecutive days all in the same week,
-        pad it out so it runs from Monday to Sunday
+        Return a list of dates within the given month and the given date range,
+        extended to run from a Monday to a Sunday
         """
-        days = list(days)
-        first = days[0]["date"]
-        padded = [{"date": first + timedelta(days=index), "hide": True}
-                  for index in range(-first.weekday(), 0)]
-        padded += days
-        last = days[len(days)-1]["date"]
-        padded += [{"date": last + timedelta(days=index+1), "hide": True}
-                   for index in range(6 - last.weekday())]
-        return padded
+        # Clamp the view of the month within start_date and end_date
+        start_date = max(month, start_date)
+        end_date = min(next_month(month), end_date)
 
-    def month_to_weeks(days_in_month):
-        """
-        Given a number of days in a single month group them by week
-        """
-        # Group days by week number
-        weeks = groupby(days_in_month, lambda x: x["date"].isocalendar().week)
-        # And put them in a list
-        weeks = [pad_week(days) for k, days in weeks]
-        return weeks
+        # Extend the range so it runs from a Monday to a Monday
+        start_date = start_date + timedelta(days=-start_date.weekday())
+        end_date = end_date + timedelta(days=(7 - end_date.weekday()) % 7)
 
-    days = get_opening_hours(date.today(), BOOK_AHEAD_DAY_COUNT)
+        # Return the list of days; always a whole number of weeks
+        return [start_date + timedelta(days=index)
+                for index in range((end_date-start_date).days)]
 
-    # Group the days by month
-    months = groupby(days, lambda x: x["date"].strftime("%B %Y"))
+    # Get all the date range of the booking period
+    today = date.today()
+    end_date = today + timedelta(days=BOOK_AHEAD_DAY_COUNT)
 
-    months = [{"month": k, "weeks": month_to_weeks(days)}
-              for k, days in months]
+    # Get the days on which the restaurant is open
+    days = get_opening_hours(today, BOOK_AHEAD_DAY_COUNT)
+    open_days = set(d["date"] for d in days if d["open"])
 
+    # Construct the months
+    month = date_month(today)
+    end_month = next_month(end_date + timedelta(days=-1))
+    months = []
+    while month < end_month:
+        cal = [
+            {
+                "date": d,
+                "open": d in open_days,
+                "off": d < today or d >= end_date or d.month != month.month,
+            }
+            for d in calendar(month, today, end_date)
+        ]
+        months.append(
+            {
+                "month": month,
+                "name": month.strftime("%B %Y"),
+                "days": cal,
+            }
+        )
+        month = next_month(month)
+
+    # And render
     return render(
         request,
         'core/reservations.html',
