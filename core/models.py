@@ -30,11 +30,13 @@ class Reservation(models.Model):
     date = models.DateField()
     # A naive Python time representing local time
     time = models.TimeField()
+    # Duration in minutes
+    duration = models.IntegerField(default=120)
     guest_count = models.IntegerField()
     status = models.IntegerField(choices=RESERVATION_STATUS, default=0)
 
     class Meta:
-        ordering = ['date', 'time']
+        ordering = ['date', 'time', '-guest_count']
 
     def __str__(self):
         return f"Reservation {self.date} {self.time} by {self.customer}"

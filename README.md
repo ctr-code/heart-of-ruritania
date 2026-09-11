@@ -52,6 +52,7 @@ erDiagram
         int reservation_id PK
         string date
         string time
+        int duration "minutes"
         int guest_count
         int status
         int user_id FK
