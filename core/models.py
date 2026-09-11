@@ -44,7 +44,7 @@ class Table(models.Model):
     """
     A table in the restaurant
     """
-    table_number = models.IntegerField()
+    table_number = models.IntegerField(unique=True)
     cover_count = models.IntegerField()
 
     class Meta:
