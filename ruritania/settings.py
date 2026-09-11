@@ -96,6 +96,25 @@ TEMPLATES = [
     },
 ]
 
+# https://docs.djangoproject.com/en/dev/ref/settings/#logging
+# Log SQL queries
+# LOGGING = {
+#     'version': 1,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'level': 'DEBUG',
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#     }
+# }
+
 WSGI_APPLICATION = 'ruritania.wsgi.application'
 
 
