@@ -4,10 +4,12 @@ from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Reservation, ServiceTime, ServiceException
-from .timerange import format_time, TimeRange
+from .models import Reservation, ServiceTime, ServiceException, Table
+from .timerange import format_time, Slot, TimeRange
 
+# The number of days displayed on the opening hours page
 OPENING_HOURS_DAY_COUNT = 14
+# A reservation can be made for this many days in the future
 BOOK_AHEAD_DAY_COUNT = 60
 
 
@@ -67,7 +69,7 @@ def get_opening_hours(start_date, day_count):
 
     end_date = start_date + timedelta(days=day_count)
 
-    service_times = ServiceTime.objects.order_by('weekday')
+    service_times = ServiceTime.objects.order_by('weekday', 'start_time')
 
     # Create a map from weekday to service times on that day
     service_map = map_by_key(service_times, lambda x: x.weekday)
@@ -98,6 +100,60 @@ def get_opening_hours(start_date, day_count):
             result.append({"date": date, "open": True, "times": times})
 
     return result
+
+
+def allocate_reservations_to_tables(service, reservations):
+    """
+    Update each reservation with a free table
+    """
+
+    # Do calculations in minutes since midnight
+    def minutes_since_midnight(time):
+        return time.hour * Slot.MINS_PER_HOUR + time.minute
+
+    # Sort tables to ensure smaller tables are preferred
+    tables = Table.objects.order_by('cover_count')
+    for table in tables:
+        table.open_from = 0
+
+    service_start = minutes_since_midnight(service.start_time)
+
+    for reservation in reservations:
+        reservation.table = None
+        if service.contains(reservation.time):
+            start_time = minutes_since_midnight(reservation.time)
+            # Account for start times after midnight
+            if start_time < service_start:
+                start_time += Slot.MINS_PER_DAY
+            for table in tables:
+                if table.cover_count >= reservation.guest_count and \
+                        start_time >= table.open_from:
+                    reservation.table = table
+                    # Note that this can go past midnight, and that's fine
+                    table.open_from = start_time + reservation.duration
+                    break
+
+
+def slot_availability(service, reservations, slots):
+    """
+    Update each slot with the largest number of guests that can be
+    accommodated at that time.
+    """
+    # For each slot calculate the largest remaining table.
+    # Then take the minimum over the next DEFAULT_RESERVATION_DURATION.
+    allocate_reservations_to_tables(service, reservations)
+    # Give each slot a set of all the tables
+    slot_map = {slot["time"]: slot for slot in slots}
+    for slot in slots:
+        slot["tables"] = set(Table.objects.all())
+    for reservation in reservations:
+        if reservation.table:
+            slot_count = (reservation.duration + Slot.MINS_PER_SLOT - 1) \
+                // Slot.MINS_PER_SLOT * Slot.MINS_PER_SLOT
+            pass
+
+    print(slots)
+    return slots
 
 
 def opening_hours(request):
@@ -206,10 +262,12 @@ def reservation_times(request, year, month, day):
 
     services = details["times"]
 
+    reservations = Reservation.objects.filter(date=reservation_date)
+
     services_plus = [
         {
             "name": service,
-            "slots":
+            "slots": slot_availability(service, reservations,
                 [
                     {
                         "time": t,
@@ -217,7 +275,8 @@ def reservation_times(request, year, month, day):
                         "open": service.contains(t),
                     }
                     for t in service.slots()
-                ],
+                ]
+            ),
         }
         for service in services
     ]
@@ -254,6 +313,7 @@ def reserve(request, year, month, day, hour, minute):
         reservation.customer = request.user
         reservation.date = reservation_date
         reservation.time = reservation_time
+        # TODO: reservation.duration
         # TODO: How does this get entered?!!!
         reservation.guest_count = 4
         reservation.save()

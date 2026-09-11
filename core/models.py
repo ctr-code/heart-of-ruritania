@@ -19,6 +19,8 @@ RESERVATION_STATUS = (
     (1, 'Arrived'),
 )
 
+DEFAULT_RESERVATION_DURATION = 120
+
 
 class Reservation(models.Model):
     """
@@ -31,7 +33,7 @@ class Reservation(models.Model):
     # A naive Python time representing local time
     time = models.TimeField()
     # Duration in minutes
-    duration = models.IntegerField(default=120)
+    duration = models.IntegerField(default=DEFAULT_RESERVATION_DURATION)
     guest_count = models.IntegerField()
     status = models.IntegerField(choices=RESERVATION_STATUS, default=0)
 
