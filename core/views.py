@@ -29,7 +29,7 @@ def map_by_key(items, key):
 
 
 def valid_booking_period():
-    """Return the range of time in which bookings are valid"""
+    """Return the range of dates in which reservations may be made"""
     start_date = date.today() + timedelta(days=1)
     end_date = start_date + timedelta(days=BOOK_AHEAD_DAY_COUNT)
     return (start_date, end_date)
