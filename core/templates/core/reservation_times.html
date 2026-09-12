@@ -11,8 +11,8 @@
             <h2>{{ date }}</h2>
             <form method="post">
                 <ol>
-                <li><label for="coverCount">Enter the number of guests:</label>
-                <input id="coverCount" type="number" name="guest_count" min="1" value="0" /></li>
+                <li><label for="guest_count">Enter the number of guests:</label>
+                <input id="guest_count" type="number" name="guest_count" min="1" value="0" /></li>
                 <li>Select a time:</li>
                 </ol>
             {% for service in services %}
@@ -22,7 +22,7 @@
                     <tr>{% endif %}
                         <td>{% spaceless %}
                             <div data-max="{{ slot.max }}" class="{% if slot.open %}slot_open{% else %}slot_closed{% endif %}">
-                            {% if slot.open %}<button formaction="{% url 'reserve' date.year date.month date.day slot.slot.hour slot.slot.minute %}">{% endif %}
+                            {% if slot.open %}<button disabled formaction="{% url 'reserve' date.year date.month date.day slot.slot.hour slot.slot.minute %}">{% endif %}
                                 <span>{{ slot.name }}</span>
                             {% if slot.open %}</button>{% endif %} ({{ slot.max }})
                             </div>
@@ -34,4 +34,17 @@
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block extra_body %}
+<script>
+    gc = document.getElementById("guest_count");
+    gc.addEventListener("input", (e) => {
+        group_count = Number.parseInt(gc.value)
+        for (div of document.querySelectorAll("td div")) {
+            button = div.firstChild
+            button.disabled = isNaN(group_count) || group_count === 0 || div.dataset.max < group_count
+        }
+    });
+</script>
 {% endblock %}
