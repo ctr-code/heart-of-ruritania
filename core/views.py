@@ -4,8 +4,9 @@ from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Reservation, ServiceTime, ServiceException, Table
-from .timerange import format_time, Slot, TimeRange
+from .models import Reservation, ServiceTime, ServiceException, Table, \
+    DEFAULT_RESERVATION_DURATION, SHORTEST_RESERVATION_DURATION
+from .timerange import Slot, TimeRange
 
 # The number of days displayed on the opening hours page
 OPENING_HOURS_DAY_COUNT = 14
@@ -111,27 +112,36 @@ def allocate_reservations_to_tables(service, reservations):
     def minutes_since_midnight(time):
         return time.hour * Slot.MINS_PER_HOUR + time.minute
 
+    def duration_in_slots(reservation):
+        range = TimeRange.from_time_duration(
+            reservation.time, reservation.duration)
+        return range.end_slot.index - range.start_slot.index
+
     # Sort tables to ensure smaller tables are preferred
     tables = Table.objects.order_by('cover_count')
     for table in tables:
         table.open_from = 0
 
-    service_start = minutes_since_midnight(service.start_time)
-
     for reservation in reservations:
         reservation.table = None
-        if service.contains(reservation.time):
-            start_time = minutes_since_midnight(reservation.time)
-            # Account for start times after midnight
-            if start_time < service_start:
-                start_time += Slot.MINS_PER_DAY
-            for table in tables:
-                if table.cover_count >= reservation.guest_count and \
-                        start_time >= table.open_from:
-                    reservation.table = table
-                    # Note that this can go past midnight, and that's fine
-                    table.open_from = start_time + reservation.duration
-                    break
+        reservation.slot = service.slot_from_time(reservation.time)
+
+    # Reservations can't be ordered by time, because reservations just
+    # after midnight would precede earlier ones in the same service.
+    # Sort the reservations by slot.
+    sorted = [reservation for reservation in reservations if reservation.slot]
+    sorted.sort(key=lambda r: r.slot.index)
+
+    for reservation in sorted:
+        reservation.slot_count = duration_in_slots(reservation)
+        for table in tables:
+            if table.cover_count >= reservation.guest_count and \
+                    reservation.slot.index >= table.open_from:
+                reservation.table = table
+                # Note that this can go past midnight, and that's fine
+                table.open_from = \
+                    reservation.slot.index + reservation.slot_count
+                break
 
 
 def slot_availability(service, reservations, slots):
@@ -142,17 +152,48 @@ def slot_availability(service, reservations, slots):
     # For each slot calculate the largest remaining table.
     # Then take the minimum over the next DEFAULT_RESERVATION_DURATION.
     allocate_reservations_to_tables(service, reservations)
+
+    slots_offset = slots[0]["slot"].index
+
     # Give each slot a set of all the tables
-    slot_map = {slot["time"]: slot for slot in slots}
     for slot in slots:
         slot["tables"] = set(Table.objects.all())
+
+    # Remove tables from the slots during which they are in use
     for reservation in reservations:
         if reservation.table:
-            slot_count = (reservation.duration + Slot.MINS_PER_SLOT - 1) \
-                // Slot.MINS_PER_SLOT * Slot.MINS_PER_SLOT
-            pass
+            for slot_index in range(
+                reservation.slot.index,
+                reservation.slot.index + reservation.slot_count
+            ):
+                index = slot_index - slots_offset
+                if 0 <= index and index < len(slots):
+                    slots[index]["tables"].remove(reservation.table)
 
-    print(slots)
+    # Get the maximum number of covers available in each slot
+    for slot in slots:
+        max_table = max(slot["tables"], key=lambda t: t.cover_count)
+        slot["max"] = max_table.cover_count
+        del slot["tables"]
+
+    default_slot_count = DEFAULT_RESERVATION_DURATION // Slot.MINS_PER_SLOT
+    shortest_slot_count = SHORTEST_RESERVATION_DURATION // Slot.MINS_PER_SLOT
+
+    # Calculate the maximum size of a booking in each slot
+    for index in range(0, len(slots)):
+        remaining = len(slots) - index
+        slot = slots[index]
+        if remaining < shortest_slot_count:
+            slot["max"] = 0
+            slot["open"] = False
+        else:
+            check_count = min(remaining, default_slot_count)
+            # The maximum size of a booking in this slot is the minimum of the
+            # available covers in this and the immediately following slots.
+            slot_max = min(slots[i]["max"]
+                           for i in range(index, index + check_count))
+            slot["max"] = slot_max
+
     return slots
 
 
@@ -267,14 +308,16 @@ def reservation_times(request, year, month, day):
     services_plus = [
         {
             "name": service,
-            "slots": slot_availability(service, reservations,
+            "slots": slot_availability(
+                service,
+                reservations,
                 [
                     {
-                        "time": t,
-                        "name": format_time(t),
-                        "open": service.contains(t),
+                        "slot": slot,
+                        "name": f"{slot}",
+                        "open": service.contains_slot(slot),
                     }
-                    for t in service.slots()
+                    for slot in service.slots()
                 ]
             ),
         }
@@ -303,8 +346,9 @@ def reserve(request, year, month, day, hour, minute):
             return HttpResponseRedirect(reverse('reservations'))
 
         # The services containing the time (should be exactly one)
-        services = [s
-                    for s in details["times"] if s.contains(reservation_time)]
+        services = \
+            [s for s in details["times"] if s.contains_time(reservation_time)]
+
         if len(services) == 0:
             # If the time lies outwith the service hours return to reservations
             return HttpResponseRedirect(reverse('reservations'))

@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from .timerange import TimeRange
 
 
 # This is consistent with date.weekday()
@@ -20,6 +19,7 @@ RESERVATION_STATUS = (
 )
 
 DEFAULT_RESERVATION_DURATION = 120
+SHORTEST_RESERVATION_DURATION = 90
 
 
 class Reservation(models.Model):
@@ -29,6 +29,8 @@ class Reservation(models.Model):
     customer = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='reservations'
     )
+    # TODO: Distinguish service_date from reservation_date
+    # TODO: This is needed to sort reservations in admin
     date = models.DateField()
     # A naive Python time representing local time
     time = models.TimeField()
@@ -68,9 +70,6 @@ class ServiceTime(models.Model):
     # A naive Python time representing local time
     end_time = models.TimeField()
 
-    def as_range(self):
-        return TimeRange(self.start_time, self.end_time)
-
     class Meta:
         ordering = ['weekday', 'start_time']
 
@@ -89,9 +88,6 @@ class ServiceException(models.Model):
     start_time = models.TimeField(default='00:00')
     # If self.open, a naive Python time representing local time
     end_time = models.TimeField(default='00:00')
-
-    def as_range(self):
-        return TimeRange(self.start_time, self.end_time)
 
     class Meta:
         ordering = ['date', 'start_time']

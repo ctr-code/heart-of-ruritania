@@ -19,7 +19,7 @@
                     {% if forloop.counter0|divisibleby:4 %}<tr>{% endif %}
                         {% spaceless %}
                         <td class="{% if slot.open %}slot_open{% else %}slot_closed{% endif %}">
-                            {% if slot.open %}<button formaction="{% url 'reserve' date.year date.month date.day slot.time.hour slot.time.minute %}">{% endif %}
+                            {% if slot.open %}<button formaction="{% url 'reserve' date.year date.month date.day slot.slot.hour slot.slot.minute %}">{% endif %}
                                 <div>{{ slot.name }}</div>
                             {% if slot.open %}</button>{% endif %}
                         </td>

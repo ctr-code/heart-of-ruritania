@@ -15,8 +15,10 @@ class Slot:
     SLOTS_PER_HOUR = MINS_PER_HOUR // MINS_PER_SLOT
 
     @classmethod
-    def from_starttime(cls, time):
+    def from_starttime(cls, time, after_midnight=False):
         minutes = time.hour * Slot.MINS_PER_HOUR + time.minute
+        if after_midnight:
+            minutes += Slot.MINS_PER_DAY
         return Slot(minutes // Slot.MINS_PER_SLOT)
 
     @classmethod
@@ -32,8 +34,16 @@ class Slot:
     def __init__(self, index):
         self.index = index
 
-    def round_down_to_hour(self):
-        return 0
+    def hour(self):
+        """Return the hour part of the slot considered as a time"""
+        return (self.index % Slot.MINS_PER_DAY) // Slot.SLOTS_PER_HOUR
+
+    def minute(self):
+        """Return the minute part of the slot considered as a time"""
+        return (self.index % Slot.SLOTS_PER_HOUR) * Slot.MINS_PER_SLOT
+
+    def __str__(self):
+        return f"{self.hour():02}:{self.minute():02}"
 
 
 class TimeRange:
@@ -48,31 +58,46 @@ class TimeRange:
         self.start_slot = Slot.from_starttime(start_time)
         self.end_slot = Slot.from_endtime(end_time, end_time < start_time)
 
+    @classmethod
+    def from_time_duration(cls, start_time, duration):
+        minutes = start_time.hour * Slot.MINS_PER_HOUR + start_time.minute
+        end_mins = (minutes + duration) % Slot.MINS_PER_DAY
+        end_time = time(end_mins // Slot.MINS_PER_HOUR,
+                        end_mins % Slot.MINS_PER_HOUR)
+        return TimeRange(start_time, end_time)
+
+    def round_to_hours(self):
+        return (self.start_slot.index -
+                (self.start_slot.index % Slot.SLOTS_PER_HOUR),
+                ((self.end_slot.index + Slot.SLOTS_PER_HOUR - 1)
+                 // Slot.SLOTS_PER_HOUR) * Slot.SLOTS_PER_HOUR)
+
     def slots(self):
         '''
-        Generate slots that cover whole hours and the service period.
-        A slot is a quarter of an hour.
+        Generate slots that cover the service period extended to whole hours.
         '''
         if self.start_time == self.end_time:
             return []
 
-        # Round the start_time and end_time to whole hours
-        start_mins = self.start_time.hour * Slot.MINS_PER_HOUR
-        end_mins = (
-            self.end_time.hour +
-            (self.end_time.minute + Slot.MINS_PER_HOUR - 1)
-            // Slot.MINS_PER_HOUR
-        ) * Slot.MINS_PER_HOUR
+        (start, end) = self.round_to_hours()
 
-        # Account for closing times in the wee hours
-        if end_mins <= start_mins:
-            end_mins += Slot.MINS_PER_DAY
+        return [Slot(index) for index in range(start, end)]
 
-        return [time(m % Slot.MINS_PER_DAY // Slot.MINS_PER_HOUR,
-                     m % Slot.MINS_PER_HOUR, 0)
-                for m in range(start_mins, end_mins, Slot.MINS_PER_SLOT)]
+    def contains_slot(self, slot):
+        """Does this range contain slot?"""
+        return self.start_slot.index <= slot.index and \
+            slot.index < self.end_slot.index
 
-    def contains(self, t):
+    def slot_from_time(self, t):
+        """Get the slot containing the time t"""
+        if self.start_time == self.end_time:
+            return False
+        slot = Slot.from_starttime(t, self.start_time > t)
+        if slot.index >= self.end_slot.index:
+            return None
+        return slot
+
+    def contains_time(self, t):
         """Does time t lie within this time range?"""
         if self.start_time == self.end_time:
             return False
