@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from .timerange import TimeRange
 
 # This is consistent with date.weekday()
 WEEKDAY = (
@@ -29,10 +29,11 @@ class Reservation(models.Model):
     customer = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='reservations'
     )
-    # TODO: Distinguish service_date from reservation_date
-    # TODO: This is needed to sort reservations in admin
-    date = models.DateField()
-    # A naive Python time representing local time
+    # The date on which the service started.  If the reservation is after
+    # midnight the reservation will fall on the next day.
+    svc_date = models.DateField()
+    # TODO: Add the actual reservation date
+    # A naive Python time representing the local time of the reservation
     time = models.TimeField()
     # Duration in minutes
     duration = models.IntegerField(default=DEFAULT_RESERVATION_DURATION)
@@ -40,10 +41,10 @@ class Reservation(models.Model):
     status = models.IntegerField(choices=RESERVATION_STATUS, default=0)
 
     class Meta:
-        ordering = ['date', 'time', '-guest_count']
+        ordering = ['svc_date', 'time', '-guest_count']
 
     def __str__(self):
-        return f"Reservation {self.date} {self.time} by {self.customer}"
+        return f"Reservation {self.svc_date} {self.time} by {self.customer}"
 
 
 class Table(models.Model):
@@ -73,6 +74,9 @@ class ServiceTime(models.Model):
     class Meta:
         ordering = ['weekday', 'start_time']
 
+    def as_range(self):
+        return TimeRange(self.start_time, self.end_time)
+
     def __str__(self):
         return f"{WEEKDAY[self.weekday][1]} {self.as_range()}"
 
@@ -92,5 +96,8 @@ class ServiceException(models.Model):
     class Meta:
         ordering = ['date', 'start_time']
 
+    def as_range(self):
+        return TimeRange(self.start_time, self.end_time)
+
     def __str__(self):
-        return f"{self.date} {self.format_range()}"
+        return f"{self.date} {self.as_range()}"

@@ -303,7 +303,7 @@ def reservation_times(request, year, month, day):
 
     services = details["times"]
 
-    reservations = Reservation.objects.filter(date=reservation_date)
+    reservations = Reservation.objects.filter(svc_date=reservation_date)
 
     services_plus = [
         {
@@ -355,7 +355,7 @@ def reserve(request, year, month, day, hour, minute):
 
         reservation = Reservation()
         reservation.customer = request.user
-        reservation.date = reservation_date
+        reservation.svc_date = reservation_date
         reservation.time = reservation_time
         # TODO: reservation.duration
         # TODO: How does this get entered?!!!
