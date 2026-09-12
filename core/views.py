@@ -257,6 +257,10 @@ def reservations(request):
         return [start_date + timedelta(days=index)
                 for index in range((end_date-start_date).days)]
 
+    # Get the user's existing reservations
+    reservations = request.user.reservations.all()
+    reservation_dates = set(r.svc_date for r in reservations)
+
     # Get the date range of the booking period
     (start_date, end_date) = valid_booking_period()
 
@@ -275,6 +279,7 @@ def reservations(request):
                 "open": d in open_days,
                 "off":
                     d < start_date or d >= end_date or d.month != month.month,
+                "edit": d in open_days and d in reservation_dates
             }
             for d in calendar(month, start_date, end_date)
         ]
@@ -292,7 +297,6 @@ def reservations(request):
         request,
         'core/reservations.html',
         {
-            "reservations": request.user.reservations.all(),
             "months": months
         }
     )
@@ -367,6 +371,7 @@ def reserve(request, year, month, day, hour, minute):
 
         reservation_form = ReservationForm(data=request.POST)
         if reservation_form.is_valid():
+            # TODO: Check a reservation with this guest_count is feasible
             reservation = reservation_form.save(commit=False)
 
             reservation.customer = request.user

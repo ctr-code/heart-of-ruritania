@@ -15,6 +15,10 @@ body {
     color: grey;
 }
 
+.day_edit {
+    background-color: lightgreen;
+}
+
 /* Slots */
 /*.slot_open {
     color: green;
