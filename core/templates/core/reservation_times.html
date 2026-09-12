@@ -9,24 +9,25 @@
         <div class="col-12">
             <h1>Make a Reservation</h1>
             <h2>{{ date }}</h2>
-            <p>Click on a time to make a reservation.</p>
+            <form method="post">
+                <ol>
+                <li><label for="coverCount">Enter the number of guests:</label>
+                <input id="coverCount" type="number" name="coverCount" min="1" value="0" /></li>
+                <li>Select a time:</li>
+                </ol>
             {% for service in services %}
             <h3>{{ service.name }}</h3>
-            <form method="post">
                 {% csrf_token %}
-                <table>
-                    {% for slot in service.slots %}
-                    {% if forloop.counter0|divisibleby:4 %}<tr>{% endif %}
-                        {% spaceless %}
-                        <td class="{% if slot.open %}slot_open{% else %}slot_closed{% endif %}">
+                <table>{% for slot in service.slots %}{% if forloop.counter0|divisibleby:4 %}
+                    <tr>{% endif %}
+                        <td>{% spaceless %}
+                            <div data-max="{{ slot.max }}" class="{% if slot.open %}slot_open{% else %}slot_closed{% endif %}">
                             {% if slot.open %}<button formaction="{% url 'reserve' date.year date.month date.day slot.slot.hour slot.slot.minute %}">{% endif %}
-                                <div>{{ slot.name }}</div>
-                            {% if slot.open %}</button>{% endif %}
-                        </td>
-                        {% endspaceless %}
-                        {% if forloop.counter|divisibleby:4 %}
-                    </tr>{% endif %}
-                    {% endfor %}
+                                <span>{{ slot.name }}</span>
+                            {% if slot.open %}</button>{% endif %} ({{ slot.max }})
+                            </div>
+                        </td>{% endspaceless %}
+                    {% if forloop.counter|divisibleby:4 %}</tr>{% endif %}{% endfor %}
                 </table>
             </form>
             {% endfor %}
