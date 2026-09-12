@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 from django.contrib.auth.models import User
 from .timerange import TimeRange
 
@@ -32,13 +33,20 @@ class Reservation(models.Model):
     # The date on which the service started.  If the reservation is after
     # midnight the reservation will fall on the next day.
     svc_date = models.DateField()
+
     # TODO: Add the actual reservation date
     # A naive Python time representing the local time of the reservation
     time = models.TimeField()
+
     # Duration in minutes
-    duration = models.IntegerField(default=DEFAULT_RESERVATION_DURATION)
-    guest_count = models.IntegerField()
-    status = models.IntegerField(choices=RESERVATION_STATUS, default=0)
+    duration = models.PositiveIntegerField(
+        default=DEFAULT_RESERVATION_DURATION)
+
+    guest_count = models.PositiveIntegerField(
+        validators=[MinValueValidator(1)])
+
+    status = models.PositiveIntegerField(
+        choices=RESERVATION_STATUS, default=0)
 
     class Meta:
         ordering = ['svc_date', 'time', '-guest_count']

@@ -10,9 +10,11 @@ class Slot:
     A slot is a quarter of an hour period.  Slots are indexed from midnight.
     """
     MINS_PER_HOUR = 60
-    MINS_PER_DAY = 24 * MINS_PER_HOUR
+    HOURS_PER_DAY = 24
+    MINS_PER_DAY = HOURS_PER_DAY * MINS_PER_HOUR
     MINS_PER_SLOT = 15
     SLOTS_PER_HOUR = MINS_PER_HOUR // MINS_PER_SLOT
+    SLOTS_PER_DAY = HOURS_PER_DAY * SLOTS_PER_HOUR
 
     @classmethod
     def from_starttime(cls, time, after_midnight=False):
@@ -36,7 +38,7 @@ class Slot:
 
     def hour(self):
         """Return the hour part of the slot considered as a time"""
-        return (self.index % Slot.MINS_PER_DAY) // Slot.SLOTS_PER_HOUR
+        return (self.index % Slot.SLOTS_PER_DAY) // Slot.SLOTS_PER_HOUR
 
     def minute(self):
         """Return the minute part of the slot considered as a time"""
@@ -96,6 +98,11 @@ class TimeRange:
         if slot.index >= self.end_slot.index:
             return None
         return slot
+
+    def remaining(self, t):
+        """Given a time within the range, return remaining minutes"""
+        return (self.end_slot.index - self.slot_from_time(t).index) * \
+            Slot.MINS_PER_SLOT
 
     def contains_time(self, t):
         """Does time t lie within this time range?"""

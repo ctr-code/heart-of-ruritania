@@ -12,7 +12,7 @@
             <form method="post">
                 <ol>
                 <li><label for="coverCount">Enter the number of guests:</label>
-                <input id="coverCount" type="number" name="coverCount" min="1" value="0" /></li>
+                <input id="coverCount" type="number" name="guest_count" min="1" value="0" /></li>
                 <li>Select a time:</li>
                 </ol>
             {% for service in services %}
@@ -29,8 +29,8 @@
                         </td>{% endspaceless %}
                     {% if forloop.counter|divisibleby:4 %}</tr>{% endif %}{% endfor %}
                 </table>
-            </form>
             {% endfor %}
+            </form>
         </div>
     </div>
 </section>

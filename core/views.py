@@ -4,6 +4,7 @@ from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .forms import ReservationForm
 from .models import Reservation, ServiceTime, ServiceException, Table, \
     DEFAULT_RESERVATION_DURATION, SHORTEST_RESERVATION_DURATION
 from .timerange import Slot, TimeRange
@@ -147,7 +148,7 @@ def allocate_reservations_to_tables(service, reservations):
 def slot_availability(service, reservations, slots):
     """
     Update each slot with the largest number of guests that can be
-    accommodated at that time.
+    accommodated at that time and for the duration of a booking.
     """
     # For each slot calculate the largest remaining table.
     # Then take the minimum over the next DEFAULT_RESERVATION_DURATION.
@@ -179,9 +180,14 @@ def slot_availability(service, reservations, slots):
     default_slot_count = DEFAULT_RESERVATION_DURATION // Slot.MINS_PER_SLOT
     shortest_slot_count = SHORTEST_RESERVATION_DURATION // Slot.MINS_PER_SLOT
 
+    # Get the number of slots ignoring rounding slots on the end
+    slot_count = len(slots)
+    while slot_count > 0 and not slots[slot_count - 1]["open"]:
+        slot_count -= 1
+
     # Calculate the maximum size of a booking in each slot
     for index in range(0, len(slots)):
-        remaining = len(slots) - index
+        remaining = slot_count - index
         slot = slots[index]
         if remaining < shortest_slot_count:
             slot["max"] = 0
@@ -353,17 +359,26 @@ def reserve(request, year, month, day, hour, minute):
             # If the time lies outwith the service hours return to reservations
             return HttpResponseRedirect(reverse('reservations'))
 
-        reservation = Reservation()
-        reservation.customer = request.user
-        reservation.svc_date = reservation_date
-        reservation.time = reservation_time
-        # TODO: reservation.duration
-        # TODO: How does this get entered?!!!
-        reservation.guest_count = 4
-        reservation.save()
+        # Check this is a valid time within the service (i.e. not at the end)
+        service_remaining = services[0].remaining(reservation_time)
+        duration = min(DEFAULT_RESERVATION_DURATION, service_remaining)
+        if duration < SHORTEST_RESERVATION_DURATION:
+            return HttpResponseRedirect(reverse('reservations'))
 
-        messages.add_message(
-            request, messages.ERROR,
-            f'Reservation complete! {reservation}'
-        )
+        reservation_form = ReservationForm(data=request.POST)
+        if reservation_form.is_valid():
+            reservation = reservation_form.save(commit=False)
+
+            reservation.customer = request.user
+            reservation.svc_date = reservation_date
+            reservation.time = reservation_time
+            reservation.duration = duration
+            reservation.save()
+
+            messages.add_message(
+                request, messages.ERROR,
+                # TODO: Better message
+                f'Reservation complete! {reservation}'
+            )
+
     return HttpResponseRedirect(reverse('reservations'))
