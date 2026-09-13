@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 from itertools import groupby
-from django.shortcuts import render, reverse
+from django.shortcuts import render, get_object_or_404, reverse
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -55,12 +55,12 @@ def validate_reservation_date(year, month, day):
     if reservation_date < start_date or reservation_date >= end_date:
         raise ValueError()
 
-    details = get_opening_hours(reservation_date, 1)[0]
-    if not details["open"]:
+    opening_hours = get_opening_hours(reservation_date, 1)[0]
+    if not opening_hours["open"]:
         # If restaurant not open on this date throw an error
         raise ValueError()
 
-    return (reservation_date, details)
+    return (reservation_date, opening_hours)
 
 
 def get_opening_hours(start_date, day_count):
@@ -305,22 +305,26 @@ def reservations(request):
 @login_required
 def reservation_times(request, year, month, day):
     """
-    View for the reservation_times page where a time can be selected
+    View for the reservation_times page where a time can be selected.
+    UI for making, editing and deleting reservations.
     """
     try:
-        (service_date, details) = \
+        (service_date, opening_hours) = \
             validate_reservation_date(year, month, day)
     except ValueError:
         # If the date is bogus return to the reservations page
         return HttpResponseRedirect(reverse('reservations'))
 
-    services = details["times"]
+    services = opening_hours["times"]
 
     reservations = Reservation.objects.filter(svc_date=service_date)
     user_reservations = reservations.filter(customer=request.user)
     user_reservation_slots = set(r.slot() for r in user_reservations)
-    editing = reservations.exists()
-    guest_count = reservations[0].guest_count if editing else 0
+    editing = user_reservations.exists()
+
+    reservation = user_reservations[0] if editing else None
+    id = reservation.id if editing else None
+    guest_count = reservation.guest_count if editing else 0
 
     # Iterate over the services adding information needed for the UI
     services_plus = [
@@ -328,7 +332,7 @@ def reservation_times(request, year, month, day):
             "name": service,
             "slots": slot_availability(
                 service,
-                reservations,
+                [r for r in reservations if r != reservation],
                 [
                     {
                         "slot": slot,
@@ -348,8 +352,9 @@ def reservation_times(request, year, month, day):
         'core/reservation_times.html',
         {
             "date": service_date,
-            "time": user_reservations[0].time if editing else None,
+            "slot": user_reservations[0].slot() if editing else None,
             "editing": editing,
+            "id": id,
             "guest_count": guest_count,
             "services": services_plus,
         }
@@ -364,7 +369,7 @@ def reserve(request, year, month, day, long_hour, minute):
     """
     if request.method == "POST":
         try:
-            (reservation_date, details) = \
+            (service_date, opening_hours) = \
                 validate_reservation_date(year, month, day)
             reservation_slot = Slot.from_longtime(long_hour, minute)
         except ValueError:
@@ -372,8 +377,8 @@ def reserve(request, year, month, day, long_hour, minute):
             return HttpResponseRedirect(reverse('reservations'))
 
         # The services containing the slot (should be exactly one)
-        services = \
-            [s for s in details["times"] if s.contains_slot(reservation_slot)]
+        services = [s for s in opening_hours["times"]
+                    if s.contains_slot(reservation_slot)]
 
         if len(services) == 0:
             # If the time lies outwith the service hours return to reservations
@@ -385,7 +390,7 @@ def reserve(request, year, month, day, long_hour, minute):
         if duration < SHORTEST_RESERVATION_DURATION:
             return HttpResponseRedirect(reverse('reservations'))
 
-        reservations = Reservation.objects.filter(svc_date=reservation_date)
+        reservations = Reservation.objects.filter(svc_date=service_date)
         user_reservations = reservations.filter(customer=request.user)
         editing = user_reservations.exists()
         reservation = user_reservations[0] if editing else None
@@ -398,8 +403,8 @@ def reserve(request, year, month, day, long_hour, minute):
             reservation = reservation_form.save(commit=False)
 
             reservation.customer = request.user
-            reservation.svc_date = reservation_date
-            reservation.res_date = reservation_date + \
+            reservation.svc_date = service_date
+            reservation.res_date = service_date + \
                 timedelta(days=reservation_slot.long_hour()
                           // Slot.HOURS_PER_DAY)
             reservation.time = reservation_slot.as_time()
@@ -413,3 +418,23 @@ def reserve(request, year, month, day, long_hour, minute):
             )
 
     return HttpResponseRedirect(reverse('reservations'))
+
+
+@login_required
+def delete_reservation(request, id):
+    """
+    The delete_reservation endpoint, which deletes a reservation and redirects
+    to the reservations page
+    """
+    if request.method == "POST":
+        reservation = get_object_or_404(Reservation, pk=id)
+
+        if reservation.customer == request.user:
+            reservation.delete()
+            messages.add_message(
+                request, messages.ERROR,
+                # TODO: Better message
+                f'Reservation deleted! {reservation}'
+            )
+
+        return HttpResponseRedirect(reverse('reservations'))

@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block head_title %}Make a Reservation - The Heart of Ruritania{% endblock %}
+{% block head_title %}Reservation - The Heart of Ruritania{% endblock %}
 
 {% block main %}
 <section id="overview" class="container">
     <div class="row">
         <div class="col-12">
-            <h1>{{ date|date:"l j F" }}{% if time %} {{ time|date:"H:i" }}{% endif %}</h1>
+            <h1>{{ date|date:"l j F" }}{% if slot %} {{ slot.as_time|date:"H:i" }}{% endif %}</h1>
         </div>
         {% if editing %}
         <div class="col-12">
             <h2>Delete Reservation</h2>
-            <p><button id="deleteReservation">Delete Reservation</button></p>
+            <p><button id="deleteReservation" class="btn btn-danger">Delete Reservation</button></p>
         </div>
         {% endif %}
         <div class="col-12">
@@ -43,7 +43,8 @@
     </div>
 </section>
 
-<!-- Delete confirmation modal -->
+{# Delete confirmation modal #}
+{% if editing %}
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -57,29 +58,17 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <a id="deleteConfirm" href="#" class="btn
-          btn-danger">Delete</a>
+                <form method="post" action="{% url 'delete_reservation' id %}">
+                    {% csrf_token %}
+                    <button id="deleteConfirm" href="#" class="btn btn-danger">Delete</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
+{% endif %}
 {% endblock %}
 
 {% block extra_body %}
-<script>
-    gc = document.getElementById("guest_count");
-    function updateButtons() {
-        group_count = Number.parseInt(gc.value)
-        for (div of document.querySelectorAll("td div")) {
-            button = div.firstChild
-            button.disabled = isNaN(group_count) || group_count === 0 || div.dataset.max < group_count
-        }
-    }
-    gc.addEventListener("input", updateButtons);
-    window.addEventListener("load", updateButtons);
-    document.getElementById("deleteReservation").addEventListener("click", () => {
-        const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
-        deleteModal.show();
-    });
-</script>
+<script src="{% static 'js/reservation_times.js' %}"></script>
 {% endblock %}
