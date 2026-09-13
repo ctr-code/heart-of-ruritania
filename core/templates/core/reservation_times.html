@@ -7,13 +7,13 @@
 <section id="overview" class="container">
     <div class="row">
         <div class="col-12">
-            <h1>Make a Reservation</h1>
+            <h1>{% if editing %}Edit Reservation{% else %}Make a Reservation{% endif %}</h1>
             <h2>{{ date }}</h2>
             <form method="post">
                 <ol>
-                <li><label for="guest_count">Enter the number of guests:</label>
-                <input id="guest_count" type="number" name="guest_count" min="1" value="0" /></li>
-                <li>Select a time:</li>
+                <li><label for="guest_count">{% if editing %}Check{% else %}Enter{% endif %} the number of guests:</label>
+                <input id="guest_count" type="number" name="guest_count" min="1" value="{{ guest_count }}" /></li>
+                <li>Select a time to confirm:</li>
                 </ol>
             {% for service in services %}
             <h3>{{ service.name }}</h3>
@@ -39,12 +39,14 @@
 {% block extra_body %}
 <script>
     gc = document.getElementById("guest_count");
-    gc.addEventListener("input", (e) => {
+    function updateButtons() {
         group_count = Number.parseInt(gc.value)
         for (div of document.querySelectorAll("td div")) {
             button = div.firstChild
             button.disabled = isNaN(group_count) || group_count === 0 || div.dataset.max < group_count
         }
-    });
+    }
+    gc.addEventListener("input", updateButtons);
+    window.addEventListener("load", updateButtons);
 </script>
 {% endblock %}

@@ -318,6 +318,8 @@ def reservation_times(request, year, month, day):
 
     reservations = Reservation.objects.filter(svc_date=reservation_date)
     reservation_slots = set(r.slot() for r in reservations)
+    editing = reservations.exists()
+    guest_count = reservations[0].guest_count if editing else 0
 
     services_plus = [
         {
@@ -344,6 +346,8 @@ def reservation_times(request, year, month, day):
         'core/reservation_times.html',
         {
             "date": reservation_date,
+            "editing": editing,
+            "guest_count": guest_count,
             "services": services_plus,
         }
     )
