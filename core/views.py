@@ -308,7 +308,7 @@ def reservation_times(request, year, month, day):
     View for the reservation_times page where a time can be selected
     """
     try:
-        (reservation_date, details) = \
+        (service_date, details) = \
             validate_reservation_date(year, month, day)
     except ValueError:
         # If the date is bogus return to the reservations page
@@ -316,11 +316,13 @@ def reservation_times(request, year, month, day):
 
     services = details["times"]
 
-    reservations = Reservation.objects.filter(svc_date=reservation_date)
-    reservation_slots = set(r.slot() for r in reservations)
+    reservations = Reservation.objects.filter(svc_date=service_date)
+    user_reservations = reservations.filter(customer=request.user)
+    user_reservation_slots = set(r.slot() for r in user_reservations)
     editing = reservations.exists()
     guest_count = reservations[0].guest_count if editing else 0
 
+    # Iterate over the services adding information needed for the UI
     services_plus = [
         {
             "name": service,
@@ -332,7 +334,7 @@ def reservation_times(request, year, month, day):
                         "slot": slot,
                         "name": f"{slot}",
                         "open": service.contains_slot(slot),
-                        "edit": slot in reservation_slots,
+                        "edit": slot in user_reservation_slots,
                     }
                     for slot in service.slots()
                 ]
@@ -345,7 +347,8 @@ def reservation_times(request, year, month, day):
         request,
         'core/reservation_times.html',
         {
-            "date": reservation_date,
+            "date": service_date,
+            "time": user_reservations[0].time if editing else None,
             "editing": editing,
             "guest_count": guest_count,
             "services": services_plus,
@@ -382,16 +385,23 @@ def reserve(request, year, month, day, long_hour, minute):
         if duration < SHORTEST_RESERVATION_DURATION:
             return HttpResponseRedirect(reverse('reservations'))
 
-        reservation_form = ReservationForm(data=request.POST)
+        reservations = Reservation.objects.filter(svc_date=reservation_date)
+        user_reservations = reservations.filter(customer=request.user)
+        editing = user_reservations.exists()
+        reservation = user_reservations[0] if editing else None
+
+        reservation_form = ReservationForm(
+            data=request.POST, instance=reservation)
+
         if reservation_form.is_valid():
             # TODO: Check a reservation with this guest_count is feasible
             reservation = reservation_form.save(commit=False)
 
             reservation.customer = request.user
             reservation.svc_date = reservation_date
-            reservation.res_date = reservation_date
-            if reservation_slot.long_hour() >= Slot.HOURS_PER_DAY:
-                reservation.res_date += timedelta(days=1)
+            reservation.res_date = reservation_date + \
+                timedelta(days=reservation_slot.long_hour()
+                          // Slot.HOURS_PER_DAY)
             reservation.time = reservation_slot.as_time()
             reservation.duration = duration
             reservation.save()
