@@ -1,4 +1,4 @@
-from datetime import date, time, timedelta
+from datetime import date, timedelta
 from itertools import groupby
 from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
@@ -229,7 +229,7 @@ def opening_hours(request):
 @login_required
 def reservations(request):
     """
-    View for the reservations page
+    View for the reservations page where a date can be selected
     """
 
     def date_month(day):
@@ -304,6 +304,9 @@ def reservations(request):
 
 @login_required
 def reservation_times(request, year, month, day):
+    """
+    View for the reservation_times page where a time can be selected
+    """
     try:
         (reservation_date, details) = \
             validate_reservation_date(year, month, day)
@@ -314,6 +317,7 @@ def reservation_times(request, year, month, day):
     services = details["times"]
 
     reservations = Reservation.objects.filter(svc_date=reservation_date)
+    reservation_slots = set(r.slot() for r in reservations)
 
     services_plus = [
         {
@@ -326,6 +330,7 @@ def reservation_times(request, year, month, day):
                         "slot": slot,
                         "name": f"{slot}",
                         "open": service.contains_slot(slot),
+                        "edit": slot in reservation_slots,
                     }
                     for slot in service.slots()
                 ]
@@ -345,26 +350,30 @@ def reservation_times(request, year, month, day):
 
 
 @login_required
-def reserve(request, year, month, day, hour, minute):
+def reserve(request, year, month, day, long_hour, minute):
+    """
+    The reserve endpoint, which makes a reservation and redirects to the
+    reservations page
+    """
     if request.method == "POST":
         try:
             (reservation_date, details) = \
                 validate_reservation_date(year, month, day)
-            reservation_time = time(hour, minute)
+            reservation_slot = Slot.from_longtime(long_hour, minute)
         except ValueError:
             # If the date or time is bogus return to the reservations page
             return HttpResponseRedirect(reverse('reservations'))
 
-        # The services containing the time (should be exactly one)
+        # The services containing the slot (should be exactly one)
         services = \
-            [s for s in details["times"] if s.contains_time(reservation_time)]
+            [s for s in details["times"] if s.contains_slot(reservation_slot)]
 
         if len(services) == 0:
             # If the time lies outwith the service hours return to reservations
             return HttpResponseRedirect(reverse('reservations'))
 
         # Check this is a valid time within the service (i.e. not at the end)
-        service_remaining = services[0].remaining(reservation_time)
+        service_remaining = services[0].remaining(reservation_slot)
         duration = min(DEFAULT_RESERVATION_DURATION, service_remaining)
         if duration < SHORTEST_RESERVATION_DURATION:
             return HttpResponseRedirect(reverse('reservations'))
@@ -376,7 +385,10 @@ def reserve(request, year, month, day, hour, minute):
 
             reservation.customer = request.user
             reservation.svc_date = reservation_date
-            reservation.time = reservation_time
+            reservation.res_date = reservation_date
+            if reservation_slot.long_hour() >= Slot.HOURS_PER_DAY:
+                reservation.res_date += timedelta(days=1)
+            reservation.time = reservation_slot.as_time()
             reservation.duration = duration
             reservation.save()
 

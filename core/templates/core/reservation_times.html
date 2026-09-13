@@ -21,8 +21,8 @@
                 <table>{% for slot in service.slots %}{% if forloop.counter0|divisibleby:4 %}
                     <tr>{% endif %}
                         <td>{% spaceless %}
-                            <div data-max="{{ slot.max }}" class="{% if slot.open %}slot_open{% else %}slot_closed{% endif %}">
-                            {% if slot.open %}<button disabled formaction="{% url 'reserve' date.year date.month date.day slot.slot.hour slot.slot.minute %}">{% endif %}
+                            <div data-max="{{ slot.max }}" class="{% if slot.edit %}slot_edit{% elif slot.open %}slot_open{% else %}slot_closed{% endif %}">
+                            {% if slot.open %}<button disabled formaction="{% url 'reserve' date.year date.month date.day slot.slot.long_hour slot.slot.minute %}">{% endif %}
                                 <span>{{ slot.name }}</span>
                             {% if slot.open %}</button>{% endif %} ({{ slot.max }})
                             </div>

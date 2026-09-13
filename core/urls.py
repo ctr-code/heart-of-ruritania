@@ -6,7 +6,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('hours', views.opening_hours, name='hours'),
     path('reservations/<int:year>-<int:month>-<int:day>/'
-         '<int:hour>:<int:minute>', views.reserve, name="reserve"),
+         '<int:long_hour>:<int:minute>', views.reserve, name="reserve"),
     path('reservations/<int:year>-<int:month>-<int:day>',
          views.reservation_times, name='reservation_times'),
     path('reservations', views.reservations, name='reservations'),

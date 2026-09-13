@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.contrib.auth.models import User
-from .timerange import TimeRange
+from .timerange import Slot, TimeRange
 
 # This is consistent with date.weekday()
 WEEKDAY = (
@@ -34,6 +34,9 @@ class Reservation(models.Model):
     # midnight the reservation will fall on the next day.
     svc_date = models.DateField()
 
+    # The date on which the reservation falls.
+    res_date = models.DateField()
+
     # TODO: Add the actual reservation date
     # A naive Python time representing the local time of the reservation
     time = models.TimeField()
@@ -48,11 +51,16 @@ class Reservation(models.Model):
     status = models.PositiveIntegerField(
         choices=RESERVATION_STATUS, default=0)
 
+    def slot(self):
+        day_count = (self.res_date - self.svc_date).days
+        long_hour = self.time.hour + day_count * Slot.HOURS_PER_DAY
+        return Slot.from_longtime(long_hour, self.time.minute)
+
     class Meta:
         ordering = ['svc_date', 'time', '-guest_count']
 
     def __str__(self):
-        return f"Reservation {self.svc_date} {self.time} by {self.customer}"
+        return f"Reservation {self.res_date} {self.time} by {self.customer}"
 
 
 class Table(models.Model):
@@ -108,4 +116,7 @@ class ServiceException(models.Model):
         return TimeRange(self.start_time, self.end_time)
 
     def __str__(self):
-        return f"{self.date} {self.as_range()}"
+        if self.open:
+            return f"{self.date} {self.as_range()}"
+        else:
+            return f"{self.date} CLOSED"

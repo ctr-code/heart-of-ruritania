@@ -24,6 +24,10 @@ body {
     color: green;
 }*/
 
+.slot_edit {
+    background-color: lightgreen;
+}
+
 .slot_closed {
     visibility: hidden;
 }

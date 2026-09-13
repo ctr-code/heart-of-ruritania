@@ -24,6 +24,14 @@ class Slot:
         return Slot(minutes // Slot.MINS_PER_SLOT)
 
     @classmethod
+    def from_longtime(cls, long_hour, minute):
+        if long_hour < 0 or long_hour >= 2 * Slot.HOURS_PER_DAY or \
+                minute < 0 or minute >= Slot.MINS_PER_HOUR:
+            raise ValueError()
+        minutes = long_hour * Slot.MINS_PER_HOUR + minute
+        return Slot(minutes // Slot.MINS_PER_SLOT)
+
+    @classmethod
     def from_endtime(cls, time, after_midnight):
         minutes = time.hour * Slot.MINS_PER_HOUR + time.minute
         if after_midnight:
@@ -36,6 +44,15 @@ class Slot:
     def __init__(self, index):
         self.index = index
 
+    def __eq__(self, other):
+        return self.index == other.index
+
+    def __ne__(self, other):
+        return self.index != other.index
+
+    def __hash__(self):
+        return self.index.__hash__()
+
     def hour(self):
         """Return the hour part of the slot considered as a time"""
         return (self.index % Slot.SLOTS_PER_DAY) // Slot.SLOTS_PER_HOUR
@@ -43,6 +60,13 @@ class Slot:
     def minute(self):
         """Return the minute part of the slot considered as a time"""
         return (self.index % Slot.SLOTS_PER_HOUR) * Slot.MINS_PER_SLOT
+
+    def long_hour(self):
+        """Return the hour part of the slot possibly extended past midnight"""
+        return self.index // Slot.SLOTS_PER_HOUR
+
+    def as_time(self):
+        return time(self.hour(), self.minute())
 
     def __str__(self):
         return f"{self.hour():02}:{self.minute():02}"
@@ -85,11 +109,6 @@ class TimeRange:
 
         return [Slot(index) for index in range(start, end)]
 
-    def contains_slot(self, slot):
-        """Does this range contain slot?"""
-        return self.start_slot.index <= slot.index and \
-            slot.index < self.end_slot.index
-
     def slot_from_time(self, t):
         """Get the slot containing the time t"""
         if self.start_time == self.end_time:
@@ -99,10 +118,14 @@ class TimeRange:
             return None
         return slot
 
-    def remaining(self, t):
-        """Given a time within the range, return remaining minutes"""
-        return (self.end_slot.index - self.slot_from_time(t).index) * \
-            Slot.MINS_PER_SLOT
+    def remaining(self, slot):
+        """Given a slot within the range, return remaining minutes"""
+        return (self.end_slot.index - slot.index) * Slot.MINS_PER_SLOT
+
+    def contains_slot(self, slot):
+        """Does this range contain slot?"""
+        return self.start_slot.index <= slot.index and \
+            slot.index < self.end_slot.index
 
     def contains_time(self, t):
         """Does time t lie within this time range?"""
