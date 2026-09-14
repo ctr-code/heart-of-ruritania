@@ -24,6 +24,12 @@ h1 {
     color: black;
 }
 
+/* Menu */
+
+#restaurant_menu li {
+    padding: .15em 0em;
+}
+
 /* Opening hours */
 
 #hours_table tr+tr {
@@ -41,6 +47,23 @@ h1 {
 }
 
 /* Reservations */
+
+#reservations table {
+    margin-top: 1em;
+}
+
+#reservations td {
+    text-align: center;
+}
+
+#reservations .cal_month {
+    font-weight: bold;
+}
+
+#reservations .cal_dow td {
+    padding: 0 .2em;
+}
+
 .day_hide {
     visibility: hidden;
 }
@@ -50,7 +73,7 @@ h1 {
 }
 
 .day_edit {
-    background-color: lightgreen;
+    background-color: lightpink;
 }
 
 /* Slots */

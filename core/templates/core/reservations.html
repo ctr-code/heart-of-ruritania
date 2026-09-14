@@ -4,16 +4,16 @@
 {% block head_title %}Reservations - The Heart of Ruritania{% endblock %}
 
 {% block main %}
-<section class="container">
+<section id="reservations" class="container">
     <div class="row">
         <div class="col-12">
             <h1>Reservations</h1>
             <p>Choose a date to make a new reservation or to edit <span class="day_edit">an existing reservation</span></p>
-            <table>{% for month in months %}
-                <tr>
+            {% for month in months %}<table>
+                <tr class="cal_month">
                     <td colspan="7">{{ month.name }}</td>
                 </tr>
-                <tr>
+                <tr class="cal_dow">
                     <td>Mon</td>
                     <td>Tue</td>
                     <td>Wed</td>
@@ -21,7 +21,7 @@
                     <td>Fri</td>
                     <td>Sat</td>
                     <td>Sun</td>
-                {% for day in month.days %}
+                    {% for day in month.days %}
                     {% if forloop.counter0|divisibleby:7 %}</tr><tr>{% endif %}
                     {% spaceless %}
                     <td>
@@ -34,10 +34,10 @@
                         </div>
                     </td>
                     {% endspaceless %}
-                {% endfor %}
+                    {% endfor %}
                 </tr>
+                </table>
                 {% endfor %}
-            </table>
         </div>
     </div>
 </section>
