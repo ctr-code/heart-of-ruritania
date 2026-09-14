@@ -15,13 +15,6 @@ OPENING_HOURS_DAY_COUNT = 14
 BOOK_AHEAD_DAY_COUNT = 60
 
 
-def index(request):
-    return render(
-        request,
-        "core/index.html",
-    )
-
-
 def map_by_key(items, key):
     """
     Return a map from a key value to a list of items with that key
@@ -201,6 +194,30 @@ def slot_availability(service, reservations, slots):
             slot["max"] = slot_max
 
     return slots
+
+
+def index(request):
+    """View for the home page"""
+    return render(
+        request,
+        "core/index.html",
+    )
+
+
+def menu(request):
+    """View for the menu page"""
+    return render(
+        request,
+        "core/menu.html",
+    )
+
+
+def contact(request):
+    """View for the contact page"""
+    return render(
+        request,
+        "core/contact.html",
+    )
 
 
 def opening_hours(request):
