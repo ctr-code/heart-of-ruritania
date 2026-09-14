@@ -80,3 +80,23 @@ erDiagram
 If Reservations are proactively mapped to Tables you can arrive in a situation where there is always a table free but never for long enough to accept a booking, so the restaurant capacity is underutilised.
 
 To achieve an optimal mapping reservations need to be mapped to tables every time the reservations change.  Since it needs to be recalculated repeatedly there is little point in keeping the mapping in the database.
+
+## Credit and Thanks
+
+* [Code Institute](https://codeinstitute.net/) and its tutors for teaching, support and the navbar collapser
+* [West Midlands Combined Authority](https://www.wmca.org.uk/) for funding the course
+* [Tim Berners-Lee](https://www.w3.org/People/Berners-Lee/) *et al* for the web
+* [GitHub](https://github.com/) for hosting the repository, the project plan and the site
+* [Bootstrap](https://getbootstrap.com/) for the CSS framework
+* [Font Awesome](https://fontawesome.com/) for icons
+* [Fort Awesome](https://github.com/FortAwesome/Font-Awesome/releases) for collating the Font Awesome assets
+* [Bunny CDN](https://fonts.bunny.net/) for font hosting
+* [Microsoft](https://www.microsoft.com/) for [Visual Studio Code](https://code.visualstudio.com/)
+* [Copilot](https://copilot.microsoft.com/) for various tasks as described above
+* [W3C](https://www.w3.org/) for the [HTML and CSS validator](https://github.com/validator/validator/)
+* [Inkscape](https://inkscape.org/) for rendering the logo and favicons
+* [GIMP](https://www.gimp.org/) for cropping many screenshots
+* [Coolors](https://coolors.co/) for the palette generator
+* [Fireship](https://fireship.dev/amiresponsive) for the multi-device screenshot
+* [MeshSVG.com](https://meshsvg.com/textures/#1.eyJ2IjoxLCJtb2RlIjoidGV4dHVyZSIsInNlZWQiOjEyMzQsInBhbGV0dGUiOlsiIzhiNWNmNiIsIiMyMmQzZWUiXSwicGFyYW1zIjp7InJlY2lwZSI6InBhcGVyIiwidGlsZSI6MjU2LCJpbnRlbnNpdHkiOjAuODYsImNvbG9yMSI6IiNmOWYwNmIiLCJjb2xvcjIiOm51bGwsInRleHR1cmVTZWVkIjoxMjM0fX0) for the background texture
+* [Raymond1922A](https://commons.wikimedia.org/wiki/File:Flag_of_Prussia_without_regalia.svg) for the Prussian eagle
