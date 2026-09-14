@@ -35,7 +35,7 @@ A warm welcome awaits at The Heart of Ruritania, the UK's first Ruritanian resta
 * As an admin I can add stories to a news feed so that customers get a sense of continuous improvement
 * As an admin I can set the time zone so that so that time-based editing restrictions work correctly
 
-# Entity-Relationship Diagram
+# Data Model
 
 ``` mermaid
 erDiagram
@@ -50,7 +50,8 @@ erDiagram
     }
     Reservation {
         int reservation_id PK
-        string date
+        string svc_date
+        string res_date
         string time
         int duration "minutes"
         int guest_count
@@ -59,7 +60,7 @@ erDiagram
     }
     Table {
         int table_id PK
-        int table_number
+        int table_number UK
         int seat_count
     }
     ServiceTime {
