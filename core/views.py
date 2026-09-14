@@ -228,7 +228,7 @@ def opening_hours(request):
         return {
             # Note that '%-d' is glibc only, i.e. not windows
             "date": f"{day["date"]:%a %-d %b}",
-            "ranges": day["times"] if day["open"] else ["CLOSED"],
+            "ranges": day["times"] if day["open"] else [""],
         }
 
     days = get_opening_hours(date.today(), OPENING_HOURS_DAY_COUNT)

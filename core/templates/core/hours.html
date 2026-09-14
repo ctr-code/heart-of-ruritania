@@ -10,10 +10,10 @@
 
             <h1>Opening Hours</h1>
 
-            <table>{% for day in days %}
+            <table id="hours_table">{% for day in days %}
                 <tr>
                     <td>{{ day.date }}</td>{% for range in day.ranges %}
-                    <td>{{ range }}</td>{% endfor %}
+                    <td{% if day.ranges|length == 1 %} colspan="2"{% endif %}>{{ range }}</td>{% endfor %}
                 </tr>{% endfor %}
             </table>
         </div>
