@@ -20,6 +20,10 @@ h1 {
     margin-top: 66px;
 }
 
+main {
+    margin-bottom: 33px;
+}
+
 .social-links a {
     color: black;
 }
@@ -56,12 +60,21 @@ h1 {
     text-align: center;
 }
 
+#reservations td a {
+    text-decoration: none;
+    color: black;
+}
+
 #reservations .cal_month {
     font-weight: bold;
 }
 
 #reservations .cal_dow td {
     padding: 0 .2em;
+}
+
+.day_book {
+    background-color: rgb(184, 230, 245);
 }
 
 .day_hide {
@@ -73,7 +86,7 @@ h1 {
 }
 
 .day_edit {
-    background-color: lightpink;
+    background-color: lightgreen;
 }
 
 /* Slots */
