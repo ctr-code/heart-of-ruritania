@@ -133,28 +133,6 @@
 
     {# Load the Bootstrap javascript #}
     <script src="{% static 'vendor/bootstrap/bootstrap.bundle.min.js' %}"></script>
-
-    {# JavaScript code to ensure the Bootstrap mobile navbar collapses when navigating to in-page links #}
-    <script>
-        document
-            .querySelectorAll(".navbar-collapse .nav-link")
-            .forEach((link) => {
-                link.addEventListener("click", function (e) {
-                    let section = document.querySelector(e.target.getAttribute("href"));
-                    if (section) {
-                        e.preventDefault(); // Prevent default anchor click behavior
-                        let navbarHeight = parseFloat(window.getComputedStyle(document.body).getPropertyValue('--navbar-height'));
-                        window.scroll({
-                            top: section.offsetTop - navbarHeight, // Adjust for navbar height
-                            behavior: "smooth",
-                        });
-                        document
-                            .querySelector(".navbar-collapse")
-                            .classList.remove("show"); // Collapse navbar
-                    }
-                });
-            });
-    </script>
     {% block extra_body %}
     {% endblock extra_body %}
 </body>
