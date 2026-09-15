@@ -7,45 +7,12 @@
 <section id="restaurant_menu" class="container">
     <div class="row">
         <div class="col-12">
-            <h1>Menu</h1>
+            <h1>Menu</h1>{% for course in courses %}
             <hr>
-            <h2 id="starters">Starters</h2>
-            <ul>
-                <li><strong>Potato Pancakes</strong> - Crisp, savoury, with garlic and
-                    marjoram</li>
-                <li><strong>Mushroom Dumplings</strong> - Soft dumplings in a creamy
-                    woodland mushroom sauce</li>
-                <li><strong>Zwanzigjährige Wurst</strong> - Flavoursome sausage served
-                    with black bread</li>
-            </ul>
-            <hr>
-            <h2 id="mains">Mains</h2>
-            <ul>
-                <li><strong>Glinder Schnitzel</strong> - Classic veal schnitzel with
-                    lemon and parsley potatoes</li>
-                <li><strong>Roast Pork</strong> - Crackling, caraway gravy, and bread
-                    dumplings</li>
-                <li><strong>Ruritanian Mixed Grill</strong> - Sausages, pork loin, and
-                    smoked bacon</li>
-                <li><strong>Beef Roulade</strong> - Rolled beef with pickles and
-                    mustard, served with potatoes</li>
-                <li><strong>Carpathian Venison Stew</strong> - Deep, earthy flavours
-                    with juniper and root vegetables</li>
-                <li><strong>Angler's Doings</strong> - River fish selection with dill
-                    butter</li>
-                <li><strong>Vegetarian Spätzle Bake</strong> - Cheese-baked spätzle with
-                    caramelised onions</li>
-            </ul>
-            <hr>
-            <h2 id="puddings">Puddings</h2>
-            <ul>
-                <li><strong>Apple Strudel</strong> - Warm pastry with cinnamon apples
-                    and vanilla sauce</li>
-                <li><strong>Sachertorte</strong> - Dense chocolate cake with
-                    apricot</li>
-                <li><strong>Dumplings with Plums</strong> - Soft sweet dumplings rolled
-                    in buttered breadcrumbs</li>
-            </ul>
+            <h2>{{ course.name }}</h2>
+            <ul>{% for dish in course.dishes.all %}
+                <li><strong>{{ dish.name }}</strong> &ndash; {{ dish.description }}</li>{% endfor %}
+            </ul>{% endfor %}
         </div>
     </div>
 </section>
