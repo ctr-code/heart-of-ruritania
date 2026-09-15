@@ -92,6 +92,7 @@ erDiagram
         int course_id PK
         bool active
         string name
+        string admin_comment
     }
     Dish {
         int dish_id PK
@@ -102,7 +103,7 @@ erDiagram
     }
 ```
 
-Course names may be duplicated. For example, you might have two Pudding courses, one active in the summer and the other in the winter.
+Course names may be duplicated. For example, you might have two Pudding courses, one active in the summer and the other in the winter.  The admin_comment field can be used to distinguish them.
 
 ## Credit and Thanks
 
