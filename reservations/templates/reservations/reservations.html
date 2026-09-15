@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-12">
             <h1>Reservations</h1>
-            <p>Choose a date to make a new reservation or to edit <span class="day_edit">an existing reservation</span></p>
+            <p>Choose a date to make <span class="day_book">a new reservation</span> or to edit <span class="day_edit">an existing reservation</span></p>
             {% for month in months %}<table>
                 <tr class="cal_month">
                     <td colspan="7">{{ month.name }}</td>
@@ -26,7 +26,7 @@
                     {% spaceless %}
                     <td>
                         {% if day.open and day.date.month == month.date.month %}
-                            <a href="{% url 'reservations' %}/{{ day.date.isoformat }}">
+                            <a href="{% url 'reservation_times' day.date.year day.date.month day.date.day %}">
                         {% endif %}
                         <div class="{% if day.off %}day_hide{% elif day.edit %}day_edit{% elif not day.open %}day_shut{% else %}day_book{% endif %}">{{ day.date.day }}</div>
                         {% if day.open %}
