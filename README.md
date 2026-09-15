@@ -86,7 +86,10 @@ To achieve an optimal mapping reservations need to be mapped to tables every tim
 * [Code Institute](https://codeinstitute.net/) and its tutors for teaching, support and the navbar collapser
 * [West Midlands Combined Authority](https://www.wmca.org.uk/) for funding the course
 * [Tim Berners-Lee](https://www.w3.org/People/Berners-Lee/) *et al* for the web
-* [GitHub](https://github.com/) for hosting the repository, the project plan and the site
+* [GitHub](https://github.com/) for hosting the repository and the project plan
+* [Heroku](https://www.heroku.com/) for hosting the site
+* [Neon](https://neon.com/) for hosting PostgreSQL
+* [The Django Authors](https://github.com/django/django/blob/main/AUTHORS) for the web framework
 * [Bootstrap](https://getbootstrap.com/) for the CSS framework
 * [Font Awesome](https://fontawesome.com/) for icons
 * [Fort Awesome](https://github.com/FortAwesome/Font-Awesome/releases) for collating the Font Awesome assets
