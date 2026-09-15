@@ -196,27 +196,11 @@ def slot_availability(service, reservations, slots):
     return slots
 
 
-def index(request):
-    """View for the home page"""
-    return render(
-        request,
-        "reservations/index.html",
-    )
-
-
 def menu(request):
     """View for the menu page"""
     return render(
         request,
         "reservations/menu.html",
-    )
-
-
-def contact(request):
-    """View for the contact page"""
-    return render(
-        request,
-        "reservations/contact.html",
     )
 
 
