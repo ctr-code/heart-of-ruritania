@@ -302,7 +302,7 @@ def reservations(request):
         ]
         months.append(
             {
-                "month": month,
+                "date": month,
                 "name": month.strftime("%B %Y"),
                 "days": cal,
             }
