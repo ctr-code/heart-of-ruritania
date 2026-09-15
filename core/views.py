@@ -429,7 +429,7 @@ def reserve(request, year, month, day, long_hour, minute):
             reservation.save()
 
             messages.add_message(
-                request, messages.ERROR,
+                request, messages.SUCCESS,
                 # TODO: Better message
                 f'Reservation complete! {reservation}'
             )
@@ -449,7 +449,7 @@ def delete_reservation(request, id):
         if reservation.customer == request.user:
             reservation.delete()
             messages.add_message(
-                request, messages.ERROR,
+                request, messages.SUCCESS,
                 # TODO: Better message
                 f'Reservation deleted! {reservation}'
             )
