@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0003_alter_table_table_number'),
+        ('reservations', '0003_alter_table_table_number'),
     ]
 
     operations = [

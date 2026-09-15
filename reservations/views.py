@@ -200,7 +200,7 @@ def index(request):
     """View for the home page"""
     return render(
         request,
-        "core/index.html",
+        "reservations/index.html",
     )
 
 
@@ -208,7 +208,7 @@ def menu(request):
     """View for the menu page"""
     return render(
         request,
-        "core/menu.html",
+        "reservations/menu.html",
     )
 
 
@@ -216,7 +216,7 @@ def contact(request):
     """View for the contact page"""
     return render(
         request,
-        "core/contact.html",
+        "reservations/contact.html",
     )
 
 
@@ -236,7 +236,7 @@ def opening_hours(request):
 
     return render(
         request,
-        "core/hours.html",
+        "reservations/hours.html",
         {
             "days": days
         }
@@ -312,7 +312,7 @@ def reservations(request):
     # And render
     return render(
         request,
-        'core/reservations.html',
+        'reservations/reservations.html',
         {
             "months": months
         }
@@ -366,7 +366,7 @@ def reservation_times(request, year, month, day):
 
     return render(
         request,
-        'core/reservation_times.html',
+        'reservations/reservation_times.html',
         {
             "date": service_date,
             "slot": user_reservations[0].slot() if editing else None,

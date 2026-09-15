@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0006_alter_reservation_duration_and_more'),
+        ('reservations', '0006_alter_reservation_duration_and_more'),
     ]
 
     operations = [

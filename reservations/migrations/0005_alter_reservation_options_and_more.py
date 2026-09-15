@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0004_alter_reservation_options_reservation_duration'),
+        ('reservations', '0004_alter_reservation_options_reservation_duration'),
     ]
 
     operations = [
