@@ -37,6 +37,8 @@ A warm welcome awaits at The Heart of Ruritania, the UK's first Ruritanian resta
 
 # Data Model
 
+## Reservations
+
 ``` mermaid
 erDiagram
     User ||--o{ Reservation : booked
@@ -80,6 +82,27 @@ erDiagram
 If Reservations are proactively mapped to Tables you can arrive in a situation where there is always a table free but never for long enough to accept a booking, so the restaurant capacity is underutilised.
 
 To achieve an optimal mapping reservations need to be mapped to tables every time the reservations change.  Since it needs to be recalculated repeatedly there is little point in keeping the mapping in the database.
+
+## Menu
+
+``` mermaid
+erDiagram
+    Course ||--o{ Dish : features
+    Course {
+        int course_id PK
+        bool active
+        string name
+    }
+    Dish {
+        int dish_id PK
+        bool active
+        int price "pence"
+        string name
+        string description
+    }
+```
+
+Course names may be duplicated. For example, you might have two Pudding courses, one active in the summer and the other in the winter.
 
 ## Credit and Thanks
 
