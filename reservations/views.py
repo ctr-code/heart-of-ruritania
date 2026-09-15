@@ -196,14 +196,6 @@ def slot_availability(service, reservations, slots):
     return slots
 
 
-def menu(request):
-    """View for the menu page"""
-    return render(
-        request,
-        "reservations/menu.html",
-    )
-
-
 def opening_hours(request):
     """
     View for the opening hours page

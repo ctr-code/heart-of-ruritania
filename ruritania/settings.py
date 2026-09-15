@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'core',
+    'menu',
     'reservations',
 ]
 
