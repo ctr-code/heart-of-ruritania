@@ -34,6 +34,10 @@ main {
     padding: .15em 0em;
 }
 
+.menu-disabled {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
 /* Opening hours */
 
 #hours_table tr+tr {
