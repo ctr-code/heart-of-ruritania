@@ -430,4 +430,4 @@ def delete_reservation(request, id):
                 f'Reservation deleted! {reservation}'
             )
 
-        return HttpResponseRedirect(reverse('reservations'))
+    return HttpResponseRedirect(reverse('reservations'))
