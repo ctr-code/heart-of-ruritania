@@ -1,5 +1,22 @@
-body {
+@import url("https://fonts.bunny.net/css?family=modern-antiqua:400|pt-serif:400,700");
+
+:root {
+    --primary-font: "PT Serif", sans-serif;
+    --secondary-font: "PT Serif", sans-serif;
+    /* --secondary-font: "Modern Antiqua", serif; */
+    --primary-colour: #3a2620; /* dark brown */
+    --secondary-colour: #aa9581; /* light brown */
+    --highlight-colour: #416a8e; /* blue */
+    --highlight-colour-light: #7a9fc2; /* light blue */
+}
+
+html {
+    /* TODO: Not for mobile: */
     font-size: 130%;
+}
+
+body {
+    font-family: var(--primary-font);
 }
 
 body,
@@ -10,8 +27,15 @@ nav {
 }
 
 h1 {
+    font-family: var(--secondary-font);
+    font-weight: bold;
     padding-top: 33px;
     padding-bottom: 15px;
+}
+
+h2 {
+    font-family: var(--secondary-font);
+    font-weight: bold;
 }
 
 /* Base template */
