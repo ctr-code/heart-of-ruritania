@@ -3,14 +3,14 @@ from django.db import models
 
 class Course(models.Model):
     """A course that appears on the menu"""
-    active = models.BooleanField()
     name = models.CharField()
-    admin_comment = models.CharField(blank=True)
+    order = models.PositiveBigIntegerField()
+
+    class Meta:
+        ordering = ['order']
 
     def __str__(self):
-        return f"{self.name}{' (' + self.admin_comment + ')'
-                             if self.admin_comment != '' else ''
-                             } ({'Active' if self.active else 'Inactive'})"
+        return f"{self.name}"
 
 
 class Dish(models.Model):
@@ -21,6 +21,10 @@ class Dish(models.Model):
     price = models.PositiveIntegerField(help_text='Price in pence')
     name = models.CharField()
     description = models.CharField()
+    order = models.PositiveBigIntegerField()
+
+    class Meta:
+        ordering = ['order']
 
     def __str__(self):
         return f"{self.name} ({'Active' if self.active else 'Inactive'})"
