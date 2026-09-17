@@ -125,3 +125,9 @@ def toggle_dishes(request, course_id):
             "course": course,
         },
     )
+
+
+@staff_member_required
+def arrange_dishes(request, course_id):
+    """View to rearrange the order of dishes in a course"""
+    return None

@@ -10,4 +10,6 @@ urlpatterns = [
          name='delete_dish'),
     path('menu/course/<int:course_id>/toggle', views.toggle_dishes,
          name='toggle_dishes'),
+    path('menu/course/<int:course_id>/arrange', views.arrange_dishes,
+         name='arrange_dishes'),
 ]
