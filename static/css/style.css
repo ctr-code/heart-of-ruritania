@@ -38,6 +38,14 @@ main {
     background-color: rgba(0, 0, 0, 0.2);
 }
 
+#toggle-table td {
+    padding: .2em .5em;
+}
+
+#toggle-table td:first-child {
+    text-align: center;
+}
+
 /* Opening hours */
 
 #hours_table tr+tr {

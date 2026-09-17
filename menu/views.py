@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, reverse
+from django.db import transaction
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Max
 from django.contrib import messages
@@ -95,3 +96,32 @@ def delete_dish(request, dish_id):
         )
 
     return HttpResponseRedirect(reverse('menu'))
+
+
+@staff_member_required
+def toggle_dishes(request, course_id):
+    """View to toggle dishes for the given course atomically"""
+    course = get_object_or_404(Course, pk=course_id)
+
+    if request.method == "POST":
+        exists_set = set(int(id[5:])
+                         for id in request.POST if id.startswith("dish_"))
+        active_set = set(int(id[7:])
+                         for id in request.POST if id.startswith("active_"))
+
+        # Update the active menu items in one go
+        with transaction.atomic():
+            for dish in course.dishes.all():
+                if dish.id in exists_set:
+                    dish.active = dish.id in active_set
+                    dish.save()
+
+        return HttpResponseRedirect(reverse('menu'))
+
+    return render(
+        request,
+        "menu/toggle_dishes.html",
+        {
+            "course": course,
+        },
+    )

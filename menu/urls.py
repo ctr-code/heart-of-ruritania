@@ -8,4 +8,6 @@ urlpatterns = [
     path('menu/dish/<int:dish_id>/edit', views.edit_dish, name='edit_dish'),
     path('menu/dish/<int:dish_id>/delete', views.delete_dish,
          name='delete_dish'),
+    path('menu/course/<int:course_id>/toggle', views.toggle_dishes,
+         name='toggle_dishes'),
 ]
