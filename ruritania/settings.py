@@ -163,6 +163,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# Another allauth option
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
 
