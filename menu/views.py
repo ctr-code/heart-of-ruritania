@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, reverse
 from django.db import transaction
-from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Max
 from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponseRedirect
 from .forms import DishForm
 from .models import Course, Dish
