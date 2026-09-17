@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}Toggle Dishes - The Heart of Ruritania{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card-body">
+                <h1>{{ course.name }}</h1>
+                <h2>Arrange Dishes</h2>
+                <form id="dishesForm" method="post">
+                    <table id="toggle-table" class="my-4">
+                        {% for dish in course.dishes.all %}
+                        <tr{% if not dish.active %} class="menu-disabled"{% endif %}>
+                            <td class="d-flex">
+                                <button class="menu-arrange-up" disabled>&#x1f871;</button>
+                                <span>&nbsp;</span>
+                                <button class="menu-arrange-down" disabled>&#x1f873;</button>
+                            </td>
+                            <td>
+                                <input type="hidden" name="dish_{{ dish.id}}" value="{{ dish.order }}">
+                                <strong>{{ dish.name }}</strong> &ndash; {{ dish.description }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    {% csrf_token %}
+                    <button id="submitButton" type="submit" class="btn btn-primary btn-lg">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_body %}
+<script src="{% static 'js/arrange_dishes.js' %}"></script>
+{% endblock %}

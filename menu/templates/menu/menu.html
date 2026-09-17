@@ -18,12 +18,12 @@
                 <li{%if not dish.active %} class="menu-disabled"{% endif %}><a href="{% url 'edit_dish' dish.id %}"><strong>{{ dish.name }}</strong></a> &ndash; {{ dish.description }}</li>{% endfor %}
             </ul>{% endfor %}
             {% else %}
-            <h1>Menu</h1>{% for course in courses %}{%if course.active %}
+            <h1>Menu</h1>{% for course in courses %}
             <hr>
             <h2>{{ course.name }}</h2>
             <ul>{% for dish in course.dishes.all %}{% if dish.active %}
                 <li><strong>{{ dish.name }}</strong> &ndash; {{ dish.description }}</li>{% endif %}{% endfor %}
-            </ul>{% endif %}{% endfor %}
+            </ul>{% endfor %}
             {% endif %}
         </div>
     </div>

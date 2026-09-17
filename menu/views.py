@@ -116,6 +116,10 @@ def toggle_dishes(request, course_id):
                     dish.active = dish.id in active_set
                     dish.save()
 
+        messages.add_message(
+            request, messages.SUCCESS,
+            f'Updated dishes in {course.name}.'
+        )
         return HttpResponseRedirect(reverse('menu'))
 
     return render(
@@ -130,4 +134,31 @@ def toggle_dishes(request, course_id):
 @staff_member_required
 def arrange_dishes(request, course_id):
     """View to rearrange the order of dishes in a course"""
-    return None
+    course = get_object_or_404(Course, pk=course_id)
+
+    if request.method == "POST":
+        # Create a map from dish id to order value
+        order_map = {
+            int(id[5:]): int(order)
+            for (id, order) in request.POST.items() if id.startswith("dish_")
+        }
+        # Update all the dishes in the course in one go
+        with transaction.atomic():
+            for dish in course.dishes.all():
+                if dish.id in order_map:
+                    dish.order = order_map[dish.id]
+                    dish.save()
+
+        messages.add_message(
+            request, messages.SUCCESS,
+            f'Arranged dishes in {course.name}.'
+        )
+        return HttpResponseRedirect(reverse('menu'))
+
+    return render(
+        request,
+        "menu/arrange_dishes.html",
+        {
+            "course": course,
+        },
+    )
