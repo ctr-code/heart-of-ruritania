@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'allauth',
     'allauth.account',
+    'crispy_forms',
+    'crispy_bootstrap5',
     'core',
     'menu',
     'reservations',
@@ -165,6 +167,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Another allauth option
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+
+# Crispy settings
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
 # Internationalization
