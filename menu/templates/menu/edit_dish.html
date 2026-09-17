@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}Edit Dish - The Heart of Ruritania{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card-body">
+                <h1>Edit dish</h1>
+                <p><button id="deleteDish" class="btn btn-danger btn-lg">Delete Dish</button></p>
+                <form id="dishForm" method="post">
+                    {{ dish_form | crispy }}
+                    {% csrf_token %}
+                    <button id="submitButton" type="submit" class="btn btn-primary btn-lg">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# Delete confirmation modal #}
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="deleteModalLabel">Delete {{ dish.name }}?</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete your reservation?
+                This action cannot be undone.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form method="post" action="{% url 'delete_dish' dish.id %}">
+                    {% csrf_token %}
+                    <button id="deleteConfirm" href="#" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_body %}
+<script src="{% static 'js/edit_dish.js' %}"></script>
+{% endblock %}

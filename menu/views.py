@@ -4,7 +4,7 @@ from django.db.models import Max
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from .forms import DishForm
-from .models import Course
+from .models import Course, Dish
 
 
 def menu(request):
@@ -50,3 +50,48 @@ def add_dish(request, course_id):
             "dish_form": dish_form,
         },
     )
+
+
+@staff_member_required
+def edit_dish(request, dish_id):
+    """View to edit the given dish"""
+    dish = get_object_or_404(Dish, pk=dish_id)
+
+    if request.method == "POST":
+        dish_form = DishForm(instance=dish, data=request.POST)
+        if dish_form.is_valid():
+            dish = dish_form.save(commit=False)
+            dish.save()
+            messages.add_message(
+                request, messages.SUCCESS,
+                f'Edited {dish.name}'
+            )
+            return HttpResponseRedirect(reverse('menu'))
+
+    dish_form = DishForm(instance=dish)
+
+    return render(
+        request,
+        "menu/edit_dish.html",
+        {
+            "dish": dish,
+            "dish_form": dish_form,
+        },
+    )
+
+
+@staff_member_required
+def delete_dish(request, dish_id):
+    """
+    The delete_dish endpoint, which deletes a dish and redirects
+    to the menu page
+    """
+    if request.method == "POST":
+        dish = get_object_or_404(Dish, pk=dish_id)
+        dish.delete()
+        messages.add_message(
+            request, messages.SUCCESS,
+            f'{dish.name} deleted.'
+        )
+
+    return HttpResponseRedirect(reverse('menu'))

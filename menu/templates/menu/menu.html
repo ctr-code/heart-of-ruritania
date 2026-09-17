@@ -13,7 +13,7 @@
             <h2>{{ course.name }}</h2>
             <p><a href="{% url 'add_dish' course.id %}"><button class="btn btn-secondary">Add dish</button></a>
             <ul>{% for dish in course.dishes.all %}
-                <li{%if not dish.active %} class="menu-disabled"{% endif %}><strong>{{ dish.name }}</strong> &ndash; {{ dish.description }}</li>{% endfor %}
+                <li{%if not dish.active %} class="menu-disabled"{% endif %}><a href="{% url 'edit_dish' dish.id %}"><strong>{{ dish.name }}</strong></a> &ndash; {{ dish.description }}</li>{% endfor %}
             </ul>{% endfor %}
             {% else %}
             <h1>Menu</h1>{% for course in courses %}{%if course.active %}
