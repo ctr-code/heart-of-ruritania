@@ -90,9 +90,8 @@ erDiagram
     Course ||--o{ Dish : features
     Course {
         int course_id PK
-        bool active
         string name
-        string admin_comment
+        int order
     }
     Dish {
         int dish_id PK
@@ -100,10 +99,17 @@ erDiagram
         int price "pence"
         string name
         string description
+        int order
     }
 ```
 
-Course names may be duplicated. For example, you might have two Pudding courses, one active in the summer and the other in the winter.  The admin_comment field can be used to distinguish them.
+The active field on dishes makes it simple to add and remove items from the menu.
+
+## AI
+
+* Menu suggestions.
+* Created Django models from entity-relationship diagrams.
+* Converted menu contents from markdown to Django `dumpdata` format to get it into the database.
 
 ## Credit and Thanks
 
