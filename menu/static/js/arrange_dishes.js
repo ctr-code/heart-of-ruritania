@@ -5,19 +5,11 @@
         // Enable/disable the up/down buttons according to their position
         for (const button of document.querySelectorAll(".menu-arrange-up")) {
             const tr = button.parentElement.parentElement;
-            if (tr.previousElementSibling) {
-                button.removeAttribute("disabled");
-            } else {
-                button.setAttribute("disabled", "");
-            }
+            button.disabled = !tr.previousElementSibling;
         }
         for (const button of document.querySelectorAll(".menu-arrange-down")) {
             const tr = button.parentElement.parentElement;
-            if (tr.nextElementSibling) {
-                button.removeAttribute("disabled");
-            } else {
-                button.setAttribute("disabled", "");
-            }
+            button.disabled = !tr.nextElementSibling;
         }
     }
 
