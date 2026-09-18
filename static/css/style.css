@@ -58,6 +58,10 @@ main {
     padding: .15em 0em;
 }
 
+.menu-price {
+    font-size: smaller;
+}
+
 .menu-disabled {
     background-color: rgba(0, 0, 0, 0.2);
 }

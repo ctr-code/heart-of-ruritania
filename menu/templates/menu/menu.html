@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load menu %}
 
 {% block head_title %}Menu - The Heart of Ruritania{% endblock %}
 
@@ -15,14 +16,17 @@
                 <a href="{% url 'toggle_dishes' course.id %}"><button class="btn btn-secondary">Toggle dishes</button></a>
                 <a href="{% url 'arrange_dishes' course.id %}"><button class="btn btn-secondary">Arrange dishes</button></a></p>
             <ul>{% for dish in course.dishes.all %}
-                <li{%if not dish.active %} class="menu-disabled"{% endif %}><a href="{% url 'edit_dish' dish.id %}"><strong>{{ dish.name }}</strong></a> &ndash; {{ dish.description }}</li>{% endfor %}
+                <li{%if not dish.active %} class="menu-disabled"{% endif %}><a href="{% url 'edit_dish' dish.id %}"><strong>{{ dish.name }}</strong></a>
+                &ndash; {{ dish.description }}
+                <span class="menu-price">(£{{ dish.price | price }})</span></li>{% endfor %}
             </ul>{% endfor %}
             {% else %}
             <h1>Menu</h1>{% for course in courses %}
             <hr>
             <h2>{{ course.name }}</h2>
             <ul>{% for dish in course.dishes.all %}{% if dish.active %}
-                <li><strong>{{ dish.name }}</strong> &ndash; {{ dish.description }}</li>{% endif %}{% endfor %}
+                <li><strong>{{ dish.name }}</strong> &ndash; {{ dish.description }}
+                <span class="menu-price">(£{{ dish.price | price }})</span></li>{% endif %}{% endfor %}
             </ul>{% endfor %}
             {% endif %}
         </div>
