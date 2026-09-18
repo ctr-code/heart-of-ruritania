@@ -33,14 +33,10 @@ load_dotenv()
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# To debug, define environment variable DEBUG_DJANGO=True
+# To debug, define environment variable DJANGO_DEBUG=True
 DEBUG = os.getenv('DJANGO_DEBUG', False) == 'True'
 
-ALLOWED_HOSTS = [
-    '127.0.0.1',
-    '.herokuapp.com',
-]
-
+ALLOWED_HOSTS = [os.getenv('DJANGO_ALLOWED_HOSTS')]
 
 # Application definition
 
