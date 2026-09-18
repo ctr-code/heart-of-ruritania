@@ -23,6 +23,21 @@ def menu(request):
 
 
 @staff_member_required
+def menu_admin(request):
+    """View for the menu admin page"""
+
+    courses = Course.objects.order_by('order')
+
+    return render(
+        request,
+        "menu/menu_admin.html",
+        {
+            "courses": courses,
+        },
+    )
+
+
+@staff_member_required
 def add_dish(request, course_id):
     """View to add a dish to the given course"""
     course = get_object_or_404(Course, pk=course_id)
@@ -39,7 +54,7 @@ def add_dish(request, course_id):
                 request, messages.SUCCESS,
                 f'Added {dish.name}'
             )
-            return HttpResponseRedirect(reverse('menu'))
+            return HttpResponseRedirect(reverse('menu_admin'))
 
     dish_form = DishForm()
 
@@ -67,7 +82,7 @@ def edit_dish(request, dish_id):
                 request, messages.SUCCESS,
                 f'Edited {dish.name}'
             )
-            return HttpResponseRedirect(reverse('menu'))
+            return HttpResponseRedirect(reverse('menu_admin'))
 
     dish_form = DishForm(instance=dish)
 
@@ -95,7 +110,7 @@ def delete_dish(request, dish_id):
             f'{dish.name} deleted.'
         )
 
-    return HttpResponseRedirect(reverse('menu'))
+    return HttpResponseRedirect(reverse('menu_admin'))
 
 
 @staff_member_required
@@ -120,7 +135,7 @@ def toggle_dishes(request, course_id):
             request, messages.SUCCESS,
             f'Updated dishes in {course.name}.'
         )
-        return HttpResponseRedirect(reverse('menu'))
+        return HttpResponseRedirect(reverse('menu_admin'))
 
     return render(
         request,
@@ -153,7 +168,7 @@ def arrange_dishes(request, course_id):
             request, messages.SUCCESS,
             f'Arranged dishes in {course.name}.'
         )
-        return HttpResponseRedirect(reverse('menu'))
+        return HttpResponseRedirect(reverse('menu_admin'))
 
     return render(
         request,

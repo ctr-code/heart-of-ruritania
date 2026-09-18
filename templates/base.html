@@ -1,6 +1,6 @@
 {% load static %}
 {% url 'index' as home_url %}
-{% url 'menu' as menu_url %}
+{% if user.is_staff %}{% url 'menu_admin' as menu_url %}{% else %}{% url 'menu' as menu_url %}{% endif %}
 {% url 'hours' as hours_url %}
 {% url 'reservations' as reservations_url %}
 {% url 'contact' as contact_url %}
