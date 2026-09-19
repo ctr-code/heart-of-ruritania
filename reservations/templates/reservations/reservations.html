@@ -7,8 +7,13 @@
 <section id="reservations" class="container">
     <div class="row">
         <div class="col-12">
+            {% if user.is_staff %}
+            <h1>Reservations - Admin View</h1>
+            <p>Choose a date to see an overview of reservations</p>
+            {% else %}
             <h1>Reservations</h1>
             <p>Choose a date to make <span class="day_book">a new reservation</span> or to edit <span class="day_edit">an existing reservation</span></p>
+            {% endif %}
             {% for month in months %}<table>
                 <tr class="cal_month">
                     <td colspan="7">{{ month.name }}</td>

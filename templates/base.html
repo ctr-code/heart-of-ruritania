@@ -2,7 +2,7 @@
 {% url 'index' as home_url %}
 {% if user.is_staff %}{% url 'menu_admin' as menu_url %}{% else %}{% url 'menu' as menu_url %}{% endif %}
 {% url 'hours' as hours_url %}
-{% url 'reservations' as reservations_url %}
+{% if user.is_staff %}{% url 'admin_calendar' as reservations_url %}{% else %}{% url 'reservations' as reservations_url %}{% endif %}
 {% url 'contact' as contact_url %}
 {% url 'account_login' as login_url %}
 {% url 'account_signup' as signup_url %}

@@ -3,6 +3,7 @@ from itertools import groupby
 from django.shortcuts import render, get_object_or_404, reverse
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from .forms import ReservationForm
 from .models import Reservation, ServiceTime, ServiceException, Table, \
@@ -219,10 +220,9 @@ def opening_hours(request):
     )
 
 
-@login_required
-def reservations(request):
+def calendar_view(request, admin):
     """
-    View for the reservations page where a date can be selected
+    Internal function to generate a calendar view for an admin or non-admin.
     """
 
     def date_month(day):
@@ -251,9 +251,15 @@ def reservations(request):
                 for index in range((end_date-start_date).days)]
 
     # Get the user's existing reservations
-    reservations = request.user.reservations.all()
+    if admin:
+        # TODO: Date filter
+        reservations = Reservation.objects.all()
+    else:
+        reservations = request.user.reservations.all()
+
     reservation_dates = set(r.svc_date for r in reservations)
 
+    # TODO: Include today for the admin
     # Get the date range of the booking period
     (start_date, end_date) = valid_booking_period()
 
@@ -293,6 +299,23 @@ def reservations(request):
             "months": months
         }
     )
+
+
+@login_required
+def reservations(request):
+    """
+    View for the customer reservations page where a date can be selected
+    """
+
+    return calendar_view(request, False)
+
+
+@staff_member_required
+def admin_calendar(request):
+    """
+    View for the admin reservations page where a date can be selected
+    """
+    return calendar_view(request, True)
 
 
 @login_required

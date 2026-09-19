@@ -10,5 +10,7 @@ urlpatterns = [
          '<int:long_hour>:<int:minute>', views.reserve, name='reserve'),
     path('reservations/<int:year>-<int:month>-<int:day>',
          views.reservation_times, name='reservation_times'),
+    path('reservations/admin',
+         views.admin_calendar, name='admin_calendar'),
     path('reservations', views.reservations, name='reservations'),
 ]
