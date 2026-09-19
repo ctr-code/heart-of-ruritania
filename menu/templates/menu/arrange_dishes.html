@@ -6,13 +6,13 @@
 
 {% block main %}
 
-<div class="container">
+<div class="container" id="arrange-dishes">
     <div class="row">
         <div class="col-12">
             <div class="card-body">
-                <h1>{{ course.name }}</h1>
-                <h2>Arrange Dishes</h2>
-                <form id="dishesForm" method="post">
+                <h1>Arrange Dishes</h1>
+                <h2>{{ course.name }}</h2>
+                <form method="post">
                     <table id="toggle-table" class="my-4">
                         {% for dish in course.dishes.all %}
                         <tr{% if not dish.active %} class="menu-disabled"{% endif %}>
