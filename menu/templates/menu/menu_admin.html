@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-12">
             <h1>Menu &ndash; Admin View</h1>
-            <a href="{% url 'menu' %}"><button class="btn btn-secondary">Normal View</button></a>{% for course in courses %}
+            <a href="{% url 'menu' %}"><button class="btn btn-secondary">Customer View</button></a>{% for course in courses %}
             <hr>
             <h2>{{ course.name }}</h2>
             <p><a href="{% url 'add_dish' course.id %}"><button class="btn btn-secondary">Add dish</button></a>
