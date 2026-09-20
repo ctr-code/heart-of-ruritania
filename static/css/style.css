@@ -116,35 +116,35 @@ main {
     padding: 0 .2em;
 }
 
-.day_book {
+.day-book {
     background-color: rgb(184, 230, 245);
 }
 
-.day_hide {
+.day-hide {
     visibility: hidden;
 }
 
-.day_shut {
+.day-shut {
     color: grey;
 }
 
-.day_edit {
+.day-edit {
     background-color: lightgreen;
 }
 
 /* Slots */
-/*.slot_open {
+/*.slot-open {
     color: green;
 }*/
 
-.slot_edit {
+.slot-edit {
     background-color: lightgreen;
 }
 
-.slot_edit button {
+.slot-edit button {
     background-color: lightgreen;
 }
 
-.slot_closed {
+.slot-closed {
     visibility: hidden;
 }
