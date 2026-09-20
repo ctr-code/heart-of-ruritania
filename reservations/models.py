@@ -37,7 +37,6 @@ class Reservation(models.Model):
     # The date on which the reservation falls.
     res_date = models.DateField()
 
-    # TODO: Add the actual reservation date
     # A naive Python time representing the local time of the reservation
     time = models.TimeField()
 
