@@ -3,12 +3,18 @@
 
 {% block head_title %}The Heart of Ruritania{% endblock %}
 
+{% block header %}
+    <header id="hero">
+    </header>
+{% endblock %}
+
 {% block main %}
 <section class="container">
     <div class="row">
         <div class="col-12">
             <h1>Welcome</h1>
-            <p>A warm welcome awaits you at The Heart of Ruritania, the UK's first Ruritanian restaurant.</p>
+            <p>Embrace European tradition at The Heart of Ruritania, the UK's first Ruritanian restaurant.</p>
+            <p>Feel free to explore our <a href="{% url 'menu' %}">menu</a> and <a href="{% url 'reservations' %}">make a reservation</a>.</p>
         </div>
     </div>
 </section>
