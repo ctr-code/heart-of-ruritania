@@ -19,7 +19,10 @@ RESERVATION_STATUS = (
     (1, 'Arrived'),
 )
 
+# The default duration applied when a reservation is made.
 DEFAULT_RESERVATION_DURATION = 120
+
+# The shortest duration of reservation which is permitted.
 SHORTEST_RESERVATION_DURATION = 75
 
 
@@ -51,6 +54,9 @@ class Reservation(models.Model):
         choices=RESERVATION_STATUS, default=0)
 
     def slot(self):
+        """
+        Return the Slot in which this reservation starts.
+        """
         day_count = (self.res_date - self.svc_date).days
         long_hour = self.time.hour + day_count * Slot.HOURS_PER_DAY
         return Slot.from_longtime(long_hour, self.time.minute)
@@ -85,16 +91,23 @@ class ServiceTime(models.Model):
     """
     Opening hours for a single service
     """
+    # The day of the week on which the service starts
     weekday = models.IntegerField(choices=WEEKDAY, default=0)
-    # A naive Python time representing local time
+    # The start time of the service as a naive Python time representing
+    # local time
     start_time = models.TimeField()
-    # A naive Python time representing local time
+    # The end time of the service as a naive Python time representing
+    # local time
     end_time = models.TimeField()
 
     class Meta:
         ordering = ['weekday', 'start_time']
 
     def as_range(self):
+        """
+        Return a TimeRange representing the time period described by this
+        ServiceTime.
+        """
         return TimeRange(self.start_time, self.end_time)
 
     def __str__(self):
@@ -108,15 +121,21 @@ class ServiceException(models.Model):
     date = models.DateField()
     # Is the restaurant open on this date?
     open = models.BooleanField()
-    # If self.open, a naive Python time representing local time
+    # If self.open, the start time of the service as a naive Python time
+    # representing local time
     start_time = models.TimeField(default='00:00')
-    # If self.open, a naive Python time representing local time
+    # If self.open, the end time of the service as a naive Python time
+    # representing local time
     end_time = models.TimeField(default='00:00')
 
     class Meta:
         ordering = ['date', 'start_time']
 
     def as_range(self):
+        """
+        Return a TimeRange representing the time period described by this
+        ServiceException.
+        """
         return TimeRange(self.start_time, self.end_time)
 
     def __str__(self):
