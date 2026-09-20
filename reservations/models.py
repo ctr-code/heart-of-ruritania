@@ -55,6 +55,11 @@ class Reservation(models.Model):
         long_hour = self.time.hour + day_count * Slot.HOURS_PER_DAY
         return Slot.from_longtime(long_hour, self.time.minute)
 
+    def verbose(self):
+        return f"{self.time:%H:%M} on {self.res_date:%A %-d %B} for " \
+            f"{self.guest_count} " \
+            f"{'person' if self.guest_count == 1 else 'people'}"
+
     class Meta:
         ordering = ['svc_date', 'time', '-guest_count']
 

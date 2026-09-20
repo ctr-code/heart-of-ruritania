@@ -481,8 +481,7 @@ def reserve(request, year, month, day, long_hour, minute):
 
             messages.add_message(
                 request, messages.SUCCESS,
-                # TODO: Better message
-                f'Reservation complete! {reservation}'
+                "Booked " + reservation.verbose()
             )
 
     return HttpResponseRedirect(reverse('reservations'))
@@ -501,8 +500,7 @@ def delete_reservation(request, id):
             reservation.delete()
             messages.add_message(
                 request, messages.SUCCESS,
-                # TODO: Better message
-                f'Reservation deleted! {reservation}'
+                "Deleted booking " + reservation.verbose()
             )
 
     return HttpResponseRedirect(reverse('reservations'))
