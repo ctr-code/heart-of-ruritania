@@ -7,7 +7,19 @@
 <section class="container">
     <div class="row">
         <div class="col-12">
-            <h1>Day here - Admin View</h1>
+            <h1>{{ date|date:"l j F" }} - Admin View</h1>
+            {% for service in services %}
+            <h2>{{ service.name }}</h2>
+                {% if service.reservations %}<table class="table table-striped">
+                    <thead><th>Time</th><th>Guests</th><th>Customer</th></thead>{% for res in service.reservations %}
+                    <tr>{% spaceless %}
+                        <td>{{ res.time | date:"H:i" }}</td>
+                        <td>{{ res.guest_count }}</td>
+                        <td>{{ res.customer }}</td>{% endspaceless %}
+                    </tr>{% endfor %}
+                </table>{% else %}
+                <p>No reservations</p>{% endif %}
+            {% endfor %}
         </div>
     </div>
 </section>

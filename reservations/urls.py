@@ -8,6 +8,8 @@ urlpatterns = [
          name='delete_reservation'),
     path('reservations/<int:year>-<int:month>-<int:day>/'
          '<int:long_hour>:<int:minute>', views.reserve, name='reserve'),
+    path('reservations/<int:year>-<int:month>-<int:day>/admin',
+         views.admin_day, name='admin_day'),
     path('reservations/<int:year>-<int:month>-<int:day>',
          views.reservation_times, name='reservation_times'),
     path('reservations/admin',

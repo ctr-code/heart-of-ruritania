@@ -7,7 +7,7 @@
 <section id="reservations" class="container">
     <div class="row">
         <div class="col-12">
-            {% if user.is_staff %}
+            {% if admin_view %}
             <h1>Reservations - Admin View</h1>
             <p>Choose a date to see an overview of reservations</p>
             {% else %}
@@ -31,7 +31,7 @@
                     {% spaceless %}
                     <td>
                         {% if day.open and day.date.month == month.date.month %}
-                            <a href="{% url 'reservation_times' day.date.year day.date.month day.date.day %}">
+                            <a href="{% url day_url_name day.date.year day.date.month day.date.day %}">
                         {% endif %}
                         <div class="{% if day.off %}day_hide{% elif day.edit %}day_edit{% elif not day.open %}day_shut{% else %}day_book{% endif %}">{{ day.date.day }}</div>
                         {% if day.open %}

@@ -2,6 +2,7 @@ from datetime import date, timedelta
 from itertools import groupby
 from django.shortcuts import render, get_object_or_404, reverse
 from django.http import HttpResponseRedirect
+from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
@@ -26,10 +27,15 @@ def map_by_key(items, key):
     return {k: list(group) for k, group in groupby(items, key)}
 
 
-def valid_booking_period():
-    """Return the range of dates in which reservations may be made"""
-    start_date = date.today() + timedelta(days=1)
-    end_date = start_date + timedelta(days=BOOK_AHEAD_DAY_COUNT)
+def valid_booking_period(admin_view):
+    """
+    Return the range of dates in which reservations may be made.
+    Additionally, include today if admin_view.
+    """
+    start_date = date.today()
+    end_date = start_date + timedelta(days=BOOK_AHEAD_DAY_COUNT + 1)
+    if not admin_view:
+        start_date += timedelta(days=1)
     return (start_date, end_date)
 
 
@@ -43,7 +49,7 @@ def validate_reservation_date(year, month, day):
     reservation_date = date(year, month, day)
 
     # Get the date range of the booking period
-    (start_date, end_date) = valid_booking_period()
+    (start_date, end_date) = valid_booking_period(False)
 
     # If the date is outside the booking period throw an error
     if reservation_date < start_date or reservation_date >= end_date:
@@ -197,32 +203,10 @@ def slot_availability(service, reservations, slots):
     return slots
 
 
-def opening_hours(request):
-    """
-    View for the opening hours page
-    """
-    def format_day(day):
-        return {
-            # Note that '%-d' is glibc only, i.e. not windows
-            "date": f"{day["date"]:%a %-d %b}",
-            "ranges": day["times"] if day["open"] else [""],
-        }
-
-    days = get_opening_hours(date.today(), OPENING_HOURS_DAY_COUNT)
-    days = [format_day(day) for day in days]
-
-    return render(
-        request,
-        "reservations/hours.html",
-        {
-            "days": days
-        }
-    )
-
-
-def calendar_view(request, admin):
+def calendar_view(request, admin_view):
     """
     Internal function to generate a calendar view for an admin or non-admin.
+    Arranging it like this gives the admin access to the non-admin view.
     """
 
     def date_month(day):
@@ -250,21 +234,28 @@ def calendar_view(request, admin):
         return [start_date + timedelta(days=index)
                 for index in range((end_date-start_date).days)]
 
-    # Get the user's existing reservations
-    if admin:
-        # TODO: Date filter
-        reservations = Reservation.objects.all()
+    # This should never happen, but just in case
+    if admin_view and not request.user.is_staff:
+        raise PermissionDenied
+
+    # Get the date range of the booking period
+    (start_date, end_date) = valid_booking_period(admin_view)
+
+    # Get the existing reservations
+    if admin_view:
+        reservations = Reservation.objects
     else:
-        reservations = request.user.reservations.all()
+        reservations = request.user.reservations
+
+    # Filter the reservations to the booking period
+    reservations = reservations.filter(
+        svc_date__gte=start_date, svc_date__lt=end_date
+    )
 
     reservation_dates = set(r.svc_date for r in reservations)
 
-    # TODO: Include today for the admin
-    # Get the date range of the booking period
-    (start_date, end_date) = valid_booking_period()
-
     # Get the days on which the restaurant is open
-    days = get_opening_hours(start_date, BOOK_AHEAD_DAY_COUNT)
+    days = get_opening_hours(start_date, (end_date - start_date).days)
     open_days = set(d["date"] for d in days if d["open"])
 
     # Construct the months
@@ -296,7 +287,32 @@ def calendar_view(request, admin):
         request,
         'reservations/reservations.html',
         {
-            "months": months
+            "months": months,
+            "admin_view": admin_view,
+            "day_url_name": 'admin_day' if admin_view else 'reservation_times',
+        }
+    )
+
+
+def opening_hours(request):
+    """
+    View for the opening hours page
+    """
+    def format_day(day):
+        return {
+            # Note that '%-d' is glibc only, i.e. not windows
+            "date": f"{day["date"]:%a %-d %b}",
+            "ranges": day["times"] if day["open"] else [""],
+        }
+
+    days = get_opening_hours(date.today(), OPENING_HOURS_DAY_COUNT)
+    days = [format_day(day) for day in days]
+
+    return render(
+        request,
+        "reservations/hours.html",
+        {
+            "days": days
         }
     )
 
@@ -306,7 +322,6 @@ def reservations(request):
     """
     View for the customer reservations page where a date can be selected
     """
-
     return calendar_view(request, False)
 
 
@@ -372,6 +387,43 @@ def reservation_times(request, year, month, day):
             "editing": editing,
             "id": id,
             "guest_count": guest_count,
+            "services": services_plus,
+        }
+    )
+
+
+@staff_member_required
+def admin_day(request, year, month, day):
+    """
+    The admin's day view.
+    """
+    try:
+        service_date = date(year, month, day)
+    except ValueError:
+        # If the date is bogus return to the admin_calendar page
+        return HttpResponseRedirect(reverse('admin_calendar'))
+
+    reservations = Reservation.objects.filter(svc_date=service_date) \
+        .order_by('res_date', 'time', '-guest_count')
+
+    services = get_opening_hours(service_date, 1)[0]["times"]
+
+    # Iterate over the services adding information needed for the UI
+    services_plus = [
+        {
+            "name": service,
+            "reservations": [
+                r for r in reservations if service.contains_slot(r.slot())
+            ],
+        }
+        for service in services
+    ]
+
+    return render(
+        request,
+        'reservations/admin_day.html',
+        {
+            "date": service_date,
             "services": services_plus,
         }
     )
