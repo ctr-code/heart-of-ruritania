@@ -8,6 +8,8 @@
     --secondary-colour: #aa9581; /* light brown */
     --highlight-colour: #416a8e; /* blue */
     --highlight-colour-light: #7a9fc2; /* light blue */
+    --bookable-colour: rgb(207, 237, 247);
+    --booked-colour: rgb(170, 247, 170);
 }
 
 html {
@@ -117,7 +119,7 @@ main {
 }
 
 .day-book {
-    background-color: rgb(184, 230, 245);
+    background-color: var(--bookable-colour);
 }
 
 .day-hide {
@@ -129,7 +131,7 @@ main {
 }
 
 .day-edit {
-    background-color: lightgreen;
+    background-color: var(--booked-colour);
 }
 
 /* Slots */
@@ -137,14 +139,42 @@ main {
     color: green;
 }*/
 
+
+#slot-table {
+    border-collapse: separate;
+    border-spacing: 3px;
+}
+
+#slot-table div {
+    min-width: 4em;
+    height: 3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#slot-table button {
+    border: none;
+    padding: 0;
+    background: none;
+}
+
+#slot-table button:not([disabled]):hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
 .slot-edit {
-    background-color: lightgreen;
+    background-color: var(--booked-colour);
 }
 
 .slot-edit button {
-    background-color: lightgreen;
+    background-color: var(--booked-colour);
 }
 
 .slot-closed {
     visibility: hidden;
+}
+
+.slot-open {
+    background-color: var(--bookable-colour);
 }

@@ -5,9 +5,9 @@
     // Only enable time slots with space for the given number of guests
     function updateButtons() {
         const guest_count = Number.parseInt(gc.value)
-        for (const div of document.querySelectorAll("td div")) {
-            const button = div.firstChild
-            button.disabled = isNaN(guest_count) || guest_count === 0 || div.dataset.max < guest_count
+        for (const button of document.querySelectorAll("td button")) {
+            const div = button.firstChild
+            button.disabled = isNaN(guest_count) || guest_count <= 0 || div.dataset.max < guest_count
         }
     }
     // Update the time slot buttons every time the user edits the guest count

@@ -28,14 +28,14 @@
             {% for service in services %}
             <h3>{{ service.name }}</h3>
                 {% csrf_token %}
-                <table>{% for slot in service.slots %}{% if forloop.counter0|divisibleby:4 %}
+                <table id="slot-table">{% for slot in service.slots %}{% if forloop.counter0|divisibleby:4 %}
                     <tr>{% endif %}
-                        <td>{% spaceless %}
-                            <div data-max="{{ slot.max }}" class="{% if slot.edit %}slot-edit{% elif slot.open %}slot-open{% else %}slot-closed{% endif %}">
+                        <td class="{% if slot.edit %}slot-edit{% elif slot.open %}slot-open{% else %}slot-closed{% endif %}">{% spaceless %}
                             {% if slot.open %}<button disabled formaction="{% url 'reserve' date.year date.month date.day slot.slot.long_hour slot.slot.minute %}">{% endif %}
+                            <div data-max="{{ slot.max }}">
                                 <span>{{ slot.name }}</span>
-                            {% if slot.open %}</button>{% endif %} ({{ slot.max }})
                             </div>
+                            {% if slot.open %}</button>{% endif %}
                         </td>{% endspaceless %}
                     {% if forloop.counter|divisibleby:4 %}</tr>{% endif %}{% endfor %}
                 </table>
