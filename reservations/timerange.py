@@ -127,15 +127,6 @@ class TimeRange:
         return self.start_slot.index <= slot.index and \
             slot.index < self.end_slot.index
 
-    def contains_time(self, t):
-        """Does time t lie within this time range?"""
-        if self.start_time == self.end_time:
-            return False
-        if self.start_time <= t:
-            return t < self.end_time or self.end_time < self.start_time
-        else:
-            return t < self.end_time and self.end_time < self.start_time
-
     def __str__(self):
         return f"{format_time(self.start_time)} to " \
                 f"{format_time(self.end_time)}"
