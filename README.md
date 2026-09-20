@@ -110,6 +110,13 @@ The active field on dishes makes it simple to add and remove items from the menu
 * Menu suggestions.
 * Created Django models from entity-relationship diagrams.
 * Converted menu contents from markdown to Django `dumpdata` format to get it into the database.
+* Identify code in need of comments.
+* Hero.
+
+## Bugs
+
+* Favicon load failure
+* Reservations after midnight.
 
 ## Credit and Thanks
 
