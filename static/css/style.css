@@ -12,11 +12,6 @@
     --booked-colour: rgb(170, 247, 170);
 }
 
-html {
-    /* TODO: Not for mobile: */
-    font-size: 130%;
-}
-
 body {
     font-family: var(--primary-font);
 }
@@ -57,12 +52,12 @@ main {
 /* Home page */
 
 #hero {
-  position: relative;
-  min-height: 70vh;
-  overflow: hidden;
-  background-image: url('/static/images/kohlwurst.webp');
-  background-size: cover;
-  background-position:60% 90%;
+    position: relative;
+    min-height: 70vh;
+    overflow: hidden;
+    background-image: url('/static/images/kohlwurst.webp');
+    background-size: cover;
+    background-position: 60% 90%;
 }
 
 /* Menu */
@@ -135,10 +130,6 @@ main {
 }
 
 /* Slots */
-/*.slot-open {
-    color: green;
-}*/
-
 
 #slot-table {
     border-collapse: separate;
@@ -178,3 +169,24 @@ main {
 .slot-open {
     background-color: var(--bookable-colour);
 }
+
+/* The very smallest screens */
+@media screen and (max-width: 395px) {
+    #hours_table {
+        font-size: 15px;
+    }
+}
+
+/* Everything but the tiniest screens */
+@media screen and (min-width: 396px) {
+}
+
+/* Medium devices, tablets and up */
+@media screen and (min-width: 768px) {
+    html {
+        font-size: 130%;
+    }
+}
+
+/* Large devices, small laptops and up */
+@media screen and (min-width: 992px) {}

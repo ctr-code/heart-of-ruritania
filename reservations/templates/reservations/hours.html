@@ -4,19 +4,16 @@
 {% block head_title %}Opening Hours - The Heart of Ruritania{% endblock %}
 
 {% block main %}
-<section class="container">
-    <div class="row">
-        <div class="col-12">
+<section class="d-flex justify-content-center">
+    <div>
+        <h1>Opening Hours</h1>
 
-            <h1>Opening Hours</h1>
-
-            <table id="hours_table">{% for day in days %}
-                <tr>
-                    <td>{{ day.date }}</td>{% for range in day.ranges %}
-                    <td{% if day.ranges|length == 1 %} colspan="2"{% endif %}>{{ range }}</td>{% endfor %}
-                </tr>{% endfor %}
-            </table>
-        </div>
+        <table id="hours_table" class="mx-auto">{% for day in days %}
+            <tr>
+                <td>{{ day.date }}</td>{% for range in day.ranges %}
+                <td{% if day.ranges|length == 1 %} colspan="2" {% endif %}>{{ range }}</td>{% endfor %}
+            </tr>{% endfor %}
+        </table>
     </div>
 </section>
 {% endblock %}
