@@ -200,7 +200,14 @@ def slot_availability(service, reservations, slots):
                            for i in range(index, index + check_count))
             slot["max"] = slot_max
 
-    return slots
+    # The end of the slots may have whole hours that can't be booked.  These
+    # appear as a gap in the UI so delete them.
+    while True:
+        if len(slots) >= Slot.SLOTS_PER_HOUR and \
+                all(not slot["open"] for slot in slots[-Slot.SLOTS_PER_HOUR:]):
+            slots = slots[0:-Slot.SLOTS_PER_HOUR]
+        else:
+            return slots
 
 
 def calendar_view(request, admin_view):
