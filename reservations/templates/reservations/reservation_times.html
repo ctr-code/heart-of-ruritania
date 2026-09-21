@@ -6,16 +6,12 @@
 {% block main %}
 <section class="container">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
             <h1>{{ date|date:"l j F" }}{% if slot %} {{ slot.as_time|date:"H:i" }}{% endif %}</h1>
-        </div>
         {% if editing %}
-        <div class="col-12">
             <h2>Delete Reservation</h2>
             <p><button id="deleteReservation" class="btn btn-danger">Delete Reservation</button></p>
-        </div>
         {% endif %}
-        <div class="col-12">
             <h2>{% if editing %}Edit Reservation{% else %}Make a Reservation{% endif %}</h2>
             <form method="post">
                 {# This disabled button prevents Enter submitting the form #}
@@ -26,9 +22,9 @@
                 <li>Select a time to confirm:</li>
                 </ol>
             {% for service in services %}
-            <h3>{{ service.name }}</h3>
+            <h3 class="mt-4">{{ service.name }}</h3>
                 {% csrf_token %}
-                <table id="slot-table">{% for slot in service.slots %}{% if forloop.counter0|divisibleby:4 %}
+                <table id="slot-table" class="mx-auto mx-sm-0">{% for slot in service.slots %}{% if forloop.counter0|divisibleby:4 %}
                     <tr>{% endif %}
                         <td class="{% if slot.edit %}slot-edit{% elif slot.open %}slot-open{% else %}slot-closed{% endif %}">{% spaceless %}
                             {% if slot.open %}<button disabled formaction="{% url 'reserve' date.year date.month date.day slot.slot.long_hour slot.slot.minute %}">{% endif %}

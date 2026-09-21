@@ -6,15 +6,15 @@
 {% block main %}
 <section id="reservations" class="container">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
             {% if admin_view %}
             <h1>Reservations - Admin View</h1>
             <p>Choose a date to see an overview of reservations</p>
             {% else %}
             <h1>Reservations</h1>
-            <p>Choose a date to make <span class="day-book">a new reservation</span> or to edit <span class="day-edit">an existing reservation</span></p>
+            <p>Choose a date <span class="day-book">to make a new reservation</span> or <span class="day-edit">to edit an existing reservation</span></p>
             {% endif %}
-            {% for month in months %}<table>
+            {% for month in months %}<table class="mx-auto mx-sm-0">
                 <tr class="cal_month">
                     <td colspan="7">{{ month.name }}</td>
                 </tr>

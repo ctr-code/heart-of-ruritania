@@ -110,6 +110,14 @@ main {
     text-align: center;
 }
 
+#reservations td div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5em;
+    min-height: 2.5em;
+}
+
 #reservations td a {
     text-decoration: none;
     color: black;
@@ -127,6 +135,10 @@ main {
     background-color: var(--bookable-colour);
 }
 
+td .day-book:hover {
+    background: rgb(170, 193, 201)
+}
+
 .day-hide {
     visibility: hidden;
 }
@@ -137,6 +149,10 @@ main {
 
 .day-edit {
     background-color: var(--booked-colour);
+}
+
+td .day-edit:hover {
+    background: rgba(138, 202, 138, 0.705);
 }
 
 /* Slots */
