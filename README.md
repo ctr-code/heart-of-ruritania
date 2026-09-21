@@ -4,16 +4,22 @@ A warm welcome awaits at The Heart of Ruritania, the UK's first Ruritanian resta
 
 [Learn more and book online at our website](https://ruritania-a4a079b504db.herokuapp.com/).
 
-# User Roles and Stories
+## Screenshot
 
-## Roles
+## Features
+
+Brief description of website features.
+
+## User Roles and Stories
+
+### Roles
 
 * Browser - a casual user browsing the site without logging in
 * User - a registered user
 * Colleague - a member of the restaurant's staff
 * Admin - the restaurant manager
 
-## Stories
+### Stories
 
 * As a browser I can view the menu so that I can plan my meal
 * As a browser I can check opening hours so that I know if the restaurant is available
@@ -35,9 +41,9 @@ A warm welcome awaits at The Heart of Ruritania, the UK's first Ruritanian resta
 * As an admin I can add stories to a news feed so that customers get a sense of continuous improvement
 * As an admin I can set the time zone so that so that time-based editing restrictions work correctly
 
-# Data Model
+## Data Model
 
-## Reservations
+### Reservations
 
 ``` mermaid
 erDiagram
@@ -83,7 +89,7 @@ If Reservations are proactively mapped to Tables you can arrive in a situation w
 
 To achieve an optimal mapping reservations need to be mapped to tables every time the reservations change.  Since it needs to be recalculated repeatedly there is little point in keeping the mapping in the database.
 
-## Menu
+### Menu
 
 ``` mermaid
 erDiagram
@@ -103,7 +109,39 @@ erDiagram
     }
 ```
 
-The active field on dishes makes it simple to add and remove items from the menu.
+The active field on dishes makes it simple to add and remove items from the menu for seasonal availability, say.
+
+## UX Design
+
+Discussion of design choices.  Wireframes.
+
+Only one reservation per day.
+
+Purpose of toggling.
+
+## UI Design
+
+Colours, fonts, images.
+
+## Technologies
+
+The project is a web application developed using the Django backend web framework.
+
+The Django framework uses the Python lanaguage to dynamically generate HTML pages.
+Styling is provided by Bootstrap with some custom CSS.
+A little JavaScript provides client-side interactivity.
+
+In addition to the Django core and its dependencies the project uses a number of additional Python libraries:
+
+* [django-crispy-forms](https://github.com/django-crispy-forms/django-crispy-forms) and [crispy-bootstrap5](https://github.com/django-crispy-forms/crispy-bootstrap5) to automatically format forms with bootstrap
+* [dotenv](https://github.com/pedroburon/dotenv) and [python-dotenv](https://pypi.org/project/python-dotenv/) to read environment variables from `.env`
+* [dj-database-url](https://jazzband.co/projects/dj-database-url) to parse database URLs
+* [django-allauth](https://allauth.org) to authenticate end-users
+* [gunicorn](https://gunicorn.org) to serve the content over HTTP
+* [psycopg2-binary](https://psycopg.org/) to connect to the PostgreSQL database
+* [whitenoise](https://whitenoise.readthedocs.io/en/latest/) to serve static files via WSGI
+
+## Deployment Guide
 
 ## AI
 
@@ -111,7 +149,7 @@ The active field on dishes makes it simple to add and remove items from the menu
 * Created Django models from entity-relationship diagrams.
 * Converted menu contents from markdown to Django `dumpdata` format to get it into the database.
 * Identify code in need of comments.
-* Hero.
+* Hero image.
 
 ## Testing
 
@@ -121,12 +159,17 @@ Details can be found on the [testing page](TESTING.md).
 
 * Favicon load failure
 * Reservations after midnight.
+* Menu closer.
 
 ## Credit and Thanks
 
 * [Code Institute](https://codeinstitute.net/) and its tutors for teaching, support and the navbar collapser
 * [West Midlands Combined Authority](https://www.wmca.org.uk/) for funding the course
 * [Tim Berners-Lee](https://www.w3.org/People/Berners-Lee/) *et al* for the web
+* [Brendan Eich](https://en.wikipedia.org/wiki/Brendan_Eich) *et al* for JavaScript
+* [Linus Torvalds](https://en.wikipedia.org/wiki/Linus_torvalds) *et al* for Linux
+* [Guido van Rossum](https://gvanrossum.github.io/) *et al* for Python
+* [The PostgreSQL Authors](https://www.postgresql.org/docs/current/history.html) for the database
 * [GitHub](https://github.com/) for hosting the repository and the project plan
 * [Heroku](https://www.heroku.com/) for hosting the site
 * [Neon](https://neon.com/) for hosting PostgreSQL
