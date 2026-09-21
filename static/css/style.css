@@ -79,6 +79,11 @@ main {
     background-color: rgba(0, 0, 0, 0.2);
 }
 
+.menu-arrow {
+    padding-left: .5em;
+    padding-right: .5em;
+}
+
 /* Opening hours */
 
 #hours_table tr+tr {

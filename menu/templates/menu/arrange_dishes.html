@@ -17,9 +17,10 @@
                         {% for dish in course.dishes.all %}
                         <tr{% if not dish.active %} class="menu-disabled"{% endif %}>
                             <td class="d-flex">
-                                <button class="menu-arrange-up" disabled><i class="fas fa-arrow-up"></i></button>
+                                <button class="menu-arrange-up menu-arrow btn btn-secondary" disabled><i class="fas fa-arrow-up"></i></button>
                                 <span>&nbsp;</span>
-                                <button class="menu-arrange-down" disabled><i class="fas fa-arrow-down"></i></button>
+                                <button class="menu-arrange-down menu-arrow btn btn-secondary" disabled><i class="fas fa-arrow-down"></i></button>
+                                <span>&nbsp;</span>
                             </td>
                             <td>
                                 <input type="hidden" name="dish_{{ dish.id}}" value="{{ dish.order }}">
@@ -29,7 +30,7 @@
                         {% endfor %}
                     </table>
                     {% csrf_token %}
-                    <button id="submitButton" type="submit" class="btn btn-primary btn-lg">Submit</button>
+                    <button id="submitButton" type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
