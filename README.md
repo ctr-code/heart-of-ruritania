@@ -125,6 +125,8 @@ Colours, fonts, images.
 
 ## Technologies
 
+### Overview
+
 The project is a web application developed using the Django backend web framework.
 
 The Django framework uses the Python lanaguage to dynamically generate HTML pages.
@@ -141,7 +143,46 @@ In addition to the Django core and its dependencies the project uses a number of
 * [psycopg2-binary](https://psycopg.org/) to connect to the PostgreSQL database
 * [whitenoise](https://whitenoise.readthedocs.io/en/latest/) to serve static files via WSGI
 
-## Deployment Guide
+### Development
+
+This section describes how to configure your environment to develop the project.
+
+The instructions work on Linux, WSL and maybe the VSCode bash prompt, but that's untested.
+
+First of all fork this GitHub repo.  Then open a terminal, switch to a suitable parent directory and run this command with your github username:
+
+```bash
+git clone https://github.com/<your-github-username>/heart-of-ruritania/
+```
+
+Then run:
+
+```bash
+cd heart-of-ruritania
+python3 -m venv .venv
+source .venv/bin/activate
+echo "DJANGO_DEBUG = True" > .env
+echo "DJANGO_SECRET_KEY = 'somerubbishhere'" >> .env
+echo "DJANGO_ALLOWED_HOSTS = '127.0.0.1'" >> .env
+echo "DATABASE_URL = '<fillmein>'" >> .env
+pip install -r requirements.txt
+mkdir fixtures
+curl -L "https://github.com/validator/validator/releases/download/latest/vnu.jar" > fixtures/vnu.jar
+```
+
+Edit the `.env` file to include your actual database url.  Install the database with:
+
+```bash
+./manage.py migrate
+```
+
+And start the local webserver with:
+
+```bash
+./manage.py runserver
+```
+
+### Deployment on Heroku
 
 ## AI
 
