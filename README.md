@@ -113,6 +113,10 @@ The active field on dishes makes it simple to add and remove items from the menu
 * Identify code in need of comments.
 * Hero.
 
+## Testing
+
+Details can be found on the [testing page](TESTING.md).
+
 ## Bugs
 
 * Favicon load failure
