@@ -42,7 +42,10 @@
                 <img src="{% static 'images/logo-80.png' %}" alt="Heart of Ruritania logo" width="40" height="40"
                     class="logo">
             </a>
-            <span>The Heart of Ruritania</span>
+            {# Don't share the preceding <a> because this text moves about #}
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <span>The Heart of Ruritania</span>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">

@@ -6,19 +6,19 @@
 
 {% block main %}
 
-<div class="container">
+<section class="container">
     <div class="row">
-        <div class="col-md-6">
-            <div class="card-body">
-                <h1>{{ course.name }}</h1>
-                <h2>Add a Dish</h2>
-                <form id="dishForm" method="post">
-                    {{ dish_form | crispy }}
-                    {% csrf_token %}
-                    <button id="submitButton" type="submit" class="btn btn-primary btn-lg">Submit</button>
-                </form>
+        <div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+            <div>
+                <h1>Add a Dish</h2>
+                    <h2>{{ course.name }}</h2>
+                    <form id="dishForm" method="post">
+                        {{ dish_form | crispy }}
+                        {% csrf_token %}
+                        <button id="submitButton" type="submit" class="btn btn-primary">Submit</button>
+                    </form>
             </div>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}

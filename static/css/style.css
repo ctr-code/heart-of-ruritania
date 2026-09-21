@@ -37,6 +37,11 @@ h2 {
 
 /* Base template */
 
+.navbar-brand {
+    font-size: inherit;
+    font-weight: bold;
+}
+
 #messages {
     margin-top: 66px;
 }
@@ -184,9 +189,13 @@ main {
 /* Medium devices, tablets and up */
 @media screen and (min-width: 768px) {
     html {
-        font-size: 130%;
+        font-size: 110%;
     }
 }
 
 /* Large devices, small laptops and up */
-@media screen and (min-width: 992px) {}
+@media screen and (min-width: 992px) {
+    html {
+        font-size: 130%;
+    }
+}
