@@ -197,6 +197,9 @@ STATICFILES_DIRS = [BASE_DIR / 'static', ]
 # Where static files are collected to - required by whitenoise
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+# The location of the W3C validator used for testing
+VALIDATOR_DIR = BASE_DIR / "fixtures"
+
 # Where the user is directed after a login
 LOGIN_REDIRECT_URL = '/'
 
