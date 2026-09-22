@@ -113,6 +113,14 @@ The active field on dishes makes it simple to add and remove items from the menu
 
 ## UX Design
 
+### Security
+
+When the user can naturally navigate to a resource they lack access to (e.g. the reservations page while logged out) the user will be prompted to log in and redirected to their intended destination.
+
+When the server receives an "impossible" request (such as one user trying to delete another user's reservation) this must have been the result of shenanigans so it will be quietly ignored.
+
+### Other
+
 Discussion of design choices.  Wireframes.
 
 Only one reservation per day.
