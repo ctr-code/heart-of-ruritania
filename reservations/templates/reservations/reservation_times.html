@@ -8,11 +8,10 @@
     <div class="row">
         <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
             <h1>{{ date|date:"l j F" }}{% if slot %} {{ slot.as_time|date:"H:i" }}{% endif %}</h1>
-        {% if editing %}
-            <h2>Delete Reservation</h2>
+            {% if editing %}
             <p><button id="deleteReservation" class="btn btn-danger">Delete Reservation</button></p>
-        {% endif %}
-            <h2>{% if editing %}Edit Reservation{% else %}Make a Reservation{% endif %}</h2>
+            {% endif %}
+            <h2 class="mb-3">{% if editing %}Edit Reservation{% else %}Make a Reservation{% endif %}</h2>
             <form method="post">
                 {# This disabled button prevents Enter submitting the form #}
                 <input type="submit" disabled class="d-none" aria-hidden="true">
