@@ -9,14 +9,14 @@
     <div class="row">
         <div class="col-12">
             <h1>Menu &ndash; Admin View</h1>
-            <a href="{% url 'menu' %}"><button class="btn btn-secondary">Customer View</button></a>{% for course in courses %}
+            <a href="{% url 'menu' %}" class="btn btn-secondary">Customer View</a>{% for course in courses %}
             <hr>
             <h2>{{ course.name }}</h2>
-            <p class="d-flex"><a href="{% url 'add_dish' course.id %}"><button class="btn btn-secondary flex-shrink-1">Add dish</button></a>
+            <p class="d-flex"><a href="{% url 'add_dish' course.id %}" class="btn btn-secondary flex-shrink-1">Add dish</a>
                 &nbsp;
-                <a href="{% url 'toggle_dishes' course.id %}"><button class="btn btn-secondary flex-shrink-1">Toggle dishes</button></a>
+                <a href="{% url 'toggle_dishes' course.id %}" class="btn btn-secondary flex-shrink-1">Toggle dishes</a>
                 &nbsp;
-                <a href="{% url 'arrange_dishes' course.id %}"><button class="btn btn-secondary flex-shrink-1">Arrange dishes</button></a></p>
+                <a href="{% url 'arrange_dishes' course.id %}" class="btn btn-secondary flex-shrink-1">Arrange dishes</a></p>
             <ul>{% for dish in course.dishes.all %}
                 <li{%if not dish.active %} class="menu-disabled"{% endif %}><a href="{% url 'edit_dish' dish.id %}"><strong>{{ dish.name }}</strong></a>
                 &ndash; {{ dish.description }}

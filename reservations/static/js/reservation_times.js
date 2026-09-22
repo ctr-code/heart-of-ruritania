@@ -6,8 +6,7 @@
     function updateButtons() {
         const guest_count = Number.parseInt(gc.value)
         for (const button of document.querySelectorAll("td button")) {
-            const div = button.firstChild
-            button.disabled = isNaN(guest_count) || guest_count <= 0 || div.dataset.max < guest_count
+            button.disabled = isNaN(guest_count) || guest_count <= 0 || button.dataset.max < guest_count
         }
     }
     // Update the time slot buttons every time the user edits the guest count

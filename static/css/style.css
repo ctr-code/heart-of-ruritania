@@ -157,26 +157,25 @@ td .day-edit:hover {
 
 /* Slots */
 
-#slot-table {
+.slot-table {
     border-collapse: separate;
     border-spacing: 3px;
 }
 
-#slot-table div {
-    min-width: 4em;
-    height: 3em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.slot-table td {
+    text-align: center;
+    vertical-align: center;
 }
 
-#slot-table button {
+.slot-table button {
     border: none;
     padding: 0;
     background: none;
+    width: 4em;
+    height: 3em;
 }
 
-#slot-table button:not([disabled]):hover {
+.slot-table button:not([disabled]):hover {
     background: rgba(0, 0, 0, 0.1);
 }
 

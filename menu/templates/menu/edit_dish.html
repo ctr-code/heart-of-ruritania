@@ -23,11 +23,12 @@
 </section>
 
 {# Delete confirmation modal #}
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+{# Ideally this would be a <dialog> but bootstrap styles them badly #}
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="deleteModalLabel">Delete {{ dish.name }}?</h3>
+                <h1 class="modal-title fs-3" id="deleteModalLabel">Delete {{ dish.name }}?</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -38,7 +39,7 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <form method="post" action="{% url 'delete_dish' dish.id %}">
                     {% csrf_token %}
-                    <button id="deleteConfirm" href="#" class="btn btn-danger">Delete</button>
+                    <button id="deleteConfirm" class="btn btn-danger">Delete</button>
                 </form>
             </div>
         </div>

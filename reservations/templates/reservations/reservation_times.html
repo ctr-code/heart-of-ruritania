@@ -24,14 +24,10 @@
             {% for service in services %}
             <h3 class="mt-4">{{ service.name }}</h3>
                 {% csrf_token %}
-                <table id="slot-table" class="mx-auto mx-sm-0">{% for slot in service.slots %}{% if forloop.counter0|divisibleby:4 %}
+                <table class="slot-table mx-auto mx-sm-0">{% for slot in service.slots %}{% if forloop.counter0|divisibleby:4 %}
                     <tr>{% endif %}
                         <td class="{% if slot.edit %}slot-edit{% elif slot.open %}slot-open{% else %}slot-closed{% endif %}">{% spaceless %}
-                            {% if slot.open %}<button disabled formaction="{% url 'reserve' date.year date.month date.day slot.slot.long_hour slot.slot.minute %}">{% endif %}
-                            <div data-max="{{ slot.max }}">
-                                <span>{{ slot.name }}</span>
-                            </div>
-                            {% if slot.open %}</button>{% endif %}
+                            {% if slot.open %}<button disabled data-max="{{ slot.max }}" formaction="{% url 'reserve' date.year date.month date.day slot.slot.long_hour slot.slot.minute %}">{{ slot.name }}</button>{% endif %}
                         </td>{% endspaceless %}
                     {% if forloop.counter|divisibleby:4 %}</tr>{% endif %}{% endfor %}
                 </table>
@@ -42,12 +38,13 @@
 </section>
 
 {# Delete confirmation modal #}
+{# Ideally this would be a <dialog> but bootstrap styles them badly #}
 {% if editing %}
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="deleteModalLabel">Delete reservation?</h3>
+                <h1 class="modal-title fs-3" id="deleteModalLabel">Delete reservation?</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -58,7 +55,7 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <form method="post" action="{% url 'delete_reservation' id %}">
                     {% csrf_token %}
-                    <button id="deleteConfirm" href="#" class="btn btn-danger">Delete</button>
+                    <button id="deleteConfirm" class="btn btn-danger">Delete</button>
                 </form>
             </div>
         </div>

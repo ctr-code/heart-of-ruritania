@@ -34,7 +34,7 @@
                             <a href="{% url day_url_name day.date.year day.date.month day.date.day %}">
                         {% endif %}
                         <div class="{% if day.off %}day-hide{% elif day.edit %}day-edit{% elif not day.open %}day-shut{% else %}day-book{% endif %}">{{ day.date.day }}</div>
-                        {% if day.open %}
+                        {% if day.open and day.date.month == month.date.month %}
                             </a>
                         {% endif %}
                     </td>
