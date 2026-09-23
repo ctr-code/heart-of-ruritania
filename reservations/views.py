@@ -173,8 +173,7 @@ def slot_availability(service, reservations, slots):
 
     # Get the maximum number of covers available in each slot
     for slot in slots:
-        max_table = max(slot["tables"], key=lambda t: t.cover_count)
-        slot["max"] = max_table.cover_count
+        slot["max"] = max((t.cover_count for t in slot["tables"]), default=0)
         del slot["tables"]
 
     default_slot_count = DEFAULT_RESERVATION_DURATION // Slot.MINS_PER_SLOT
