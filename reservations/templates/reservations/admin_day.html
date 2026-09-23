@@ -11,7 +11,9 @@
             {% for service in services %}
             <h2>{{ service.name }}</h2>
                 {% if service.reservations %}<table class="table table-striped">
-                    <thead><th>Time</th><th>Guests</th><th>Customer</th><th>Delete</th></thead>{% for res in service.reservations %}
+                    <thead>
+                        <tr><th>Time</th><th>Guests</th><th>Customer</th><th>Delete</th></tr>
+                    </thead>{% for res in service.reservations %}
                     <tr>{% spaceless %}
                         <td>{{ res.time | date:"H:i" }}</td>
                         <td>{{ res.guest_count }}</td>
