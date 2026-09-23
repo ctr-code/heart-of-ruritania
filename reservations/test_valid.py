@@ -2,7 +2,7 @@ from datetime import date, time, timedelta
 from core.common_test import TestValidHtml
 from django.urls import reverse
 from django.contrib.auth.models import User
-from .models import ServiceTime, ServiceException, Table
+from .models import Reservation, ServiceTime, ServiceException, Table
 
 
 class TestValidPages(TestValidHtml):
@@ -57,10 +57,28 @@ class TestValidPages(TestValidHtml):
             username="regularJoe", password="myPassword")
         self.assertValid(reverse('reservations'))
 
-    def test_validate_page_reservation_times(self):
+    def test_validate_page_reservation_times_no_reservations(self):
         self.client.login(
             username="regularJoe", password="myPassword")
         day = self.today + timedelta(days=1)
+        self.assertValid(reverse(
+            'reservation_times',
+            args=[day.year, day.month, day.day]
+        ))
+
+    def test_validate_page_reservation_times_with_reservation(self):
+        self.client.login(
+            username="regularJoe", password="myPassword")
+        day = self.today + timedelta(days=3)
+        Reservation.objects.create(
+            customer=self.user,
+            svc_date=day.isoformat(),
+            res_date=day.isoformat(),
+            time=time(17, 0),
+            duration=120,
+            guest_count=2,
+            status=0
+        ).save()
         self.assertValid(reverse(
             'reservation_times',
             args=[day.year, day.month, day.day]
@@ -71,10 +89,28 @@ class TestValidPages(TestValidHtml):
             username="myUsername", password="myPassword")
         self.assertValid(reverse('admin_calendar'))
 
-    def test_validate_page_admin_day(self):
+    def test_validate_page_admin_day_no_reservations(self):
         self.client.login(
             username="myUsername", password="myPassword")
         day = self.today
+        self.assertValid(reverse(
+            'admin_day',
+            args=[day.year, day.month, day.day]
+        ))
+
+    def test_validate_page_admin_day_with_reservation(self):
+        self.client.login(
+            username="myUsername", password="myPassword")
+        day = self.today + timedelta(days=3)
+        Reservation.objects.create(
+            customer=self.user,
+            svc_date=day.isoformat(),
+            res_date=day.isoformat(),
+            time=time(17, 0),
+            duration=120,
+            guest_count=2,
+            status=0
+        ).save()
         self.assertValid(reverse(
             'admin_day',
             args=[day.year, day.month, day.day]
