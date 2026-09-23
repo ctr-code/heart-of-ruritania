@@ -209,6 +209,8 @@ Details can be found on the [testing page](TESTING.md).
 * Favicon load failure
 * Reservations after midnight.
 * Menu closer.
+* Error if all the tables were used (max over no elements)
+* Validation error in signup form needed switch to crispy because of `<ul>` in `<span>`.
 
 ## Credit and Thanks
 
