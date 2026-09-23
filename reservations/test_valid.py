@@ -7,7 +7,7 @@ from .models import Reservation, ServiceTime, ServiceException, Table
 
 class TestValidPages(TestValidHtml):
     """
-    Check that all the menu pages have valid HTML
+    Check that all the reservations pages have valid HTML
     """
 
     def setUp(self):

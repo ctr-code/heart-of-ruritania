@@ -119,8 +119,13 @@ def toggle_dishes(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
 
     if request.method == "POST":
+        # The POST data contains names of the form dish_<id> and active_<id>.
+
+        # Parse the POST data for the ids of dishes that were present
         exists_set = set(int(id[5:])
                          for id in request.POST if id.startswith("dish_"))
+
+        # Parse the POST data for the ids of dishes that were selected
         active_set = set(int(id[7:])
                          for id in request.POST if id.startswith("active_"))
 
@@ -152,7 +157,9 @@ def arrange_dishes(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
 
     if request.method == "POST":
-        # Create a map from dish id to order value
+        # The POST data contains key-value pairs of the form:
+        # dish_<id>=<order>
+        # Parse the pairs to create a map from id to order.
         order_map = {
             int(id[5:]): int(order)
             for (id, order) in request.POST.items() if id.startswith("dish_")

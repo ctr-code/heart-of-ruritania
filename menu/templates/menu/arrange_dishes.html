@@ -23,6 +23,7 @@
                                 <span>&nbsp;</span>
                             </td>
                             <td>
+                                {# This hidden input control identifies the dish and its order value #}
                                 <input type="hidden" name="dish_{{ dish.id}}" value="{{ dish.order }}">
                                 <strong>{{ dish.name }}</strong> &ndash; {{ dish.description }}
                             </td>
