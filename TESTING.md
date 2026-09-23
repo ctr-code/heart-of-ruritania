@@ -4,6 +4,10 @@ Validation of HTML, CSS, JS, Python
 
 Lighthouse
 
+## Automated Testing
+
+Run `python3 manage.py test`.  At the moment this only does the W3C validation.
+
 ## HTML and CSS validation
 
 This is handled automatically as part of the Python testing.
