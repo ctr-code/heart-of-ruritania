@@ -1,5 +1,6 @@
 from django.urls import reverse
 from django.conf import settings
+from django.contrib.auth.models import User
 from core.common_test import TestValidHtml
 
 
@@ -16,3 +17,21 @@ class TestValidPages(TestValidHtml):
 
     def test_validate_page_contact(self):
         self.assertValid(reverse('contact'))
+
+    # Also validate allauth views here
+
+    def test_validate_signup(self):
+        self.assertValid(reverse('account_signup'))
+
+    def test_validate_login(self):
+        self.assertValid(reverse('account_login'))
+
+    def test_validate_logout(self):
+        User.objects.create_user(
+            username="regularJoe",
+            password="myPassword",
+            email="test@test.com"
+        )
+        self.client.login(
+            username="regularJoe", password="myPassword")
+        self.assertValid(reverse('account_logout'))

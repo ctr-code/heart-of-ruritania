@@ -1,6 +1,6 @@
-from django.contrib.auth.models import User
-from django.urls import reverse
 from core.common_test import TestValidHtml
+from django.urls import reverse
+from django.contrib.auth.models import User
 from .models import Course, Dish
 
 
