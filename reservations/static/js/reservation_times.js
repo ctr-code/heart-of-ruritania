@@ -27,7 +27,7 @@
         button.addEventListener("click", onSubmit);
     }
     // Update the time slot buttons every time the user edits the guest count
-    gc.addEventListener("input", () => updateButtons(false));
+    gc.addEventListener("input", updateButtons);
     // Update the buttons now (when the page is loading)
     updateButtons();
     // Attach deletion confirmation modal to the delete button
