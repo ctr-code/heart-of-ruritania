@@ -35,6 +35,12 @@ h2 {
     font-weight: bold;
 }
 
+/* allauth */
+
+.errorlist {
+    color: red;
+}
+
 /* Base template */
 
 .navbar-brand {
