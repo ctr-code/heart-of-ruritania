@@ -153,7 +153,7 @@ In addition to the Django core and its dependencies the project uses a number of
 
 ### Development
 
-This section describes how to configure your environment to work on the project.
+This section describes how to configure your environment to run the project locally.
 
 The instructions work on Linux, WSL and maybe the VSCode bash prompt, but that's untested.
 
