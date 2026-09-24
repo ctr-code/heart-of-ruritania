@@ -55,8 +55,8 @@ def add_dish(request, course_id):
                 f'Added {dish.name}'
             )
             return HttpResponseRedirect(reverse('menu_admin'))
-
-    dish_form = DishForm()
+    else:
+        dish_form = DishForm()
 
     return render(
         request,
@@ -83,8 +83,8 @@ def edit_dish(request, dish_id):
                 f'Edited {dish.name}'
             )
             return HttpResponseRedirect(reverse('menu_admin'))
-
-    dish_form = DishForm(instance=dish)
+    else:
+        dish_form = DishForm(instance=dish)
 
     return render(
         request,
