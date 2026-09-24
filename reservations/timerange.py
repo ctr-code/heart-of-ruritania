@@ -136,6 +136,16 @@ class TimeRange:
 
     def slots(self):
         """
+        Return a list of slots that cover this time range.
+        """
+        if self.start_time == self.end_time:
+            return []
+
+        return [Slot(index)
+                for index in range(self.start_slot.index, self.end_slot.index)]
+
+    def extended_slots(self):
+        """
         Return a list of slots that cover this time range extended to whole
         hours.
         """

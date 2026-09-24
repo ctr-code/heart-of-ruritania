@@ -66,7 +66,7 @@ def validate_reservation_date(year, month, day):
 def get_opening_hours(start_date, day_count):
     """
     Integrate the regular service times and the exceptions to
-    get a list of opening slots for the given date range
+    get a list of services for the given date range
     """
 
     end_date = start_date + timedelta(days=day_count)
@@ -199,8 +199,14 @@ def slot_availability(service, reservations, slots):
                            for i in range(index, index + check_count))
             slot["max"] = slot_max
 
-    # The end of the slots may have whole hours that can't be booked.  These
-    # appear as a gap in the UI so delete them.
+    return slots
+
+
+def trim_empty_slots(slots):
+    """
+    The end of the slots may have whole hours that can't be booked.  These
+    appear as a gap in the UI so delete them.
+    """
     while True:
         if len(slots) >= Slot.SLOTS_PER_HOUR and \
                 all(not slot["open"] for slot in slots[-Slot.SLOTS_PER_HOUR:]):
@@ -367,7 +373,7 @@ def reservation_times(request, year, month, day):
     services_plus = [
         {
             "name": service,
-            "slots": slot_availability(
+            "slots": trim_empty_slots(slot_availability(
                 service,
                 [r for r in reservations if r != reservation],
                 [
@@ -377,9 +383,9 @@ def reservation_times(request, year, month, day):
                         "open": service.contains_slot(slot),
                         "edit": slot in user_reservation_slots,
                     }
-                    for slot in service.slots()
+                    for slot in service.extended_slots()
                 ]
-            ),
+            )),
         }
         for service in services
     ]
@@ -441,40 +447,62 @@ def reserve(request, year, month, day, long_hour, minute):
     The reserve endpoint, which makes a reservation and redirects to the
     reservations page
     """
-    if request.method == "POST":
-        try:
-            (service_date, opening_hours) = \
-                validate_reservation_date(year, month, day)
-            reservation_slot = Slot.from_longtime(long_hour, minute)
-        except ValueError:
-            # If the date or time is bogus return to the reservations page
-            return HttpResponseRedirect(reverse('reservations'))
+    # Only handle POST requests
+    if request.method != "POST":
+        return HttpResponseRedirect(reverse('reservations'))
 
-        # The services containing the slot (should be exactly one)
-        services = [s for s in opening_hours["times"]
-                    if s.contains_slot(reservation_slot)]
+    try:
+        (service_date, opening_hours) = \
+            validate_reservation_date(year, month, day)
+        reservation_slot = Slot.from_longtime(long_hour, minute)
+    except ValueError:
+        # If the date or time is bogus return to the reservations page
+        return HttpResponseRedirect(reverse('reservations'))
 
-        if len(services) == 0:
-            # If the time lies outwith the service hours return to reservations
-            return HttpResponseRedirect(reverse('reservations'))
+    # The services containing the slot (should be exactly one)
+    services = [s for s in opening_hours["times"]
+                if s.contains_slot(reservation_slot)]
 
-        # Check this is a valid time within the service (i.e. not at the end)
-        service_remaining = services[0].remaining(reservation_slot)
-        duration = min(DEFAULT_RESERVATION_DURATION, service_remaining)
-        if duration < SHORTEST_RESERVATION_DURATION:
-            return HttpResponseRedirect(reverse('reservations'))
+    if len(services) == 0:
+        # If the time lies outwith the service hours return to reservations
+        return HttpResponseRedirect(reverse('reservations'))
 
-        reservations = Reservation.objects.filter(svc_date=service_date)
-        user_reservations = reservations.filter(customer=request.user)
-        editing = user_reservations.exists()
-        reservation = user_reservations[0] if editing else None
+    service = services[0]
 
-        reservation_form = ReservationForm(
-            data=request.POST, instance=reservation)
+    # Check this is a valid time within the service (i.e. not at the end)
+    service_remaining = service.remaining(reservation_slot)
+    duration = min(DEFAULT_RESERVATION_DURATION, service_remaining)
+    if duration < SHORTEST_RESERVATION_DURATION:
+        return HttpResponseRedirect(reverse('reservations'))
 
-        if reservation_form.is_valid():
-            # TODO: Check a reservation with this guest_count is feasible
-            reservation = reservation_form.save(commit=False)
+    reservations = Reservation.objects.filter(svc_date=service_date)
+    user_reservations = reservations.filter(customer=request.user)
+    editing = user_reservations.exists()
+    reservation = user_reservations[0] if editing else None
+
+    # Calculate the availability of slots within the service
+    slots = slot_availability(
+        service,
+        [r for r in reservations if r != reservation],
+        [{"slot": slot, "open": True} for slot in service.slots()]
+    )
+    # Calculate the maximum number of guests bookable in the chosen slot
+    max_guests = max(
+        (
+            slot["max"]
+            for slot in slots if slot["slot"] == reservation_slot
+        ),
+        default=0
+    )
+
+    reservation_form = ReservationForm(
+        data=request.POST, instance=reservation)
+
+    if reservation_form.is_valid():
+
+        reservation = reservation_form.save(commit=False)
+
+        if reservation.guest_count <= max_guests:
 
             reservation.customer = request.user
             reservation.svc_date = service_date
@@ -489,8 +517,15 @@ def reserve(request, year, month, day, long_hour, minute):
                 request, messages.SUCCESS,
                 "Booked " + reservation.verbose()
             )
+            return HttpResponseRedirect(reverse('reservations'))
 
-    return HttpResponseRedirect(reverse('reservations'))
+    # This should only happen if another user "stole" the last space
+    messages.add_message(
+        request, messages.ERROR,
+        "Booking failed.  Please try again."
+    )
+    return HttpResponseRedirect(
+        reverse('reservation_times', args=[year, month, day]))
 
 
 @login_required
