@@ -8,7 +8,26 @@ A warm welcome awaits at The Heart of Ruritania, the UK's first Ruritanian resta
 
 ## Features
 
-Brief description of website features.
+For customers the main features are:
+
+* Browse the menu
+* Check the opening hours
+* Manage reservations
+* See contact details
+
+For colleagues the additional features are:
+
+* Add, edit and delete dishes from the menu
+* Toggle dishes on and off
+* Rearrange the order of dishes on the menu
+* Review all the reservations on a given day
+* Delete reservations
+
+Using the admin panel the admin can also:
+
+* Manage the restaurant opening hours (both the defaults and exceptions)
+* Manage the available tables
+* Manage the courses on the menu
 
 ## User Roles and Stories
 
@@ -114,6 +133,14 @@ erDiagram
 The active field on dishes makes it simple to add and remove items from the menu for seasonal availability, say.
 
 ## UX Design
+
+### Visual Design
+
+The overall theme is intended to convey tradition and quality.
+
+The textured background is reminiscent of parchment.  Text uses the PT Serif font for a vintage, serious feel.
+
+The hero image on the home page, in the style of Brueghel, evokes traditional Europe; the cabbages and sausages represent the cuisine while introducing a little whimsy.
 
 ### Security
 
