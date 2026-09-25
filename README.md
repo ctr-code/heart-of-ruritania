@@ -39,7 +39,9 @@ Brief description of website features.
 * As a colleague I can view an overview of the day so that I know how busy we'll be
 * As a colleague I can view a service overview so that I can check reservations as diners arrive
 * As an admin I can add stories to a news feed so that customers get a sense of continuous improvement
-* As an admin I can set the time zone so that so that time-based editing restrictions work correctly
+* As an admin I can set the time zone so that so that the software can be used by businesses outside the UK
+* As an admin I can edit the menu so that I can keep the site up-to-date without a web developer
+* As an admin I can preview the menu so that I can see what it looks like to a regular user
 
 ## Data Model
 
@@ -131,7 +133,7 @@ Purpose of toggling.
 
 Colours, fonts, images.
 
-## Technologies
+## Technology
 
 ### Overview
 
@@ -151,13 +153,44 @@ In addition to the Django core and its dependencies the project uses a number of
 * [psycopg2-binary](https://psycopg.org/) to connect to the PostgreSQL database
 * [whitenoise](https://whitenoise.readthedocs.io/en/latest/) to serve static files via WSGI
 
-### Development
+### Database
+
+The deployed project requires access to a PostgreSQL database instance in the cloud.
+
+For development it is possible to use a local database instance, either PostgreSQL or SQLite, but these instructions assume a cloud instance.
+
+Many companies offer PostgreSQL (or PostgreSQL-compatible) cloud database instances and most require payment.  [Neon](https://neon.com/pricing) has a generous free tier.
+
+To create a cloud database you need to:
+
+1. Choose a cloud PostgreSQL database provider.
+2. Create an account.
+3. Create a database - you will receive a database URL.
+4. Store the URL somewhere safe - it provides complete access to the live database.
+
+The database URL should be something like:
+
+`postgresql://neondb_owner:ngy_rtfGRGRg56g@battery-horse-staple-56dfdf7.c-6.eu-central-1.aws.neon.tech/nuncle_pig_654321`
+
+In the following sections you will copy it into your `.env` file for local development and into the Heroku app config vars for deployment.
+
+### Fork
+
+To develop or deploy this project you first need to fork it on GitHub.
+
+1. Login to your GitHub account.
+2. Navigate to [The Heart of Ruritania on GitHub](https://github.com/ctr-code/heart-of-ruritania/).
+3. Click on the Fork button (on the right, near the top).
+4. The `Create a new fork` page opens.
+5. Click on `Create fork`.
+
+### Develop
 
 This section describes how to configure your environment to run the project locally.
 
 The instructions work on Linux, WSL and maybe the VSCode bash prompt, but that's untested.
 
-First of all fork this GitHub repo.  Then open a terminal, switch to a suitable parent directory and run this command with your github username:
+Having [forked the project](#fork), open a terminal, switch to a suitable parent directory and run this command with your github username:
 
 ```bash
 git clone https://github.com/<your-github-username>/heart-of-ruritania/
@@ -172,13 +205,13 @@ source .venv/bin/activate
 echo "DJANGO_DEBUG = True" > .env
 echo "DJANGO_SECRET_KEY = 'somerubbishhere'" >> .env
 echo "DJANGO_ALLOWED_HOSTS = '127.0.0.1'" >> .env
-echo "DATABASE_URL = '<fillmein>'" >> .env
+echo "DATABASE_URL = 'put_database_url_here'" >> .env
 pip install -r requirements.txt
 mkdir fixtures
 curl -L "https://github.com/validator/validator/releases/download/latest/vnu.jar" > fixtures/vnu.jar
 ```
 
-Edit the `.env` file to include your actual database url.  Install the database with:
+Edit the `.env` file to include the [database url created previously](#database).  Install the database schema with:
 
 ```bash
 ./manage.py migrate
@@ -190,7 +223,30 @@ And start the local webserver with:
 ./manage.py runserver
 ```
 
-### Deployment on Heroku
+### Deploy to Heroku
+
+Having [forked the project](#fork) and [created a database](#database).
+
+1. Create a Heroku account.
+2. Login to your account dashboard.
+3. Click on `New | Create new app`.
+4. Choose and enter a name for the new app.
+5. Choose a location (probably Europe).
+6. Click on `Create App`.
+7. Click on the `Open App` button.
+8. Make a note of the host name (something like `blah-1a2b3c4d5e6f.herokuapp.com`).
+9. Open the `Settings` tab.
+10. Click on `Reveal Config Vars`.
+11. Enter the [database url created earlier](#database) as `DATABASE_URL`.
+12. Enter the host name from step 8 as `DJANGO_ALLOWED_HOSTS`.
+13. Enter some random data as `DJANGO_SECRET_KEY`.
+14. Open the `Deploy` tab.
+15. Choose `GitHub - Connect to GitHub`.
+16. Connect to your GitHub user account and select `heart-of-ruritania`.
+17. Click on `Connect`.
+18. Click on `Deploy`.
+19. Click on `Open App`.
+20. Enjoy!
 
 ## AI
 
@@ -206,7 +262,8 @@ Details can be found on the [testing page](TESTING.md).
 
 ## Bugs
 
-* Favicon load failure
+* django-admin trying to dump data.
+* Favicon load failure was on 500 and admin pages.
 * Reservations after midnight.
 * Menu closer.
 * Error if all the tables were used (max over no elements)
