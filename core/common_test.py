@@ -38,13 +38,13 @@ class TestValidHtml(TestCase):
             )
         )
 
-    def assertValid(self, url):
+    def assertValid(self, url, status_code=200):
         """
         Navigate to the internal url and check the html is valid by passing it
         through the W3C validator
         """
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, status_code)
 
         # Command to run the W3C validator from standard input
         command = [

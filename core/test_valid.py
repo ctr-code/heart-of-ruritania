@@ -18,6 +18,9 @@ class TestValidPages(TestValidHtml):
     def test_validate_page_contact(self):
         self.assertValid(reverse('contact'))
 
+    def test_validate_404(self):
+        self.assertValid('a_bogus_url', 404)
+
     # Also validate allauth views here
 
     def test_validate_signup(self):
