@@ -29,7 +29,7 @@ class TestValidPages(TestValidHtml):
     def test_validate_login(self):
         self.assertValid(reverse('account_login'))
 
-    def test_validate_logout(self):
+    def test_validate_profile(self):
         User.objects.create_user(
             username="regularJoe",
             password="myPassword",
@@ -37,4 +37,4 @@ class TestValidPages(TestValidHtml):
         )
         self.client.login(
             username="regularJoe", password="myPassword")
-        self.assertValid(reverse('account_logout'))
+        self.assertValid(reverse('profile'))

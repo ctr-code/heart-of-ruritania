@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', core_views.index, name='index'),
     path('contact', core_views.contact, name='contact'),
+    path('profile', core_views.profile, name='profile'),
     path('menu/', include('menu.urls'), name='menu-urls'),
     path('', include('reservations.urls'), name='reservations-urls'),
 ]
