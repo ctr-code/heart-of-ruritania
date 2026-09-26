@@ -22,7 +22,6 @@
                 </ol>
             {% for service in services %}
             <h3 class="mt-4">{{ service.name }}</h3>
-                {% csrf_token %}
                 <table class="slot-table mx-auto mx-sm-0">{% for slot in service.slots %}{% if forloop.counter0|divisibleby:4 %}
                     <tr>{% endif %}
                         <td class="{% if slot.edit %}slot-edit{% elif slot.open %}slot-open{% else %}slot-closed{% endif %}">{% spaceless %}
@@ -31,6 +30,7 @@
                     {% if forloop.counter|divisibleby:4 %}</tr>{% endif %}{% endfor %}
                 </table>
             {% endfor %}
+            {% csrf_token %}
             </form>
         </div>
     </div>
