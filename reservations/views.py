@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 from itertools import groupby
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
@@ -535,13 +535,19 @@ def delete_reservation(request, id):
     to the reservations page
     """
     if request.method == "POST":
-        reservation = get_object_or_404(Reservation, pk=id)
+        reservation = Reservation.objects.filter(pk=id).first()
+        if reservation is None:
+            messages.add_message(
+                request, messages.ERROR,
+                'The reservation had already been deleted.'
+            )
+            return HttpResponseRedirect(reverse('reservations'))
 
         if reservation.customer == request.user:
             reservation.delete()
             messages.add_message(
                 request, messages.SUCCESS,
-                "Deleted booking " + reservation.verbose()
+                "Deleted reservation " + reservation.verbose()
             )
 
     return HttpResponseRedirect(reverse('reservations'))
