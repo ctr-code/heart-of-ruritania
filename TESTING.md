@@ -21,6 +21,12 @@ Lighthouse
 * As an admin I can edit the menu so that I can keep the site up-to-date without a web developer
 * As an admin I can preview the menu so that I can see what it looks like to a regular user
 
+### Google Lighthouse Performance
+
+Desktop | Mobile
+-- | --
+![Lighthouse for desktop](docs/lighthouse-desktop.png) | ![Lighthouse for mobile](docs/lighthouse-mobile.png)
+
 ## Automated Testing
 
 Run `python3 manage.py test`.  At the moment this only does the W3C validation.  Screenshot:
