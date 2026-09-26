@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     path('hours', views.opening_hours, name='hours'),
-    path('delete_reservation/<int:id>', views.delete_reservation,
+    path('reservations/<int:id>/delete', views.delete_reservation,
          name='delete_reservation'),
     path('reservations/<int:year>-<int:month>-<int:day>/'
          '<int:long_hour>:<int:minute>', views.reserve, name='reserve'),
