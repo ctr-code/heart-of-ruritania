@@ -193,6 +193,13 @@ STATICFILES_DIRS = [BASE_DIR / 'static', ]
 # Where static files are collected to - required by whitenoise
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+STORAGES = {
+    # Enable whitenoise compression and hashing for efficient HTTP caching
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 # The location of the W3C validator used for testing
 VALIDATOR_DIR = BASE_DIR / "fixtures"
 
