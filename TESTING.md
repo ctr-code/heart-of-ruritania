@@ -23,13 +23,15 @@ Lighthouse
 
 ## Automated Testing
 
-Run `python3 manage.py test`.  At the moment this only does the W3C validation.
+Run `python3 manage.py test`.  At the moment this only does the W3C validation.  Screenshot:
+
+![](docs/python-tests.png)|
 
 ## HTML and CSS validation
 
 This is handled automatically as part of the Python testing.
 
-To demonstrate that it does something, this is the output of a previously failing test:
+To demonstrate that it does something, this is the output of a previously failing test.  The problematic URL and the validation errors appear at the end:
 
 ```
 FAIL: test_validate_page_edit_dish (menu.test_valid.TestValidPages.test_validate_page_edit_dish)
