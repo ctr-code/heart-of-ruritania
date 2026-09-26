@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, reverse
 from django.db import transaction
 from django.db.models import Max
 from django.contrib import messages
@@ -40,7 +40,14 @@ def menu_admin(request):
 @staff_member_required
 def add_dish(request, course_id):
     """View to add a dish to the given course"""
-    course = get_object_or_404(Course, pk=course_id)
+    course = Course.objects.filter(pk=course_id).first()
+
+    if course is None:
+        messages.add_message(
+            request, messages.ERROR,
+            'The course has been deleted.'
+        )
+        return HttpResponseRedirect(reverse('menu_admin'))
 
     if request.method == "POST":
         dish_form = DishForm(data=request.POST)
@@ -71,7 +78,13 @@ def add_dish(request, course_id):
 @staff_member_required
 def edit_dish(request, dish_id):
     """View to edit the given dish"""
-    dish = get_object_or_404(Dish, pk=dish_id)
+    dish = Dish.objects.filter(pk=dish_id).first()
+    if dish is None:
+        messages.add_message(
+            request, messages.ERROR,
+            'The dish has been deleted.'
+        )
+        return HttpResponseRedirect(reverse('menu_admin'))
 
     if request.method == "POST":
         dish_form = DishForm(instance=dish, data=request.POST)
@@ -103,20 +116,34 @@ def delete_dish(request, dish_id):
     to the menu page
     """
     if request.method == "POST":
-        dish = get_object_or_404(Dish, pk=dish_id)
-        dish.delete()
-        messages.add_message(
-            request, messages.SUCCESS,
-            f'{dish.name} deleted.'
-        )
+        dish = Dish.objects.filter(pk=dish_id).first()
+        if dish is None:
+            messages.add_message(
+                request, messages.ERROR,
+                'The dish had already been deleted.'
+            )
+        else:
+            dish.delete()
+            messages.add_message(
+                request, messages.SUCCESS,
+                f'{dish.name} deleted.'
+            )
 
+    # A non-post request to the delete endpoint is bogus so return to the menu
     return HttpResponseRedirect(reverse('menu_admin'))
 
 
 @staff_member_required
 def toggle_dishes(request, course_id):
     """View to toggle dishes for the given course atomically"""
-    course = get_object_or_404(Course, pk=course_id)
+    course = Course.objects.filter(pk=course_id).first()
+
+    if course is None:
+        messages.add_message(
+            request, messages.ERROR,
+            'The course has been deleted.'
+        )
+        return HttpResponseRedirect(reverse('menu_admin'))
 
     if request.method == "POST":
         # The POST data contains names of the form dish_<id> and active_<id>.
@@ -154,7 +181,14 @@ def toggle_dishes(request, course_id):
 @staff_member_required
 def arrange_dishes(request, course_id):
     """View to rearrange the order of dishes in a course"""
-    course = get_object_or_404(Course, pk=course_id)
+    course = Course.objects.filter(pk=course_id).first()
+
+    if course is None:
+        messages.add_message(
+            request, messages.ERROR,
+            'The course has been deleted.'
+        )
+        return HttpResponseRedirect(reverse('menu_admin'))
 
     if request.method == "POST":
         # The POST data contains key-value pairs of the form:
