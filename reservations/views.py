@@ -543,7 +543,7 @@ def delete_reservation(request, id):
             )
             return HttpResponseRedirect(reverse('reservations'))
 
-        if reservation.customer == request.user:
+        if request.user.is_staff or reservation.customer == request.user:
             reservation.delete()
             messages.add_message(
                 request, messages.SUCCESS,
