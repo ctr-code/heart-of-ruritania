@@ -1,10 +1,8 @@
 # The Heart of Ruritania - Testing
 
-Validation of HTML, CSS, JS, Python
-
-Lighthouse
-
 ## User Stories and Acceptance Critera
+
+The project's key functionality was tested by working through the user stories and ensuring that each one worked.  One or more screenshots illustrate the feature and confirmation messages.
 
 |User Story and Acceptance Criteria|Screenshot|
 |-|-|
@@ -39,7 +37,9 @@ Lighthouse
 
 ## Defence
 
-This section illustrates the response of the site to invalid actions.  The server-side validation could be required if the user has an old browser.
+All of the views were identified along with their inputs, and each one was exercised with missing or invalid data.  Screenshots illustrate the results.
+
+Much of the server-side validation will not be seen ordinarily but it may be required if the user has an old browser.
 
 ### Signup
 
@@ -152,15 +152,15 @@ In these two cases the server simply redirects to the reservations page so there
 * [A day when the restaurant is closed](https://ruritania-a4a079b504db.herokuapp.com/reservations/2026-11-25)
 * [A day outside the booking period](https://ruritania-a4a079b504db.herokuapp.com/reservations/2027-9-25)
 
-An attempt to delete another user's reservation is handled similarly but needs an edited POST request to illustrate.
+An attempt to delete another user's reservation is handled similarly.
 
 [https://ruritania-a4a079b504db.herokuapp.com/reservations/2026-11-26](https://ruritania-a4a079b504db.herokuapp.com/reservations/2026-11-26)
 
 |Description|Screenshot|
 |-|-|
 |Logged out|![](docs/defence/8-res-time-out.png)|
-|The reservation failed.  This happens if the last space has just been taken by another user, or the user created a bogus request in the browser dev tools.|![](docs/defence/8-res-stolen.png)|
-|The reservation has just been deleted, maybe on another device.  The same endpoint is used for both so this works for users deleting their own reservations and admin deletions.|![](docs/defence/8-res-deleted.png)|
+|The reservation failed.  This happens if the last table has just been taken by another user, or if the user created a bogus request using the browser dev tools, say.|![](docs/defence/8-res-stolen.png)|
+|The reservation had already been deleted, perhaps by an admin.  The same endpoint is used for both users and admins so this check also works for admin deletions.|![](docs/defence/8-res-deleted.png)|
 
 ### Reservations Admin
 
@@ -212,7 +212,7 @@ This section demonstrates the responsivity of the site with screenshots for mobi
 
 ## HTML and CSS validation
 
-The online W3C HTML validator does not work well with pages that require a login.  The project uses units tests to generate pages and run them through a local copy of the validator.
+The project uses unit tests to generate pages and run them through a local copy of the validator.
 
 Run `python3 manage.py test` to run the tests:
 
@@ -244,7 +244,7 @@ AssertionError: False is not true : The HTML is not valid
 :131.17-131.62: error: The heading “h3” (with computed level 3) follows the heading “h1” (with computed level 1), skipping 1 heading level.
 ```
 
-A page from the live site, to illustrate that it works:
+A page from the live site validated using the W3C online service, to illustrate that it works:
 
 ![](docs/valid-menu.png)
 
@@ -276,7 +276,7 @@ JavaScript was validated using [JSHint](https://jshint.com/).
 
 ## Python Validation
 
-Python was validated using [testshot](https://github.com/ctr-code/testshot).
+Python was validated using the [Code Institute Python validator](https://pep8ci.herokuapp.com/).
 
 |Python File|Validation Results|
 |-|-|
