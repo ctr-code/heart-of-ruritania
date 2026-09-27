@@ -12,6 +12,8 @@
             <p><button id="deleteReservation" class="btn btn-danger">Delete Reservation</button></p>
             {% endif %}
             <h2 class="mb-3">{% if editing %}Edit Reservation{% else %}Make a Reservation{% endif %}</h2>
+            <p>A time slot will remain disabled if there is insufficient space at that time.
+                In this case please <a href="{% url 'contact' %}">contact us</a> and we may be able to sort something out.</p>
             <form method="post">
                 {# This disabled button prevents Enter submitting the form #}
                 <input type="submit" disabled class="d-none" aria-hidden="true">
