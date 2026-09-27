@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm
 
@@ -28,6 +29,11 @@ def profile(request):
         if form.is_valid():
             request.user.email = form.cleaned_data["email"]
             request.user.save()
+            messages.add_message(
+                request, messages.SUCCESS,
+                f'Email address changed to {request.user.email}'
+            )
+
     else:
         form = ProfileForm(initial={"email": request.user.email})
 
