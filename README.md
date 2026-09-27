@@ -321,6 +321,9 @@ Details can be found on the [testing page](TESTING.md).
 * [Microsoft](https://www.microsoft.com/) for [Visual Studio Code](https://code.visualstudio.com/)
 * [Copilot](https://copilot.microsoft.com/) for various tasks as described above
 * [W3C](https://www.w3.org/) for the [HTML and CSS validator](https://github.com/validator/validator/)
+* [Code Institute](https://pep8ci.herokuapp.com/) again for the Python validator
+* [JSHint](https://jshint.com/) for the JavaScript validator
+* [WebAIM](https://webaim.org/) for the [WAVE accessibility extension](https://wave.webaim.org/extension/)
 * [Inkscape](https://inkscape.org/) for rendering the logo and favicons
 * [GIMP](https://www.gimp.org/) for cropping many screenshots
 * [Coolors](https://coolors.co/) for the palette generator
