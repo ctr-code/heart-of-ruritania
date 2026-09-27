@@ -27,15 +27,13 @@ Desktop | Mobile
 -- | --
 ![Lighthouse for desktop](docs/lighthouse-desktop.png) | ![Lighthouse for mobile](docs/lighthouse-mobile.png)
 
-## Automated Testing
-
-Run `python3 manage.py test`.  At the moment this only does the W3C validation.  Screenshot:
-
-![](docs/python-tests.png)|
-
 ## HTML and CSS validation
 
-This is handled automatically as part of the Python testing.
+The online W3C HTML validator does not work well with pages that require a login.  The project uses units tests to generate pages and run them through a local copy of the validator.
+
+Run `python3 manage.py test` to run the tests:
+
+![](docs/python-tests.png)|
 
 To demonstrate that it does something, this is the output of a previously failing test.  The problematic URL and the validation errors appear at the end:
 
@@ -62,6 +60,10 @@ AssertionError: False is not true : The HTML is not valid
 :142.21-142.79: error: Attribute “href” not allowed on element “button” at this point.
 :131.17-131.62: error: The heading “h3” (with computed level 3) follows the heading “h1” (with computed level 1), skipping 1 heading level.
 ```
+
+A generated page from the live site, to illustrate that it works:
+
+![](docs/valid-menu.png)
 
 ## JavaScript Validation
 
