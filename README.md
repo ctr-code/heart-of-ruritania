@@ -141,7 +141,7 @@ The active field on dishes makes it simple to add and remove items from the menu
 
 The overall theme is intended to convey tradition and quality.
 
-The textured background is reminiscent of parchment.  Text uses the PT Serif font for a vintage, serious feel.
+The textured background is reminiscent of parchment.  Text uses the PT Serif font for a vintage, serious feel.  The whole is suggestive of a menu on quality paper.
 
 The hero image on the home page, in the style of Brueghel, evokes traditional Europe; the cabbages and sausages represent the cuisine while introducing a little whimsy.
 
