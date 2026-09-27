@@ -4,22 +4,24 @@ Validation of HTML, CSS, JS, Python
 
 Lighthouse
 
-## User Stories
+## User Stories and Acceptance Critera
 
-* As a browser I can view the menu so that I can plan my meal
-* As a browser I can check opening hours so that I know if the restaurant is available
-* As a browser I can find contact details so that I can get my questions answered
-* As a browser I can create an account so that I can make a reservation
-* As a user I can log in so that I can check my reservations
-* As a user I can update my account details so that I can be contacted if needed
-* As a user I can make a reservation so that I will be sure to get a table
-* As a user I can check my reservations so that to remind myself
-* As a user I can delete a reservation so that I don't waste the restaurant's time
-* As an admin I can set opening hours so that users can automatically book
-* As an admin I can manage reservations so that I can remove griefers
-* As a colleague I can view an overview of the day so that I know how busy we'll be
-* As an admin I can edit the menu so that I can keep the site up-to-date without a web developer
-* As an admin I can preview the menu so that I can see what it looks like to a regular user
+|User Story and Acceptance Criteria|Screenshot|
+|-|-|
+|As **a browser** I can **view the menu** so that **I can plan my meal**.<br><br>• The website contains the restaurant menu<br>• Every page has a clear link to the menu<br>|![](docs/user-story/)|
+|As **a browser** I can **check opening hours** so that **I know if the restaurant is available**.<br><br>• The website displays opening hours<br>• Every page has a clear link to the opening hours<br>|![](docs/user-story/)|
+|As **a browser** I can **find contact details** so that **I can get my questions answered**.<br><br>• The website has a page of contact information<br>• Every page has a clear link to the contact page<br>|![](docs/user-story/)|
+|As **a browser** I can **create an account** so that **I can make a reservation**.<br><br>• When nobody is logged-in every page has a clear link to the Register page<br>• The Register page asks for details and creates an account<br>|![](docs/user-story/)|
+|As **a user** I can **log in** so that **I can check my reservations**.<br><br>• When nobody is logged-in every page has a clear link to the Login page<br>• The Login page asks for details, verifies them and logs the user in<br>|![](docs/user-story/)|
+|As **a user** I can **update my account details** so that **I can be contacted if needed**.<br><br>• When a user is logged-in every page has a clear link to "my account"<br>• The "my account" page lets the user edit their details<br>|![](docs/user-story/)|
+|As **a user** I can **make a reservation** so that **I will be sure to get a table**.<br><br>• Every page has a clear link to the reservation page<br>• Browsers are prompted to login<br>• Users are presented with a calendar so they can pick a date<br>• They are then prompted with a grid of available times to select one<br>|![](docs/user-story/)|
+|As **a user** I can **check my reservations** so that **to remind myself**.<br><br>• The "my account" page lists my reservations<br>|![](docs/user-story/)|
+|As **a user** I can **delete a reservation** so that **I don't waste the restaurant's time**.<br><br>• Each reservation in the "my account" page has a delete button<br>• The user is prompted for confirmation before deleting the reservation<br>|![](docs/user-story/)|
+|As **an admin** I can **set opening hours** so that **users can automatically book**.<br><br>• Opening hours can be edited in the Admin panel<br>|![](docs/user-story/)|
+|As **a colleague** I can **manage reservations** so that **I can remove griefers**.<br><br>• Reservations can be edited and deleted in the Admin panel<br>|![](docs/user-story/)|
+|As **a colleague** I can **view an overview of the day** so that **I know how busy we'll be**.<br><br>• The day overview shows the number of bookings, the number of covers, a heat map and all the booking<br>|![](docs/user-story/)|
+|As **a colleague** I can **edit the menu** so that **I can keep the site up-to-date without a web developer**.<br><br>• Each menu section has a button to create a new dish in that section<br>• Each dish has buttons to edit, delete and toggle (enable/disable) it|![](docs/user-story/)|
+|As **a colleague** I can **preview the menu** so that **I can see what it looks like to a regular user**.<br><br>• The menu link in the navbar leads to the menu admin page<br>• The menu admin page has a link to the regular menu page|![](docs/user-story/)|
 
 ### Google Lighthouse Performance
 

@@ -52,10 +52,10 @@ Using the admin panel the admin can also:
 * As a user I can check my reservations so that to remind myself
 * As a user I can delete a reservation so that I don't waste the restaurant's time
 * As an admin I can set opening hours so that users can automatically book
-* As an admin I can manage reservations so that I can remove griefers
+* As a colleague I can manage reservations so that I can remove griefers
 * As a colleague I can view an overview of the day so that I know how busy we'll be
-* As an admin I can edit the menu so that I can keep the site up-to-date without a web developer
-* As an admin I can preview the menu so that I can see what it looks like to a regular user
+* As a colleague I can edit the menu so that I can keep the site up-to-date without a web developer
+* As a colleague I can preview the menu so that I can see what it looks like to a regular user
 
 ### Deferred Stories
 
