@@ -1,11 +1,8 @@
-@import url("https://fonts.bunny.net/css?family=modern-antiqua:400|pt-serif:400,700");
+@import url("https://fonts.bunny.net/css?family=pt-serif:400,700");
 
 :root {
     --primary-font: "PT Serif", sans-serif;
     --secondary-font: "PT Serif", sans-serif;
-    /* --secondary-font: "Modern Antiqua", serif; */
-    --primary-colour: #3a2620; /* dark brown */
-    --secondary-colour: #aa9581; /* light brown */
     --highlight-colour: #416a8e; /* blue */
     --highlight-colour-light: #7a9fc2; /* light blue */
     --bookable-colour: rgb(207, 237, 247);
