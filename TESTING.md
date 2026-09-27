@@ -61,9 +61,22 @@ AssertionError: False is not true : The HTML is not valid
 :131.17-131.62: error: The heading “h3” (with computed level 3) follows the heading “h1” (with computed level 1), skipping 1 heading level.
 ```
 
-A generated page from the live site, to illustrate that it works:
+A page from the live site, to illustrate that it works:
 
 ![](docs/valid-menu.png)
+
+## Accessibility
+
+Accessibility was tested using Lighthouse and the [WAVE accessibility extension](https://wave.webaim.org/extension/).
+
+I tested all the pages and I explain the errors and warnings below:
+
+|Gloss|WAVE results|
+|-|-|
+|All pages have a warning about redundant links because the logo, restaurant name, and Home navbar link all link to the home page.  Many users expect the logo and title to link to the home page; other users will be confused if there is not an explicit Home link.|![](docs/wave/menu-admin.png)|
+|Days when the restaurant is closed appear on the calendar with low contrast.  This is by design.<br>WAVE complains of a table used for layout; this should be fixed in the next version.|![](docs/wave/reservations-admin.png)|
+|The form contains a hidden button to prevent the form auto-submitting when enter is pressed or when Go is tapped on mobile.  WAVE complains that it has no value text but it is hidden and has the aria-hidden="true" attribute (as WAVE also notes) so the hidden button won't affect screen reader users.<br>The page also uses a table for layout; this should be fixed in the next version.|![](docs/wave/reservation-edit.png)|
+|WAVE complains of a table used for layout.  This actually is a table of opening hours so it is fine.|![](docs/wave/hours.png)|
 
 ## JavaScript Validation
 
