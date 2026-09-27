@@ -188,6 +188,28 @@ Desktop | Mobile
 -- | --
 ![Lighthouse for desktop](docs/lighthouse-desktop.png) | ![Lighthouse for mobile](docs/lighthouse-mobile.png)
 
+## Responsivity
+
+This section demonstrates the responsivity of the site with screenshots for mobile, tablet and desktop views.
+
+|Page|Mobile|Tablet|Desktop|
+|-|-|-|-|
+||![](docs/resp/mobile/index.png)|![](docs/resp/tablet/index.png)|![](docs/resp/desktop/index.png)|
+|menu/|![](docs/resp/mobile/menu.png)|![](docs/resp/tablet/menu.png)|![](docs/resp/desktop/menu.png)|
+|hours|![](docs/resp/mobile/hours.png)|![](docs/resp/tablet/hours.png)|![](docs/resp/desktop/hours.png)|
+|contact|![](docs/resp/mobile/contact.png)|![](docs/resp/tablet/contact.png)|![](docs/resp/desktop/contact.png)|
+|reservations|![](docs/resp/mobile/reservations.png)|![](docs/resp/tablet/reservations.png)|![](docs/resp/desktop/reservations.png)|
+|reservations/2026-10-30|![](docs/resp/mobile/reservations-2026-10-30.png)|![](docs/resp/tablet/reservations-2026-10-30.png)|![](docs/resp/desktop/reservations-2026-10-30.png)|
+|profile|![](docs/resp/mobile/profile.png)|![](docs/resp/tablet/profile.png)|![](docs/resp/desktop/profile.png)|
+|reservations/admin|![](docs/resp/mobile/reservations-admin.png)|![](docs/resp/tablet/reservations-admin.png)|![](docs/resp/desktop/reservations-admin.png)|
+|reservations/2026-10-1/admin|![](docs/resp/mobile/reservations-2026-10-1-admin.png)|![](docs/resp/tablet/reservations-2026-10-1-admin.png)|![](docs/resp/desktop/reservations-2026-10-1-admin.png)|
+|menu/admin|![](docs/resp/mobile/menu-admin.png)|![](docs/resp/tablet/menu-admin.png)|![](docs/resp/desktop/menu-admin.png)|
+|menu/course/1/add|![](docs/resp/mobile/menu-course-1-add.png)|![](docs/resp/tablet/menu-course-1-add.png)|![](docs/resp/desktop/menu-course-1-add.png)|
+|menu/dish/54/edit|![](docs/resp/mobile/menu-dish-54-edit.png)|![](docs/resp/tablet/menu-dish-54-edit.png)|![](docs/resp/desktop/menu-dish-54-edit.png)|
+|menu/course/1/toggle|![](docs/resp/mobile/menu-course-1-toggle.png)|![](docs/resp/tablet/menu-course-1-toggle.png)|![](docs/resp/desktop/menu-course-1-toggle.png)|
+|menu/course/1/arrange|![](docs/resp/mobile/menu-course-1-arrange.png)|![](docs/resp/tablet/menu-course-1-arrange.png)|![](docs/resp/desktop/menu-course-1-arrange.png)|
+|accounts/login/|![](docs/resp/mobile/accounts-login.png)|![](docs/resp/tablet/accounts-login.png)|![](docs/resp/desktop/accounts-login.png)|
+
 ## HTML and CSS validation
 
 The online W3C HTML validator does not work well with pages that require a login.  The project uses units tests to generate pages and run them through a local copy of the validator.
