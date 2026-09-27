@@ -38,7 +38,7 @@ Using the admin panel the admin can also:
 * Colleague - a member of the restaurant's staff
 * Admin - the restaurant manager
 
-### Stories
+### Completed Stories
 
 * As a browser I can view the menu so that I can plan my meal
 * As a browser I can check opening hours so that I know if the restaurant is available
@@ -49,18 +49,21 @@ Using the admin panel the admin can also:
 * As a user I can make a reservation so that I will be sure to get a table
 * As a user I can check my reservations so that to remind myself
 * As a user I can delete a reservation so that I don't waste the restaurant's time
+* As an admin I can set opening hours so that users can automatically book
+* As an admin I can manage reservations so that I can remove griefers
+* As a colleague I can view an overview of the day so that I know how busy we'll be
+* As an admin I can edit the menu so that I can keep the site up-to-date without a web developer
+* As an admin I can preview the menu so that I can see what it looks like to a regular user
+
+### Deferred Stories
+
 * As a user I can leave feedback so that the restaurant will improve
 * As a user I can make contact through a form so that I'm saved the bother of calling
 * As a user I can leave a review so that other people can learn from my experience
-* As an admin I can set opening hours so that users can automatically book
-* As an admin I can manage reservations so that I can remove griefers
 * As a colleague I can view an overview calendar so that I know how busy we are for the coming week
-* As a colleague I can view an overview of the day so that I know how busy we'll be
 * As a colleague I can view a service overview so that I can check reservations as diners arrive
 * As an admin I can add stories to a news feed so that customers get a sense of continuous improvement
 * As an admin I can set the time zone so that so that the software can be used by businesses outside the UK
-* As an admin I can edit the menu so that I can keep the site up-to-date without a web developer
-* As an admin I can preview the menu so that I can see what it looks like to a regular user
 
 ## Data Model
 
