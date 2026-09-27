@@ -302,6 +302,7 @@ Details can be found on the [testing page](TESTING.md).
 * Menu closer.
 * Error if all the tables were used (max over no elements)
 * Validation error in signup form needed switch to crispy because of `<ul>` in `<span>`.
+* Admin couldn't delete other reservations!
 
 ## Credit and Thanks
 
