@@ -230,7 +230,7 @@ The database URL should be something like:
 
 `postgresql://neondb_owner:ngy_rtfGRGRg56g@battery-horse-staple-56dfdf7.c-6.eu-central-1.aws.neon.tech/nuncle_pig_654321`
 
-In the following sections you will copy it into your `.env` file for local development and into the Heroku app config vars for deployment.
+In the following sections you will copy your database URL into your `.env` file for local development and into your Heroku app config vars for deployment.
 
 ### Fork
 
