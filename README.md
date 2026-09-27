@@ -306,13 +306,37 @@ Having [forked the project](#fork) and [created a database](#database).
 19. Click on `Open App`.
 20. Enjoy!
 
-## AI
+## Copilot AI Assistance
 
-* Menu suggestions.
-* Created Django models from entity-relationship diagrams.
-* Converted menu contents from markdown to Django `dumpdata` format to get it into the database.
-* Identify code in need of comments.
-* Hero image.
+### Misc
+
+Copilot was used to create the hero image and much of the menu.  It was also used to convert the menu from markdown into Django `dumpdata` format to get the menu into the database.
+
+### Coding
+
+Copilot was used for coding in a number of areas.  For example, it converted the entity-relationship diagrams into Django models and it generated much of the code (forms and views) for managing dishes.
+
+### Debugging
+
+When trying to book a table the server threw a 500 error.  Copilot was asked to investigate.  Copilot identified that the problem arose when there was no table available and the code attempted to take the maximum of an empty list.  Copilot fixed the problem.
+
+### Performance and UX
+
+Copilot was asked to suggest UX improvements.  It made a number of solid suggestions such as adding more explanatory text and making telephone numbers clickable, which it was able to implement.  The key suggestion was to make the calendar control more accessible, but this will have to wait for the next sprint.
+
+### Unit Tests
+
+
+
+### Reflections
+
+I found that Copilot provides very useful reviews.  For example, it reviewed the code comments and I made extensive changes to make them more understandable.  I also had some success asking it to review its own code.
+
+It is very good at producing boilerplate and converting data from one format to another.
+
+Its code is generally verbose and often correct.  When it gets something wrong it is often quicker to fix it yourself than to try to persuade Copilot there's a problem.
+
+Overall it is a very useful tool that was able to do many of the more tedious tasks.
 
 ## Testing
 
