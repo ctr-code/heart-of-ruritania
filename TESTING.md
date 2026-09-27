@@ -141,17 +141,41 @@ This section illustrates the response of the site to invalid actions.  The serve
 
 [https://ruritania-a4a079b504db.herokuapp.com/reservations](https://ruritania-a4a079b504db.herokuapp.com/reservations)
 
-These simply redirect to the reservations page so there is nothing to show:
-
-[A day when the restaurant is closed](https://ruritania-a4a079b504db.herokuapp.com/reservations/2026-11-25).  [A day outside the booking period](https://ruritania-a4a079b504db.herokuapp.com/reservations/2027-9-25).
-
-An attempt to delete another user's reservation is handled similarly but needs an edited POST request to illustrate.
-
 |Description|Screenshot|
 |-|-|
 |Logged out|![](docs/defence/8-res-out.png)|
+
+### Reservation Times
+
+In these two case the server simply redirects to the reservations page so there is nothing to show:
+
+* [A day when the restaurant is closed](https://ruritania-a4a079b504db.herokuapp.com/reservations/2026-11-25)
+* [A day outside the booking period](https://ruritania-a4a079b504db.herokuapp.com/reservations/2027-9-25)
+
+An attempt to delete another user's reservation is handled similarly but needs an edited POST request to illustrate.
+
+[https://ruritania-a4a079b504db.herokuapp.com/reservations/2026-11-26](https://ruritania-a4a079b504db.herokuapp.com/reservations/2026-11-26)
+
+|Description|Screenshot|
+|-|-|
+|Logged out|![](docs/defence/8-res-time-out.png)|
 |The reservation failed.  This happens if the last space has just been taken by another user, or the user created a bogus request in the browser dev tools.|![](docs/defence/8-res-stolen.png)|
 |The reservation has just been deleted, maybe on another device.  The same endpoint is used for both so this works for users deleting their own reservations and admin deletions.|![](docs/defence/8-res-deleted.png)|
+
+### Reservations Admin
+
+[https://ruritania-a4a079b504db.herokuapp.com/reservations/admin](https://ruritania-a4a079b504db.herokuapp.com/reservations/admin)
+
+[https://ruritania-a4a079b504db.herokuapp.com/reservations/2026-11-26/admin](https://ruritania-a4a079b504db.herokuapp.com/reservations/2026-11-26/admin)
+
+|Description|Screenshot|
+|-|-|
+|Logged out|![](docs/defence/9-res-admin-out.png)|
+|Logged in as a customer|![](docs/defence/9-res-admin-cust.png)|
+|Logged out|![](docs/defence/9-res-time-admin-out.png)|
+|Logged in as a customer|![](docs/defence/9-res-admin-cust.png)|
+
+The only interactivity here is the Delete button, which, as noted in the previous section, uses the same endpoint as non-admin users so it has been tested.
 
 ## Google Lighthouse Performance
 
