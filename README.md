@@ -6,6 +6,8 @@ A warm welcome awaits at The Heart of Ruritania, the UK's first Ruritanian resta
 
 ## Screenshot
 
+![](docs/overview.png)
+
 ## Features
 
 For customers the main features are:
