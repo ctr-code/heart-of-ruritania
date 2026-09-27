@@ -39,7 +39,7 @@ Lighthouse
 
 ## Defence
 
-This section illustrates the response of the server to invalid actions.  The server-side validation could be required if the user has an old browser.
+This section illustrates the response of the site to invalid actions.  The server-side validation could be required if the user has an old browser.
 
 ### Signup
 
@@ -76,14 +76,14 @@ This section illustrates the response of the server to invalid actions.  The ser
 |Server-side validation|![](docs/defence/3-profile-server.png)|
 |Server-side validation|![](docs/defence/3-profile-server-email.png)|
 
-### Admin Menu
+### Menu Admin
 
-[https://ruritania-a4a079b504db.herokuapp.com/admin/login/?next=/menu/admin](https://ruritania-a4a079b504db.herokuapp.com/admin/login/?next=/menu/admin)
+[https://ruritania-a4a079b504db.herokuapp.com/menu/admin](https://ruritania-a4a079b504db.herokuapp.com/menu/admin)
 
 |Description|Screenshot|
 |-|-|
 |Not logged in|![](docs/defence/6-menu-admin-out.png)|
-|Logged in a customer|![](docs/defence/6-menu-admin-cust.png)|
+|Logged in as a customer|![](docs/defence/6-menu-admin-cust.png)|
 
 ### Add Dish
 
@@ -137,40 +137,21 @@ This section illustrates the response of the server to invalid actions.  The ser
 |Logged in as a customer|![](docs/defence/7-course-arrange-cust.png)|
 |[Arrange course with invalid course id](https://ruritania-a4a079b504db.herokuapp.com/menu/course/996/arrange)|![](docs/defence/bad-course-id.png)|
 
-### 
+### Reservations
 
-[]()
+[https://ruritania-a4a079b504db.herokuapp.com/reservations](https://ruritania-a4a079b504db.herokuapp.com/reservations)
 
-|Description|Screenshot|
-|-|-|
-||![](docs/defence)|
-||![](docs/defence)|
-||![](docs/defence)|
-||![](docs/defence)|
+These simply redirect to the reservations page so there is nothing to show:
 
----
+[A day when the restaurant is closed](https://ruritania-a4a079b504db.herokuapp.com/reservations/2026-11-25).  [A day outside the booking period](https://ruritania-a4a079b504db.herokuapp.com/reservations/2027-9-25).
 
-[]()
+An attempt to delete another user's reservation is handled similarly but needs an edited POST request to illustrate.
 
 |Description|Screenshot|
 |-|-|
-||![](docs/defence)|
-||![](docs/defence)|
-||![](docs/defence)|
-||![](docs/defence)|
-
----
-
-[]()
-
-|Description|Screenshot|
-|-|-|
-||![](docs/defence)|
-||![](docs/defence)|
-||![](docs/defence)|
-||![](docs/defence)|
-
-MENU AND RESERVATIONS
+|Logged out|![](docs/defence/8-res-out.png)|
+|The reservation failed.  This happens if the last space has just been taken by another user, or the user created a bogus request in the browser dev tools.|![](docs/defence/8-res-stolen.png)|
+|The reservation has just been deleted, maybe on another device.  The same endpoint is used for both so this works for users deleting their own reservations and admin deletions.|![](docs/defence/8-res-deleted.png)|
 
 ## Google Lighthouse Performance
 
