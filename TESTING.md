@@ -147,7 +147,7 @@ This section illustrates the response of the site to invalid actions.  The serve
 
 ### Reservation Times
 
-In these two case the server simply redirects to the reservations page so there is nothing to show:
+In these two cases the server simply redirects to the reservations page so there is nothing to show:
 
 * [A day when the restaurant is closed](https://ruritania-a4a079b504db.herokuapp.com/reservations/2026-11-25)
 * [A day outside the booking period](https://ruritania-a4a079b504db.herokuapp.com/reservations/2027-9-25)
@@ -166,14 +166,19 @@ An attempt to delete another user's reservation is handled similarly but needs a
 
 [https://ruritania-a4a079b504db.herokuapp.com/reservations/admin](https://ruritania-a4a079b504db.herokuapp.com/reservations/admin)
 
-[https://ruritania-a4a079b504db.herokuapp.com/reservations/2026-11-26/admin](https://ruritania-a4a079b504db.herokuapp.com/reservations/2026-11-26/admin)
-
 |Description|Screenshot|
 |-|-|
 |Logged out|![](docs/defence/9-res-admin-out.png)|
 |Logged in as a customer|![](docs/defence/9-res-admin-cust.png)|
+
+### Reservations Admin Day View
+
+[https://ruritania-a4a079b504db.herokuapp.com/reservations/2026-11-26/admin](https://ruritania-a4a079b504db.herokuapp.com/reservations/2026-11-26/admin)
+
+|Description|Screenshot|
+|-|-|
 |Logged out|![](docs/defence/9-res-time-admin-out.png)|
-|Logged in as a customer|![](docs/defence/9-res-admin-cust.png)|
+|Logged in as a customer|![](docs/defence/9-res-time-admin-cust.png)|
 
 The only interactivity here is the Delete button, which, as noted in the previous section, uses the same endpoint as non-admin users so it has been tested.
 
