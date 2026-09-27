@@ -37,7 +37,125 @@ Lighthouse
 ||![](docs/user-story/13-menu-arrange-confirm.png)|
 |As **a colleague** I can **preview the menu** so that **I can see what it looks like to a regular user**.<br><br>• The menu link in the navbar leads to the menu admin page<br>• The menu admin page has a link to the regular menu page|![](docs/user-story/14-menu-preview.png)|
 
-### Google Lighthouse Performance
+## Defence
+
+This section illustrates the response of the server to invalid actions.  The server-side validation could be required if the user has an old browser.
+
+### Signup
+
+[https://ruritania-a4a079b504db.herokuapp.com/accounts/signup/](https://ruritania-a4a079b504db.herokuapp.com/accounts/signup/)
+
+|Description|Screenshot|
+|-|-|
+|Missing user|![](docs/defence/1-register-user.png)|
+|Missing password|![](docs/defence/1-register-password.png)|
+|Missing second password field|![](docs/defence/1-register-password2.png)|
+|The passwords don't match|![](docs/defence/1-register-mismatch.png)|
+|Bad password|![](docs/defence/1-register-bad.png)|
+|Server-side validation|![](docs/defence/1-register-server.png)|
+
+### Login
+
+[https://ruritania-a4a079b504db.herokuapp.com/accounts/login/](https://ruritania-a4a079b504db.herokuapp.com/accounts/login/)
+
+|Description|Screenshot|
+|-|-|
+|Missing user|![](docs/defence/2-login-user.png)|
+|Missing password|![](docs/defence/2-login-password.png)|
+|Wrong password|![](docs/defence/2-login-wrong.png)|
+|Server-side validation|![](docs/defence/2-login-server.png)|
+
+### Profile
+
+[https://ruritania-a4a079b504db.herokuapp.com/profile](https://ruritania-a4a079b504db.herokuapp.com/profile)
+
+|Description|Screenshot|
+|-|-|
+|Missing email|![](docs/defence/3-profile-email.png)|
+|Invalid email address|![](docs/defence/3-profile-email-valid.png)|
+|Server-side validation|![](docs/defence/3-profile-server.png)|
+|Server-side validation|![](docs/defence/3-profile-server-email.png)|
+
+### Add Dish
+
+[https://ruritania-a4a079b504db.herokuapp.com/menu/course/1/add](https://ruritania-a4a079b504db.herokuapp.com/menu/course/1/add)
+
+|Description|Screenshot|
+|-|-|
+|[Add dish with invalid course id](https://ruritania-a4a079b504db.herokuapp.com/menu/course/994/add)|![](docs/defence/bad-course-id.png)|
+|Missing name|![](docs/defence/4-dish-add-name.png)|
+|Missing description|![](docs/defence/4-dish-add-desc.png)|
+|Missing price|![](docs/defence/4-dish-add-price.png)|
+|Server-side validation|![](docs/defence/4-dish-add-server.png)|
+|Server-side validation|![](docs/defence/4-dish-add-server-price.png)|
+
+### Edit Dish
+
+[https://ruritania-a4a079b504db.herokuapp.com/menu/dish/54/edit](https://ruritania-a4a079b504db.herokuapp.com/menu/dish/54/edit)
+
+|Description|Screenshot|
+|-|-|
+|[Edit dish with invalid id](https://ruritania-a4a079b504db.herokuapp.com/menu/dish/995/edit)|![](docs/defence/bad-dish-id.png)|
+|Missing name|![](docs/defence/5-dish-edit-name.png)|
+|Missing description|![](docs/defence/5-dish-edit-desc.png)|
+|Missing price|![](docs/defence/5-dish-edit-price.png)|
+|Non-numeric price|![](docs/defence/5-dish-edit-price2.png)|
+|Server-side validation|![](docs/defence/5-dish-edit-server.png)|
+|Server-side validation|![](docs/defence/5-dish-edit-server-price.png)|
+|Attempt to delete a dish that another user just deleted|![](docs/defence/5-dish-edit-deleted.png)|
+
+### Toggle Dishes
+
+[https://ruritania-a4a079b504db.herokuapp.com/menu/course/1/toggle](https://ruritania-a4a079b504db.herokuapp.com/menu/course/1/toggle)
+
+|Description|Screenshot|
+|-|-|
+|[Edit course with invalid course id](https://ruritania-a4a079b504db.herokuapp.com/menu/course/837/toggle)|![](docs/defence/bad-course-id.png)|
+
+### Arrange Dishes
+
+[https://ruritania-a4a079b504db.herokuapp.com/menu/course/1/arrange](https://ruritania-a4a079b504db.herokuapp.com/menu/course/1/arrange)
+
+|Description|Screenshot|
+|-|-|
+|[Arrange course with invalid course id](https://ruritania-a4a079b504db.herokuapp.com/menu/course/996/arrange)|![](docs/defence/bad-course-id.png)|
+
+### 
+
+[]()
+
+|Description|Screenshot|
+|-|-|
+||![](docs/defence)|
+||![](docs/defence)|
+||![](docs/defence)|
+||![](docs/defence)|
+
+---
+
+[]()
+
+|Description|Screenshot|
+|-|-|
+||![](docs/defence)|
+||![](docs/defence)|
+||![](docs/defence)|
+||![](docs/defence)|
+
+---
+
+[]()
+
+|Description|Screenshot|
+|-|-|
+||![](docs/defence)|
+||![](docs/defence)|
+||![](docs/defence)|
+||![](docs/defence)|
+
+MENU AND RESERVATIONS
+
+## Google Lighthouse Performance
 
 Desktop | Mobile
 -- | --
