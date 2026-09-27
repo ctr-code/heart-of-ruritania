@@ -27,7 +27,7 @@ For colleagues the additional features are:
 
 Using the admin panel the admin can also:
 
-* Manage the restaurant opening hours (both the defaults and exceptions)
+* Manage the restaurant opening hours (both the weekly defaults and exceptions)
 * Manage the available tables
 * Manage the courses on the menu
 
@@ -147,6 +147,42 @@ The textured background is reminiscent of parchment.  Text uses the PT Serif fon
 
 The hero image on the home page, in the style of Brueghel, evokes traditional Europe; the cabbages and sausages represent the cuisine while introducing a little whimsy.
 
+The simple palette has colours for parchment and text and highlight colours for the calendar.
+
+![](docs/palette.png)
+
+### Other
+
+The main goal was to make it very easy for the user to manage reservations.
+
+* To make a reservation: click on a date; enter the number of guests; click on a time.  Done.
+* To edit a reservation: click on a date; click on a new time.  Done.
+
+This does prevent the creation of multiple reservations on a single day.  However, this is a niche requirement so keeping the interface simple for the typical user was the priority.  A user who really wants multiple reservations can always phone the restaurant.
+
+|Screen|Mobile|Tablet|Desktop|
+|-|-|-|-|
+|Calendar|![](docs/wire-504/calendar.png)|![](docs/wire-768/calendar.png)|![](docs/wire-992/calendar.png)|
+|Time|![](docs/wire-504/reservation-edit.png)|![](docs/wire-768/reservation-edit.png)|![](docs/wire-992/reservation-edit.png)|
+
+The user also needs to be able to check the menu, the opening hours and find contact details.
+
+|Screen|Mobile|Tablet|Desktop|
+|-|-|-|-|
+|Menu|![](docs/wire-504/menu.png)|![](docs/wire-768/menu.png)|![](docs/wire-992/menu.png)|
+|Hours|![](docs/wire-504/hours.png)|![](docs/wire-768/hours.png)|![](docs/wire-992/hours.png)|
+|Contact|![](docs/wire-504/contact.png)|![](docs/wire-768/contact.png)|![](docs/wire-992/contact.png)|
+
+An additional goal was to allow the restaurateur to edit the menu for seasonal changes, for example.  Rather than editing the user-visible menu one dish at a time, the manager can create multiple inactive dishes and then enable/disable them all together on the toggle page.
+
+|Screen|Mobile|Tablet|Desktop|
+|-|-|-|-|
+|Menu admin|![](docs/wire-504/menu-admin.png)|![](docs/wire-768/menu-admin.png)|![](docs/wire-992/menu-admin.png)|
+|Add dish|![](docs/wire-504/dish-add.png)|![](docs/wire-768/dish-add.png)|![](docs/wire-992/dish-add.png)|
+|Edit dish|![](docs/wire-504/dish-edit.png)|![](docs/wire-768/dish-edit.png)|![](docs/wire-992/dish-edit.png)|
+|Toggle dishes|![](docs/wire-504/dishes-arrange.png)|![](docs/wire-768/dishes-arrange.png)|![](docs/wire-992/dishes-arrange.png)
+|Arrange dishes|![](docs/wire-504/dishes-arrange.png)|![](docs/wire-768/dishes-arrange.png)|![](docs/wire-992/dishes-arrange.png)
+
 ### Security
 
 When the user can naturally navigate to a resource they lack access to (e.g. the reservations page while logged out) the user will be prompted to log in and redirected to their intended destination.
@@ -154,18 +190,6 @@ When the user can naturally navigate to a resource they lack access to (e.g. the
 When the server is asked to do an action on a missing resource (e.g. delete a non-existent dish from the menu), the server assumes it must have been deleted and shows a message to this effect.
 
 When the server receives an "impossible" request (such as a GET on a POST-only endpoint) this must have been the result of shenanigans so it is redirected without a message.
-
-### Other
-
-Discussion of design choices.  Wireframes.
-
-Only one reservation per day.
-
-Purpose of toggling.
-
-## UI Design
-
-Colours, fonts, images.
 
 ## Technology
 
@@ -318,6 +342,7 @@ Details can be found on the [testing page](TESTING.md).
 * [Neon](https://neon.com/) for hosting PostgreSQL
 * [The Django Authors](https://github.com/django/django/blob/main/AUTHORS) for the web framework
 * [Bootstrap](https://getbootstrap.com/) for the CSS framework
+* [ParaType](https://www.paratype.com/) for the PT Serif font
 * [Font Awesome](https://fontawesome.com/) for icons
 * [Fort Awesome](https://github.com/FortAwesome/Font-Awesome/releases) for collating the Font Awesome assets
 * [Bunny CDN](https://fonts.bunny.net/) for font hosting
