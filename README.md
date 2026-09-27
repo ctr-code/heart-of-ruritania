@@ -149,7 +149,9 @@ The hero image on the home page, in the style of Brueghel, evokes traditional Eu
 
 When the user can naturally navigate to a resource they lack access to (e.g. the reservations page while logged out) the user will be prompted to log in and redirected to their intended destination.
 
-When the server receives an "impossible" request (such as one user trying to delete another user's reservation) this must have been the result of shenanigans so it will be quietly ignored.
+When the server is asked to do an action on a missing resource (e.g. delete a non-existent dish from the menu), the server assumes it must have been deleted and shows a message to this effect.
+
+When the server receives an "impossible" request (such as a GET on a POST-only endpoint) this must have been the result of shenanigans so it is redirected without a message.
 
 ### Other
 
