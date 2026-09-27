@@ -76,12 +76,23 @@ This section illustrates the response of the server to invalid actions.  The ser
 |Server-side validation|![](docs/defence/3-profile-server.png)|
 |Server-side validation|![](docs/defence/3-profile-server-email.png)|
 
+### Admin Menu
+
+[https://ruritania-a4a079b504db.herokuapp.com/admin/login/?next=/menu/admin](https://ruritania-a4a079b504db.herokuapp.com/admin/login/?next=/menu/admin)
+
+|Description|Screenshot|
+|-|-|
+|Not logged in|![](docs/defence/6-menu-admin-out.png)|
+|Logged in a customer|![](docs/defence/6-menu-admin-cust.png)|
+
 ### Add Dish
 
 [https://ruritania-a4a079b504db.herokuapp.com/menu/course/1/add](https://ruritania-a4a079b504db.herokuapp.com/menu/course/1/add)
 
 |Description|Screenshot|
 |-|-|
+|Logged out|![](docs/defence/4-dish-add-out.png)|
+|Logged in as a customer|![](docs/defence/4-dish-add-cust.png)|
 |[Add dish with invalid course id](https://ruritania-a4a079b504db.herokuapp.com/menu/course/994/add)|![](docs/defence/bad-course-id.png)|
 |Missing name|![](docs/defence/4-dish-add-name.png)|
 |Missing description|![](docs/defence/4-dish-add-desc.png)|
@@ -95,6 +106,8 @@ This section illustrates the response of the server to invalid actions.  The ser
 
 |Description|Screenshot|
 |-|-|
+|Logged out|![](docs/defence/5-dish-edit-out.png)|
+|Logged in as a customer|![](docs/defence/5-dish-edit-cust.png)|
 |[Edit dish with invalid id](https://ruritania-a4a079b504db.herokuapp.com/menu/dish/995/edit)|![](docs/defence/bad-dish-id.png)|
 |Missing name|![](docs/defence/5-dish-edit-name.png)|
 |Missing description|![](docs/defence/5-dish-edit-desc.png)|
@@ -110,6 +123,8 @@ This section illustrates the response of the server to invalid actions.  The ser
 
 |Description|Screenshot|
 |-|-|
+|Logged out|![](docs/defence/7-course-toggle-out.png)|
+|Logged in as a customer|![](docs/defence/7-course-toggle-cust.png)|
 |[Edit course with invalid course id](https://ruritania-a4a079b504db.herokuapp.com/menu/course/837/toggle)|![](docs/defence/bad-course-id.png)|
 
 ### Arrange Dishes
@@ -118,6 +133,8 @@ This section illustrates the response of the server to invalid actions.  The ser
 
 |Description|Screenshot|
 |-|-|
+|Logged out|![](docs/defence/7-course-arrange-out.png)|
+|Logged in as a customer|![](docs/defence/7-course-arrange-cust.png)|
 |[Arrange course with invalid course id](https://ruritania-a4a079b504db.herokuapp.com/menu/course/996/arrange)|![](docs/defence/bad-course-id.png)|
 
 ### 
