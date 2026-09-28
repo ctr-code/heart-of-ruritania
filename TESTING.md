@@ -203,11 +203,13 @@ Desktop | Mobile
 
 ## Responsivity
 
-This section demonstrates the responsivity of the site with screenshots for mobile, tablet and desktop views.
+This section demonstrates the responsivity of the site with screenshots for mobile, tablet and desktop views from both Firefox and Chrome.
+
+### Firefox
 
 |Page|Mobile|Tablet|Desktop|
 |-|-|-|-|
-||![](docs/resp/mobile/index.png)|![](docs/resp/tablet/index.png)|![](docs/resp/desktop/index.png)|
+|home|![](docs/resp/mobile/index.png)|![](docs/resp/tablet/index.png)|![](docs/resp/desktop/index.png)|
 |menu/|![](docs/resp/mobile/menu.png)|![](docs/resp/tablet/menu.png)|![](docs/resp/desktop/menu.png)|
 |hours|![](docs/resp/mobile/hours.png)|![](docs/resp/tablet/hours.png)|![](docs/resp/desktop/hours.png)|
 |contact|![](docs/resp/mobile/contact.png)|![](docs/resp/tablet/contact.png)|![](docs/resp/desktop/contact.png)|
@@ -222,6 +224,26 @@ This section demonstrates the responsivity of the site with screenshots for mobi
 |menu/course/1/toggle|![](docs/resp/mobile/menu-course-1-toggle.png)|![](docs/resp/tablet/menu-course-1-toggle.png)|![](docs/resp/desktop/menu-course-1-toggle.png)|
 |menu/course/1/arrange|![](docs/resp/mobile/menu-course-1-arrange.png)|![](docs/resp/tablet/menu-course-1-arrange.png)|![](docs/resp/desktop/menu-course-1-arrange.png)|
 |accounts/login/|![](docs/resp/mobile/accounts-login.png)|![](docs/resp/tablet/accounts-login.png)|![](docs/resp/desktop/accounts-login.png)|
+
+### Chrome
+
+|Page|Mobile|Tablet|Desktop|
+|-|-|-|-|
+|home|![](docs/resp-chrome/mobile/index.png)|![](docs/resp-chrome/tablet/index.png)|![](docs/resp-chrome/desktop/index.png)|
+|menu/|![](docs/resp-chrome/mobile/menu.png)|![](docs/resp-chrome/tablet/menu.png)|![](docs/resp-chrome/desktop/menu.png)|
+|hours|![](docs/resp-chrome/mobile/hours.png)|![](docs/resp-chrome/tablet/hours.png)|![](docs/resp-chrome/desktop/hours.png)|
+|contact|![](docs/resp-chrome/mobile/contact.png)|![](docs/resp-chrome/tablet/contact.png)|![](docs/resp-chrome/desktop/contact.png)|
+|reservations|![](docs/resp-chrome/mobile/reservations.png)|![](docs/resp-chrome/tablet/reservations.png)|![](docs/resp-chrome/desktop/reservations.png)|
+|reservations/2026-10-30|![](docs/resp-chrome/mobile/reservations-2026-10-30.png)|![](docs/resp-chrome/tablet/reservations-2026-10-30.png)|![](docs/resp-chrome/desktop/reservations-2026-10-30.png)|
+|profile|![](docs/resp-chrome/mobile/profile.png)|![](docs/resp-chrome/tablet/profile.png)|![](docs/resp-chrome/desktop/profile.png)|
+|reservations/admin|![](docs/resp-chrome/mobile/reservations-admin.png)|![](docs/resp-chrome/tablet/reservations-admin.png)|![](docs/resp-chrome/desktop/reservations-admin.png)|
+|reservations/2026-10-1/admin|![](docs/resp-chrome/mobile/reservations-2026-10-1-admin.png)|![](docs/resp-chrome/tablet/reservations-2026-10-1-admin.png)|![](docs/resp-chrome/desktop/reservations-2026-10-1-admin.png)|
+|menu/admin|![](docs/resp-chrome/mobile/menu-admin.png)|![](docs/resp-chrome/tablet/menu-admin.png)|![](docs/resp-chrome/desktop/menu-admin.png)|
+|menu/course/1/add|![](docs/resp-chrome/mobile/menu-course-1-add.png)|![](docs/resp-chrome/tablet/menu-course-1-add.png)|![](docs/resp-chrome/desktop/menu-course-1-add.png)|
+|menu/dish/54/edit|![](docs/resp-chrome/mobile/menu-dish-54-edit.png)|![](docs/resp-chrome/tablet/menu-dish-54-edit.png)|![](docs/resp-chrome/desktop/menu-dish-54-edit.png)|
+|menu/course/1/toggle|![](docs/resp-chrome/mobile/menu-course-1-toggle.png)|![](docs/resp-chrome/tablet/menu-course-1-toggle.png)|![](docs/resp-chrome/desktop/menu-course-1-toggle.png)|
+|menu/course/1/arrange|![](docs/resp-chrome/mobile/menu-course-1-arrange.png)|![](docs/resp-chrome/tablet/menu-course-1-arrange.png)|![](docs/resp-chrome/desktop/menu-course-1-arrange.png)|
+|accounts/login/|![](docs/resp-chrome/mobile/accounts-login.png)|![](docs/resp-chrome/tablet/accounts-login.png)|![](docs/resp-chrome/desktop/accounts-login.png)|
 
 ## HTML and CSS validation
 
