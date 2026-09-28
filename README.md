@@ -151,7 +151,7 @@ The simple palette has colours for parchment and text and highlight colours for 
 
 ![](docs/palette.png)
 
-### Other
+### Interaction
 
 The main goal was to make it very easy for the user to manage reservations.
 
