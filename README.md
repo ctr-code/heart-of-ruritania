@@ -319,7 +319,7 @@ Copilot was used for coding in a number of areas.  For example, it converted the
 
 ### Debugging
 
-When trying to book a table the server threw a 500 error.  Copilot was asked to investigate.  Copilot identified that the problem arose when there was no table available and the code attempted to take the maximum of an empty list.  Copilot fixed the problem.
+When trying to book a table the server threw a 500 error.  Copilot was asked to investigate.  Copilot identified that the problem arose when there was no table available in the restaurant and the code attempted to take the maximum of an empty list.  Copilot fixed the problem.
 
 ### Performance and UX
 
@@ -342,16 +342,6 @@ Overall it is a very useful tool that was able to do many of the more tedious ta
 ## Testing
 
 Details can be found on the [testing page](TESTING.md).
-
-## Bugs
-
-* django-admin trying to dump data.
-* Favicon load failure was on 500 and admin pages.
-* Reservations after midnight.
-* Menu closer.
-* Error if all the tables were used (max over no elements)
-* Validation error in signup form needed switch to crispy because of `<ul>` in `<span>`.
-* Admin couldn't delete other reservations!
 
 ## Credit and Thanks
 
