@@ -134,6 +134,24 @@ class MenuViewTests(MenuTestDataMixin, TestCase):
         self.assertEqual(peas.order, 3)
         self.assertTrue(peas.active)
 
+    def test_staff_can_add_dish_to_empty_course(self):
+        self.client.login(username="staff", password="password")
+
+        response = self.client.post(
+            reverse("add_dish", args=[self.desserts.id]),
+            {
+                "name": "Raspberries",
+                "description": "Tangy.",
+                "price": 900,
+            },
+        )
+
+        self.assertRedirects(response, reverse("menu_admin"))
+        raspberries = Dish.objects.get(name="Raspberries")
+        self.assertEqual(raspberries.course, self.desserts)
+        self.assertEqual(raspberries.order, 1)
+        self.assertFalse(raspberries.active)
+
     def test_staff_can_edit_dish_without_changing_course_or_order(self):
         self.client.login(username="staff", password="password")
 
