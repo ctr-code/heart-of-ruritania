@@ -326,17 +326,17 @@ Copilot was asked to suggest UX improvements.  It made a number of solid suggest
 
 ### Unit Tests
 
-
+Copilot was used to create a suite of tests for the menu app.  They were fairly comprehensive and mostly sensible but there were some problems.  For example, the toggle dishes test set the items to their original state, so the code could have done nothing and passed.  Neither did it test that items can be disabled.  While generating the tests Copilot noted that there was another potential bug taking the maximum over an empty set, but didn't generate a test for it.  These issues are all fixed now.
 
 ### Reflections
 
 I found that Copilot provides very useful reviews.  For example, it reviewed the code comments and I made extensive changes to make them more understandable.  I also had some success asking it to review its own code.
 
-It is very good at producing boilerplate and converting data from one format to another.
+It is very good at producing boilerplate, especially tests, and converting data from one format to another.
 
-Its code is generally verbose and often correct.  When it gets something wrong it is often quicker to fix it yourself than to try to persuade Copilot there's a problem.
+Its code is generally verbose and often correct.  When it gets something wrong it is often quicker to fix it yourself than to try to persuade Copilot that there's a problem.
 
-Overall it is a very useful tool that was able to do many of the more tedious tasks.
+Overall it is a very useful tool that was able to do many of the more tedious tasks.  I particularly appreciated it for the unit testing.
 
 ## Testing
 

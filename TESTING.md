@@ -35,11 +35,24 @@ The project's key functionality was tested by working through the user stories a
 ||![](docs/user-story/13-menu-arrange-confirm.png)|
 |As **a colleague** I can **preview the menu** so that **I can see what it looks like to a regular user**.<br><br>• The menu link in the navbar leads to the menu admin page<br>• The menu admin page has a link to the regular menu page|![](docs/user-story/14-menu-preview.png)|
 
+## Unit Tests
+
+The tests cover two areas:
+
+* The menu application: viewing, adding, editing, toggling, arranging and deleting dishes.
+* Validation of the HTML and CSS using the offline W3C validator.
+
+Execute `python3 manage.py test` to run the tests:
+
+![](docs/python-tests.png)
+
 ## Defence
 
 All of the views were identified along with their inputs, and each one was exercised with missing or invalid data.  Screenshots illustrate the results.
 
 Much of the server-side validation will not be seen ordinarily but it may be required if the user has an old browser.
+
+A chunk of this is covered by the unit tests, which were added belatedly.
 
 ### Signup
 
@@ -212,11 +225,7 @@ This section demonstrates the responsivity of the site with screenshots for mobi
 
 ## HTML and CSS validation
 
-The project uses unit tests to generate pages and run them through a local copy of the validator.
-
-Run `python3 manage.py test` to run the tests:
-
-![](docs/python-tests.png)|
+As noted previously, the project uses unit tests to generate pages and run them through a local copy of the validator.
 
 To demonstrate that it does something, this is the output of a previously failing test.  The problematic URL and the validation errors appear at the end:
 
