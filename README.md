@@ -162,8 +162,9 @@ This does prevent the creation of multiple reservations on a single day.  Howeve
 
 |Screen|Mobile|Tablet|Desktop|
 |-|-|-|-|
-|Calendar|![](docs/wire-504/calendar.png)|![](docs/wire-768/calendar.png)|![](docs/wire-992/calendar.png)|
-|Time|![](docs/wire-504/reservation-edit.png)|![](docs/wire-768/reservation-edit.png)|![](docs/wire-992/reservation-edit.png)|
+|Choose a date|![](docs/wire-504/calendar.png)|![](docs/wire-768/calendar.png)|![](docs/wire-992/calendar.png)|
+|Choose a time|![](docs/wire-504/reservation.png)|![](docs/wire-768/reservation.png)|![](docs/wire-992/reservation.png)|
+|Edit reservation|![](docs/wire-504/reservation-edit.png)|![](docs/wire-768/reservation-edit.png)|![](docs/wire-992/reservation-edit.png)|
 
 The user also needs to be able to check the menu, the opening hours and find contact details.
 
@@ -180,7 +181,7 @@ An additional goal was to allow the restaurateur to edit the menu for seasonal c
 |Menu admin|![](docs/wire-504/menu-admin.png)|![](docs/wire-768/menu-admin.png)|![](docs/wire-992/menu-admin.png)|
 |Add dish|![](docs/wire-504/dish-add.png)|![](docs/wire-768/dish-add.png)|![](docs/wire-992/dish-add.png)|
 |Edit dish|![](docs/wire-504/dish-edit.png)|![](docs/wire-768/dish-edit.png)|![](docs/wire-992/dish-edit.png)|
-|Toggle dishes|![](docs/wire-504/dishes-arrange.png)|![](docs/wire-768/dishes-arrange.png)|![](docs/wire-992/dishes-arrange.png)
+|Toggle dishes|![](docs/wire-504/dishes-toggle.png)|![](docs/wire-768/dishes-toggle.png)|![](docs/wire-992/dishes-toggle.png)
 |Arrange dishes|![](docs/wire-504/dishes-arrange.png)|![](docs/wire-768/dishes-arrange.png)|![](docs/wire-992/dishes-arrange.png)
 
 ### Security
@@ -314,7 +315,7 @@ Copilot was used to create the hero image and much of the menu.  It was also use
 
 ### Coding
 
-Copilot was used for coding in a number of areas.  For example, it converted the entity-relationship diagrams into Django models and it generated much of the code (forms and views) for managing dishes.
+Copilot was used for coding in a number of areas.  For example, it converted the entity-relationship diagrams into Django models and it generated some of the code (forms and views) for managing dishes.
 
 ### Debugging
 
