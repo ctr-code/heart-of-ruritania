@@ -247,7 +247,7 @@ This section demonstrates the responsivity of the site with screenshots for mobi
 
 ## HTML and CSS validation
 
-As noted previously, the project uses unit tests to generate pages and run them through a local copy of the validator.
+As described above, the project uses unit tests to generate pages and run them through a local copy of the validator.
 
 To demonstrate that it does something, this is the output of a previously failing test.  The problematic URL and the validation errors appear at the end:
 
@@ -275,7 +275,7 @@ AssertionError: False is not true : The HTML is not valid
 :131.17-131.62: error: The heading “h3” (with computed level 3) follows the heading “h1” (with computed level 1), skipping 1 heading level.
 ```
 
-A page from the live site validated using the W3C online service, to illustrate that it works:
+This is a page from the live site validated using the W3C online service, to illustrate that the offline validation has indeed worked:
 
 ![](docs/valid-menu.png)
 
