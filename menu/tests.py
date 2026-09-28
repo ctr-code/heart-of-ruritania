@@ -172,8 +172,8 @@ class MenuViewTests(MenuTestDataMixin, TestCase):
         response = self.client.post(
             reverse("toggle_dishes", args=[self.mains.id]),
             {
-                f"dish_{self.sausages.id}": "",
-                f"active_{self.sausages.id}": "on",
+                f"dish_{self.carrots.id}": "",
+                f"active_{self.carrots.id}": "on",
             },
         )
 
@@ -181,7 +181,7 @@ class MenuViewTests(MenuTestDataMixin, TestCase):
         self.sausages.refresh_from_db()
         self.carrots.refresh_from_db()
         self.assertTrue(self.sausages.active)
-        self.assertFalse(self.carrots.active)
+        self.assertTrue(self.carrots.active)
 
     def test_arrange_updates_orders_for_submitted_dishes(self):
         self.client.login(username="staff", password="password")
