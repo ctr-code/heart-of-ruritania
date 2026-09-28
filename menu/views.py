@@ -54,8 +54,8 @@ def add_dish(request, course_id):
         if dish_form.is_valid():
             dish = dish_form.save(commit=False)
             dish.course = course
-            dish.order = \
-                course.dishes.aggregate(Max('order'))["order__max"] + 1
+            max_order = course.dishes.aggregate(Max('order'))["order__max"]
+            dish.order = max_order + 1 if max_order else 1
             dish.save()
             messages.add_message(
                 request, messages.SUCCESS,
