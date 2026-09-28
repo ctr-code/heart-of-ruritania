@@ -201,6 +201,22 @@ class MenuViewTests(MenuTestDataMixin, TestCase):
         self.assertTrue(self.sausages.active)
         self.assertTrue(self.carrots.active)
 
+    def test_toggle_can_disable(self):
+        self.client.login(username="staff", password="password")
+
+        response = self.client.post(
+            reverse("toggle_dishes", args=[self.mains.id]),
+            {
+                f"dish_{self.sausages.id}": "",
+            },
+        )
+
+        self.assertRedirects(response, reverse("menu_admin"))
+        self.sausages.refresh_from_db()
+        self.carrots.refresh_from_db()
+        self.assertFalse(self.sausages.active)
+        self.assertFalse(self.carrots.active)
+
     def test_arrange_updates_orders_for_submitted_dishes(self):
         self.client.login(username="staff", password="password")
 
